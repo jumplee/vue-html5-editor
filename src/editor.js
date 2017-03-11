@@ -1,12 +1,17 @@
 import RangeHandler from './range/handler'
 import './style.css'
 import template from './editor.html'
+import onPaste from './event/onPaste'
 /**
  * Created by peak on 2017/2/9.
  */
 export default {
     template,
     props: {
+        plainTextPaste: {
+            type: Boolean,
+            default: false
+        },
         content: {
             type: String,
             required: true,
@@ -156,6 +161,7 @@ export default {
         })
     },
     mounted(){
+        const editor = this
         const content = this.$refs.content
         content.innerHTML = this.content
         content.addEventListener('mouseup', this.saveCurrentRange, false)
@@ -175,6 +181,14 @@ export default {
         }
 
         window.addEventListener('touchend', this.touchHandler, false)
+
+        // 注册paste方法，粘贴的都是纯文本
+        // 代码来自http://www.zhangxinxu.com/wordpress/2016/01/contenteditable-plaintext-only/
+        content.addEventListener('paste',(...args) => {
+            if (editor.plainTextPaste){
+                onPaste.apply(this,args)
+            }
+        })
     },
     updated(){
         this.dashboardStyle = {'max-height': `${this.$refs.content.clientHeight}px`}
