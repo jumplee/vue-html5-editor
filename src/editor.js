@@ -40,15 +40,14 @@ export default {
             // locale: {},
             // modules:{},
             fullScreen: false,
-            dashboard: null,
-            dashboardStyle: {}
+            dashboard: null
         }
     },
     watch: {
         content(val) {
             const content = this.$refs.content.innerHTML
             if (val !== content) {
-                this.$res.content.innerHTML = val
+                this.$refs.content.innerHTML = val
             }
         },
         fullScreen(val){
@@ -194,7 +193,10 @@ export default {
         })
     },
     updated(){
-        this.dashboardStyle = {'max-height': `${this.$refs.content.clientHeight}px`}
+        // update dashboard style
+        if (this.$refs.dashboard){
+            this.$refs.dashboard.style.maxHeight = `${this.$refs.content.clientHeight}px`
+        }
     },
     beforeDestroy(){
         window.removeEventListener('touchend', this.touchHandler)

@@ -5,7 +5,7 @@
     <title>vue html5 editor demo</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
     <script src="../dist/vue-html5-editor.js"></script>
-    <script src="https://cdn.bootcss.com/vue/2.1.10/vue.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.2.6/vue.js"></script>
     <link href="https://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <style>
         #app {
@@ -21,6 +21,7 @@
         <button type="button" @click="focus">focus</button>
         <button type="button" @click="fullScreen">full screen</button>
         <button type="button" @click="showModuleName=!showModuleName">toggle module name</button>
+        <button type="button" @click="reset">change content</button>
         <span style="white-space: nowrap">content length : {{content.length}}</span>
     </p>
 
@@ -56,6 +57,12 @@
             },
             focus: function () {
                 this.$refs.editor.focus()
+            },
+            reset:function () {
+                var newContent = prompt('please input some html code: ')
+                if(newContent){
+                    this.content = newContent
+                }
             }
         }
     })
