@@ -103,6 +103,9 @@ export default {
                 new RangeHandler(this.range).execCommand(command, arg)
             }
             this.toggleDashboard()
+            // https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events
+            // 通过触发input 实现数据同步
+            this.$emit('input',this.$refs.content.innerHTML)
             this.$emit('change', this.$refs.content.innerHTML)
         },
         getCurrentRange(){
