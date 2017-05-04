@@ -1,6 +1,7 @@
 export default {
     align: '对齐方式',
     image: '图片',
+    images: '图片',
     list: '列表',
     link: '链接',
     unlink: '去除链接',

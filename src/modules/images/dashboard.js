@@ -1,12 +1,15 @@
 import lrz from 'lrz'
 import template from './dashboard.html'
 import Command from '../../range/command'
-
+require('../../../lib/webuploader.html5only')
 /**
  * Created by peak on 2017/2/10.
  */
 export default {
     template,
+    created() {
+      this.$el.querySelector('')
+    },
     data() {
         return {
             imageUrl: '',

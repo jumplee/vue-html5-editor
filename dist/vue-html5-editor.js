@@ -1,7 +1,7 @@
 /**
  * Vue-html5-editor 1.1.0
  * https://github.com/PeakTai/vue-html5-editor
- * build at Thu Apr 13 2017 15:51:01 GMT+0800 (CST)
+ * build at Sat Apr 29 2017 11:50:35 GMT+0800 (CST)
  */
 
 (function (global, factory) {
@@ -462,7 +462,7 @@ var dashboard$3 = {
             };
 
             xhr.onload = function () {
-                if (xhr.status !== 200) {
+                if (xhr.status >= 300) {
                     this$1.setUploadError(("request error,code " + (xhr.status)));
                     return
                 }
@@ -534,13 +534,228 @@ var image = {
     dashboard: dashboard$3
 };
 
-var template$4 = "<div> <h3 style=\"text-align: center\">Vue-html5-editor&nbsp;{{version}}</h3> <p style=\"text-align: center\"> repository: <a href=\"https://github.com/PeakTai/vue-html5-editor\" target=\"_blank\"> https://github.com/PeakTai/vue-html5-editor </a> </p> </div> ";
+var template$4 = "<div> 多图片上传 </div> ";
 
 /**
  * Created by peak on 2017/2/10.
  */
 var dashboard$4 = {
     template: template$4,
+    data: function data() {
+        return {
+            imageUrl: '',
+            upload: {
+                status: 'ready', // progress,success,error,abort
+                errorMsg: null,
+                progressComputable: false,
+                complete: 0
+            }
+        }
+    },
+    methods: {
+        reset: function reset(){
+            this.upload.status = 'ready';
+        },
+        insertImageUrl: function insertImageUrl() {
+            if (!this.imageUrl) {
+                return
+            }
+            this.$parent.execCommand(Command.INSERT_IMAGE, this.imageUrl);
+            this.imageUrl = null;
+        },
+        pick: function pick() {
+            this.$refs.file.click();
+        },
+        setUploadError: function setUploadError(msg){
+            this.upload.status = 'error';
+            this.upload.errorMsg = msg;
+        },
+        process: function process() {
+            var this$1 = this;
+
+            var component = this;
+            var config = this.$options.module.config;
+            // compatibility with older format
+            // {
+            //     server: null,
+            //     fieldName: 'image',
+            //     compress: true,
+            //     width: 1600,
+            //     height: 1600,
+            //     quality: 80
+            // }
+            // ----------- divider ----------------
+            // {
+            //     upload: {
+            //         url: null,
+            //         headers: {},
+            //         params: {},
+            //         fieldName: {}
+            //     },
+            //     compress: {
+            //         width: 1600,
+            //         height: 1600,
+            //         quality: 80
+            //     },
+            // }
+
+            if (!config.upload && typeof config.server === 'string') {
+                config.upload = {url: config.server};
+            }
+            if (config.upload && !config.upload.url) {
+                config.upload = null;
+            }
+            if (config.upload && typeof config.fieldName === 'string') {
+                config.upload.fieldName = config.fieldName;
+            }
+
+            if (typeof config.compress === 'boolean') {
+                config.compress = {
+                    width: config.width,
+                    height: config.height,
+                    quality: config.quality
+                };
+            }
+
+            var file = this.$refs.file.files[0];
+            if (file.size > config.sizeLimit) {
+                this.setUploadError(this.$parent.locale['exceed size limit']);
+                return
+            }
+            this.$refs.file.value = null;
+
+            if (config.compress) {
+                config.compress.fieldName = config.upload && config.upload.fieldName
+                    ? config.upload.fieldName : 'image';
+                lrz_all_bundle(file, config.compress).then(function (rst) {
+                    if (config.upload) {
+                        component.uploadToServer(rst.file);
+                    } else {
+                        component.insertBase64(rst.base64);
+                    }
+                }).catch(function (err) {
+                    this$1.setUploadError(err.toString());
+                });
+                return
+            }
+            // 不需要压缩
+            // base64
+            if (!config.upload) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    component.insertBase64(e.target.result);
+                };
+                reader.readAsDataURL(file);
+                return
+            }
+            // 上传服务器
+            component.uploadToServer(file);
+        },
+        insertBase64: function insertBase64(data) {
+            this.$parent.execCommand(Command.INSERT_IMAGE, data);
+        },
+        uploadToServer: function uploadToServer(file) {
+            var this$1 = this;
+
+            var config = this.$options.module.config;
+
+            var formData = new FormData();
+            formData.append(config.upload.fieldName || 'image', file);
+
+            if (typeof config.upload.params === 'object') {
+                Object.keys(config.upload.params).forEach(function (key) {
+                    var value = config.upload.params[key];
+                    if (Array.isArray(value)) {
+                        value.forEach(function (v) {
+                            formData.append(key, v);
+                        });
+                    } else {
+                        formData.append(key, value);
+                    }
+                });
+            }
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.onprogress = function (e) {
+                this$1.upload.status = 'progress';
+                if (e.lengthComputable) {
+                    this$1.upload.progressComputable = true;
+                    var percentComplete = e.loaded / e.total;
+                    this$1.upload.complete = (percentComplete * 100).toFixed(2);
+                } else {
+                    this$1.upload.progressComputable = false;
+                }
+            };
+
+            xhr.onload = function () {
+                if (xhr.status >= 300) {
+                    this$1.setUploadError(("request error,code " + (xhr.status)));
+                    return
+                }
+
+                try {
+                    var url = config.uploadHandler(xhr.responseText);
+                    if (url) {
+                        this$1.$parent.execCommand(Command.INSERT_IMAGE, url);
+                    }
+                } catch (err) {
+                    this$1.setUploadError(err.toString());
+                } finally {
+                    this$1.upload.status = 'ready';
+                }
+            };
+
+            xhr.onerror = function () {
+                // find network info in brower tools
+                this$1.setUploadError('request error');
+            };
+
+            xhr.onabort = function () {
+                this$1.upload.status = 'abort';
+            };
+
+            xhr.open('POST', config.upload.url);
+            if (typeof config.upload.headers === 'object') {
+                Object.keys(config.upload.headers).forEach(function (k) {
+                    xhr.setRequestHeader(k, config.upload.headers[k]);
+                });
+            }
+            xhr.send(formData);
+        }
+    }
+};
+
+/**
+ * insert image
+ * Created by peak on 16/8/18.
+ */
+var images = {
+    name: 'images',
+    icon: 'fa fa-file-image',
+    i18n: 'images',
+    config: {
+        sizeLimit: 512 * 1024,// 512k
+        compress: {
+            width: 1600,
+            height: 1600,
+            quality: 80
+        },
+        uploadHandler: function uploadHandler(responseText){
+            var json = JSON.parse(responseText);
+            return json.ok ? json.data : null
+        }
+    },
+    dashboard: dashboard$4
+};
+
+var template$5 = "<div> <h3 style=\"text-align: center\">Vue-html5-editor&nbsp;{{version}}</h3> <p style=\"text-align: center\"> repository: <a href=\"https://github.com/PeakTai/vue-html5-editor\" target=\"_blank\"> https://github.com/PeakTai/vue-html5-editor </a> </p> </div> ";
+
+/**
+ * Created by peak on 2017/2/10.
+ */
+var dashboard$5 = {
+    template: template$5,
     data: function data(){
         return {
             version: "1.1.0"
@@ -565,13 +780,13 @@ var info = {
     // destroyed(editor){
     //
     // },
-    dashboard: dashboard$4
+    dashboard: dashboard$5
 };
 
-var template$5 = "<form @submit.prevent=\"createLink\"> <input type=\"text\" :placeholder=\"$parent.locale['please enter a url']\" v-model=\"url\" maxlength=\"1024\"> <button type=\"submit\">{{$parent.locale[\"create link\"]}}</button> </form>";
+var template$6 = "<form @submit.prevent=\"createLink\"> <input type=\"text\" :placeholder=\"$parent.locale['please enter a url']\" v-model=\"url\" maxlength=\"1024\"> <button type=\"submit\">{{$parent.locale[\"create link\"]}}</button> </form>";
 
-var dashboard$5 = {
-    template: template$5,
+var dashboard$6 = {
+    template: template$6,
     data: function data(){
         return {url: null}
     },
@@ -594,16 +809,16 @@ var link = {
     name: 'link',
     icon: 'fa fa-chain',
     i18n: 'link',
-    dashboard: dashboard$5
+    dashboard: dashboard$6
 };
 
-var template$6 = "<div> <button type=\"button\" @click=\"$parent.execCommand('insertOrderedList')\"> {{$parent.locale[\"ordered list\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('insertUnorderedList')\"> {{$parent.locale[\"unordered list\"]}} </button> </div>";
+var template$7 = "<div> <button type=\"button\" @click=\"$parent.execCommand('insertOrderedList')\"> {{$parent.locale[\"ordered list\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('insertUnorderedList')\"> {{$parent.locale[\"unordered list\"]}} </button> </div>";
 
 /**
  * Created by peak on 2017/2/10.
  */
-var dashboard$6 = {
-    template: template$6
+var dashboard$7 = {
+    template: template$7
 };
 
 /**
@@ -614,16 +829,16 @@ var list = {
     name: 'list',
     icon: 'fa fa-list',
     i18n: 'list',
-    dashboard: dashboard$6
+    dashboard: dashboard$7
 };
 
-var template$7 = "<form @submit.prevent=\"insertTable\"> <label> {{$parent.locale[\"row count\"]}} <input type=\"number\" style=\"width: 60px\" maxlength=\"2\" min=\"2\" max=\"10\" v-model=\"rows\"> </label> <label> {{$parent.locale[\"column count\"]}} <input type=\"number\" style=\"width: 60px\" maxlength=\"2\" min=\"2\" max=\"10\" v-model=\"cols\"> </label> <button type=\"submit\">{{$parent.locale.save}}</button> </form>";
+var template$8 = "<form @submit.prevent=\"insertTable\"> <label> {{$parent.locale[\"row count\"]}} <input type=\"number\" style=\"width: 60px\" maxlength=\"2\" min=\"2\" max=\"10\" v-model=\"rows\"> </label> <label> {{$parent.locale[\"column count\"]}} <input type=\"number\" style=\"width: 60px\" maxlength=\"2\" min=\"2\" max=\"10\" v-model=\"cols\"> </label> <button type=\"submit\">{{$parent.locale.save}}</button> </form>";
 
 /**
  * Created by peak on 2017/2/10.
  */
-var dashboard$7 = {
-    template: template$7,
+var dashboard$8 = {
+    template: template$8,
     data: function data(){
         return {
             rows: 2,
@@ -666,13 +881,13 @@ var table = {
     name: 'tabulation',
     icon: 'fa fa-table',
     i18n: 'table',
-    dashboard: dashboard$7
+    dashboard: dashboard$8
 };
 
-var template$8 = "<div> <button type=\"button\" @click=\"$parent.execCommand('bold')\">{{$parent.locale[\"bold\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('italic')\">{{$parent.locale[\"italic\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('underline')\">{{$parent.locale[\"underline\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('strikeThrough')\">{{$parent.locale[\"strike through\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('subscript')\">{{$parent.locale[\"subscript\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('superscript')\">{{$parent.locale[\"superscript\"]}}</button> </div> ";
+var template$9 = "<div> <button type=\"button\" @click=\"$parent.execCommand('bold')\">{{$parent.locale[\"bold\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('italic')\">{{$parent.locale[\"italic\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('underline')\">{{$parent.locale[\"underline\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('strikeThrough')\">{{$parent.locale[\"strike through\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('subscript')\">{{$parent.locale[\"subscript\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('superscript')\">{{$parent.locale[\"superscript\"]}}</button> </div> ";
 
-var dashboard$8 = {
-    template: template$8
+var dashboard$9 = {
+    template: template$9
 };
 
 /**
@@ -683,7 +898,7 @@ var text = {
     name: 'text',
     icon: 'fa fa-pencil',
     i18n: 'text',
-    dashboard: dashboard$8
+    dashboard: dashboard$9
 };
 
 /**
@@ -726,6 +941,7 @@ var buildInModules = [
     unlink,
     table,
     image,
+    images,
     hr,
     eraser,
     undo,
@@ -1171,14 +1387,54 @@ RangeHandler.prototype.execCommand = function execCommand (command, arg) {
 
 __$styleInject(".vue-html5-editor,.vue-html5-editor *{box-sizing:border-box}.vue-html5-editor{font-size:14px;line-height:1.5;background-color:#fff;color:#333;border:1px solid #ddd;text-align:left;border-radius:5px;overflow:hidden}.vue-html5-editor.full-screen{position:fixed!important;top:0!important;left:0!important;bottom:0!important;right:0!important;border-radius:0}.vue-html5-editor>.toolbar{position:relative;background-color:inherit}.vue-html5-editor>.toolbar>ul{list-style:none;padding:0;margin:0;border-bottom:1px solid #ddd}.vue-html5-editor>.toolbar>ul>li{display:inline-block;cursor:pointer;text-align:center;line-height:36px;padding:0 10px}.vue-html5-editor>.toolbar>ul>li .icon{height:16px;width:16px;display:inline-block;vertical-align:middle}.vue-html5-editor>.toolbar>.dashboard{background-color:inherit;border-bottom:1px solid #ddd;padding:10px;position:absolute;top:100%;left:0;right:0;overflow:auto}.vue-html5-editor>.toolbar>.dashboard input[type=text],.vue-html5-editor>.toolbar>.dashboard input[type=number],.vue-html5-editor>.toolbar>.dashboard select{padding:6px 12px;color:inherit;background-color:transparent;border:1px solid #ddd;border-radius:5px}.vue-html5-editor>.toolbar>.dashboard input[type=text]:hover,.vue-html5-editor>.toolbar>.dashboard input[type=number]:hover,.vue-html5-editor>.toolbar>.dashboard select:hover{border-color:#bebebe}.vue-html5-editor>.toolbar>.dashboard input[type=text][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=text][readonly],.vue-html5-editor>.toolbar>.dashboard input[type=number][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=number][readonly],.vue-html5-editor>.toolbar>.dashboard select[disabled],.vue-html5-editor>.toolbar>.dashboard select[readonly]{background-color:#eee;opacity:1}.vue-html5-editor>.toolbar>.dashboard input[type=text][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=number][disabled],.vue-html5-editor>.toolbar>.dashboard select[disabled]{cursor:not-allowed}.vue-html5-editor>.toolbar>.dashboard button{color:inherit;background-color:inherit;padding:6px 12px;white-space:nowrap;vertical-align:middle;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border:1px solid #ddd;border-radius:5px;margin-right:4px;margin-bottom:4px}.vue-html5-editor>.toolbar>.dashboard button:hover{border-color:#bebebe}.vue-html5-editor>.toolbar>.dashboard button[disabled]{cursor:not-allowed;opacity:.68}.vue-html5-editor>.toolbar>.dashboard button:last-child{margin-right:0}.vue-html5-editor>.toolbar>.dashboard label{font-weight:bolder}.vue-html5-editor>.content{overflow:auto;padding:10px}.vue-html5-editor>.content:focus{outline:0}",undefined);
 
-var template$9 = "<div class=\"vue-html5-editor\" :class=\"{'full-screen':fullScreen}\" :style=\"{'z-index':zIndex}\"> <div class=\"toolbar\" :style=\"{'z-index':zIndex+1}\" ref=\"toolbar\"> <ul> <template v-for=\"module in modules\"> <li :title=\"locale[module.i18n]\" @click=\"activeModule(module)\"> <span class=\"icon\" :class=\"module.icon\"></span> <template v-if=\"showModuleName === undefined ? defaultShowModuleName : showModuleName\"> &nbsp;{{locale[module.i18n]}} </template> </li> </template> </ul> <div class=\"dashboard\" v-show=\"dashboard\" ref=\"dashboard\"> <keep-alive> <div v-show=\"dashboard\" :is=\"dashboard\"></div> </keep-alive> </div> </div> <div class=\"content\" ref=\"content\" :style=\"contentStyle\" contenteditable @click=\"toggleDashboard(dashboard)\"> </div> </div>";
+var template$10 = "<div class=\"vue-html5-editor\" :class=\"{'full-screen':fullScreen}\" :style=\"{'z-index':zIndex}\"> <div class=\"toolbar\" :style=\"{'z-index':zIndex+1}\" ref=\"toolbar\"> <ul> <template v-for=\"module in modules\"> <li :title=\"locale[module.i18n]\" @click=\"activeModule(module)\"> <span class=\"icon\" :class=\"module.icon\"></span> <template v-if=\"showModuleName === undefined ? defaultShowModuleName : showModuleName\"> &nbsp;{{locale[module.i18n]}} </template> </li> </template> </ul> <div class=\"dashboard\" v-show=\"dashboard\" ref=\"dashboard\"> <keep-alive> <div v-show=\"dashboard\" :is=\"dashboard\"></div> </keep-alive> </div> </div> <div class=\"content\" ref=\"content\" :style=\"contentStyle\" contenteditable @click=\"toggleDashboard(dashboard)\"> </div> </div>";
+
+function onPaste(e){
+    e.preventDefault();
+    var text = '';
+
+    if (window.clipboardData && window.clipboardData.setData) {
+        // IE
+        text = window.clipboardData.getData('text');
+    } else {
+        text = (e.originalEvent || e).clipboardData.getData('text/plain');
+    }
+    var textRange;
+    if (document.body.createTextRange) {
+        if (document.selection) {
+            textRange = document.selection.createRange();
+        } else if (window.getSelection) {
+            var sel = window.getSelection();
+            var range = sel.getRangeAt(0);
+
+            // 创建临时元素，使得TextRange可以移动到正确的位置
+            var tempEl = document.createElement('span');
+            tempEl.innerHTML = '&#FEFF;';
+            range.deleteContents();
+            range.insertNode(tempEl);
+            textRange = document.body.createTextRange();
+            textRange.moveToElementText(tempEl);
+            tempEl.parentNode.removeChild(tempEl);
+        }
+        textRange.text = text;
+        textRange.collapse(false);
+        textRange.select();
+    } else {
+        // Chrome之类浏览器
+        document.execCommand('insertText', false, text);
+    }
+}
 
 /**
  * Created by peak on 2017/2/9.
  */
 var editor = {
-    template: template$9,
+    template: template$10,
     props: {
+        plainTextPaste: {
+            type: Boolean,
+            default: false
+        },
         content: {
             type: String,
             required: true,
@@ -1269,6 +1525,9 @@ var editor = {
                 new RangeHandler(this.range).execCommand(command, arg);
             }
             this.toggleDashboard();
+            // https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events
+            // 通过触发input 实现数据同步
+            this.$emit('input',this.$refs.content.innerHTML);
             this.$emit('change', this.$refs.content.innerHTML);
         },
         getCurrentRange: function getCurrentRange(){
@@ -1333,6 +1592,7 @@ var editor = {
     mounted: function mounted(){
         var this$1 = this;
 
+        var editor = this;
         var content = this.$refs.content;
         content.innerHTML = this.content;
         content.addEventListener('mouseup', this.saveCurrentRange, false);
@@ -1352,6 +1612,17 @@ var editor = {
         };
 
         window.addEventListener('touchend', this.touchHandler, false);
+
+        // 注册paste方法，粘贴的都是纯文本
+        // 代码来自http://www.zhangxinxu.com/wordpress/2016/01/contenteditable-plaintext-only/
+        content.addEventListener('paste',function () {
+            var args = [], len = arguments.length;
+            while ( len-- ) args[ len ] = arguments[ len ];
+
+            if (editor.plainTextPaste){
+                onPaste.apply(this$1,args);
+            }
+        });
     },
     updated: function updated(){
         // update dashboard style
@@ -1374,6 +1645,7 @@ var editor = {
 var i18nZhCn = {
     align: '对齐方式',
     image: '图片',
+    images: '图片',
     list: '列表',
     link: '链接',
     unlink: '去除链接',
