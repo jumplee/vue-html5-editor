@@ -5,7 +5,6 @@ import font from './font/index'
 import fullScreen from './full-screen/index'
 import hr from './hr/index'
 import image from './image/index'
-import images from './images/index'
 import info from './info/index'
 import link from './link/index'
 import list from './list/index'
@@ -28,7 +27,6 @@ export default [
     unlink,
     table,
     image,
-    images,
     hr,
     eraser,
     undo,

@@ -10,7 +10,8 @@ import nodeResolve from 'rollup-plugin-node-resolve'
 import replace from 'rollup-plugin-replace'
 import commonJs from 'rollup-plugin-commonjs'
 import license from 'rollup-plugin-license'
-var pkg = require('./package.json')
+
+const pkg = require('./package.json')
 
 /**
  * Created by peak on 2017/1/6.
@@ -19,7 +20,7 @@ export default {
     entry: 'src/index.js',
     dest: 'dist/vue-html5-editor.js',
     format: 'umd',
-    moduleName: "VueHtml5Editor",
+    moduleName: 'VueHtml5Editor',
     plugins: [
         license({
             banner: `Vue-html5-editor ${pkg.version}\n${pkg.repository.url}\nbuild at ${new Date()}`
@@ -50,9 +51,20 @@ export default {
             }
         }),
         commonJs({
-            include: 'node_modules/lrz/**'
+            include: [
+                'node_modules/lrz/**',
+                'node_modules/vue-image-uploader/**'
+            ],
+            namedExports: {
+                // left-hand side can be an absolute path, a path
+                // relative to the current directory, or the name
+                // of a module in node_modules
+                'node_modules/vue-image-uploader/dist/vueImageUploader.js': ['VueImageUploader']
+            }
         }),
-        nodeResolve({jsnext: true}),
+        nodeResolve({
+            jsnext: true
+        }),
         buble({
             include: '**/*.js'
         })
