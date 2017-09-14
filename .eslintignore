@@ -3,4 +3,5 @@
 *.pcss
 *.css
 *.html
+dist/*
 src/polyfill-ie.js

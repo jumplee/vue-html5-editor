@@ -34,9 +34,14 @@ export default {
         },
         onFinish(files) {
             const self = this
+            const config = self.$options.module.config
+            let returnUrl = 'fileUrl'
+            if (config.returnUrl){
+                returnUrl = config.returnUrl
+            }
             self.showDialog = false
             files.forEach((item) => {
-                self.insertImg(item.url)
+                self.insertImg(item[returnUrl])
             })
         },
         insertImg(url) {

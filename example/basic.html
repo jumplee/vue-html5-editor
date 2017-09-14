@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>vue html5 editor demo</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <script src="vue-html5-editor.js"></script>
+    <script src="../dist/vue-html5-editor.js"></script>
     <script src="https://cdn.bootcss.com/vue/2.2.6/vue.js"></script>
     <link href="https://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./default-theme.css">
@@ -28,7 +28,7 @@
             <span style="white-space: nowrap">content length : {{content.length}}</span>
         </p>
 
-        <vue-html5-editor url="/file/uploading" :content="content" :height="300" :show-module-name="showModuleName" @change="updateData"
+        <vue-html5-editor :url="uploadUrl" :content="content" :height="300" :show-module-name="showModuleName" @change="updateData"
             ref="editor"></vue-html5-editor>
     </div>
 
@@ -41,7 +41,8 @@
                 width: 500,
                 height: 500,
                 quality: 80,
-                url: '/file/uploading'
+                url: '/file/uploading',
+                returnKey:'fileUrl'
             }
         })
 
@@ -50,6 +51,7 @@
             data: {
                 content: "<h3>vue html5 editor</h3>",
                 showModuleName: false,
+                uploadUrl:"/file/uploading"
             },
             methods: {
                 updateData: function (data) {
