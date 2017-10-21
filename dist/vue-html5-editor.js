@@ -1,7 +1,7 @@
 /**
  * Vue-html5-editor 1.1.0
  * https://github.com/PeakTai/vue-html5-editor
- * build at Thu Sep 14 2017 17:39:56 GMT+0800 (CST)
+ * build at Sat Oct 21 2017 09:52:09 GMT+0800 (CST)
  */
 
 (function (global, factory) {
@@ -387,57 +387,6 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__uploader__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__uploader___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__uploader__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 
 /**
  *  
@@ -447,95 +396,108 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var isDebug = false;
 
 function log(info) {
-    if (isDebug) {
-        console.log(info);
-    }
+  if (isDebug) {
+    console.log(info);
+  }
 }
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: {
-        accept: {
-            default: 'jpg,png,gif,bmp,jpeg'
-        },
-        fileAccept: {
-            default: 'image/jpg,image/jpeg,image/png,image/gif'
-        },
-        show: {
-            default: false,
-            type: Boolean
-        },
-        url: {
-            type: String,
-            required: true
-        }
+  props: {
+    accept: {
+      default: 'jpg,png,gif,bmp,jpeg'
     },
-    data: function data() {
-        return {
-            files: [],
-            boxWidth: 0,
-            uploadFailed: false
-        };
+    fileAccept: {
+      default: 'image/jpg,image/jpeg,image/png,image/gif'
     },
-    created: function created() {
-        var self = this;
-        var uploader = new __WEBPACK_IMPORTED_MODULE_0__uploader___default.a({
-            uploadUrl: self.url,
-            accept: self.accept
-        });
-        self._uploader = uploader;
-
-        uploader.on('finish', function (success) {
-            if (success) {
-                self.uploadFailed = false;
-                self.close();
-            } else {
-                self.uploadFailed = true;
-            }
-        });
+    show: {
+      default: false,
+      type: Boolean
     },
-    mounted: function mounted() {
-        this.boxWidth = Math.floor(document.body.clientWidth / 5);
+    url: {
+      type: String,
+      required: true
     },
-    watch: {
-        show: function show(newVal) {
-            if (newVal) {
-                this.files = this._uploader.getFiles();
-            }
-        }
+    showProgress: {
+      default: false,
+      type: Boolean
     },
-    methods: {
-        selectFile: function (e) {
-            var files = e.target.files;
-            var self = this;
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-                self._uploader.addFile(file);
-            }
-        },
-        up: function () {
-            this._uploader.upload();
-        },
-        del: function (file) {
-            this._uploader.removeFile(file);
-        },
-        addFile: function addFile() {
-            this.$refs.fileInput.value = null;
-            this.$refs.fileInput.click();
-        },
-        close: function close(cancel) {
-            var self = this;
-            var files = [];
-            if (!cancel) {
-                self.files.forEach(function (item) {
-                    if (item.returnJson.success) {
-                        files.push(item.returnJson);
-                    }
-                });
-            }
-            self.$emit('finish', files);
-            self.files = [];
-            self._uploader.clear();
-        }
+    zIndex: {
+      default: 999,
+      type: Number
     }
+  },
+  data: function data() {
+    return {
+      files: [],
+      boxWidth: 0,
+      uploadFailed: false
+    };
+  },
+  created: function created() {
+    var self = this;
+    var uploader = new __WEBPACK_IMPORTED_MODULE_0__uploader___default.a({
+      uploadUrl: self.url,
+      accept: self.accept,
+      showProgress: self.showProgress
+    });
+    self._uploader = uploader;
+
+    uploader.on('finish', function (success) {
+      if (success) {
+        self.uploadFailed = false;
+        self.close();
+      } else {
+        self.uploadFailed = true;
+      }
+    });
+  },
+  watch: {
+    show: function show(newVal) {
+      if (newVal) {
+        this.files = this._uploader.getFiles();
+      }
+    }
+  },
+  methods: {
+    selectFile: function (e) {
+      var files = e.target.files;
+      var self = this;
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        self._uploader.addFile(file);
+      }
+      // 避免vue不更新
+      self.files = self._uploader.getFiles();
+    },
+    up: function () {
+      this._uploader.upload();
+    },
+    del: function (file) {
+      this._uploader.removeFile(file);
+    },
+    addFile: function addFile() {
+      this.$refs.fileInput.value = null;
+      this.$refs.fileInput.click();
+    },
+    close: function close(cancel) {
+      var self = this;
+      var files = [];
+      if (!cancel) {
+        self.files.forEach(function (item) {
+          if (item.returnJson.success) {
+            files.push(item.returnJson);
+          }
+        });
+      }
+      self.$emit('finish', files);
+      self.files = [];
+      self._uploader.clear();
+    },
+    percentStyle: function percentStyle(file) {
+      return {
+        width: file.percent + '%'
+      };
+    }
+  }
 });
 
 /***/ }),
@@ -633,10 +595,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.show),
       expression: "show"
     }],
-    staticClass: "mask"
+    staticClass: "mask",
+    style: ({
+      zIndex: _vm.zIndex
+    })
   }, [_c('div', {
     staticClass: "panel"
-  }, [_c('h2', [_vm._v("选择图片\n                                        "), _c('span', {
+  }, [_c('h2', [_vm._v("选择图片\n                "), _c('span', {
     staticClass: "close",
     on: {
       "click": function($event) {
@@ -663,10 +628,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("请添加图片")])])])] : _vm._e(), _vm._v(" "), _vm._l((_vm.files), function(file) {
     return _c('div', {
-      staticClass: "image-item",
-      style: ({
-        height: _vm.boxWidth + 'px'
-      })
+      staticClass: "image-item"
     }, [_c('div', {
       staticClass: "title"
     }, [(file.status === 2) ? [_c('span', [_vm._v("上传成功")])] : _vm._e(), _vm._v(" "), (file.status === 3) ? [_c('span', [_vm._v("上传失败")])] : _vm._e(), _vm._v(" "), _c('span', {
@@ -690,7 +652,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "src": file.thumb,
         "alt": ""
       }
-    })], 2)
+    }), _vm._v(" "), _c('div', {
+      staticClass: "percent"
+    }, [_c('div', {
+      staticClass: "percent-inner",
+      style: (_vm.percentStyle(file))
+    })])], 2)
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "bottom"
   }, [_c('button', {
@@ -827,323 +794,332 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  */
 var isDebug = false;
 
-//文件上传状态
+// 文件上传状态
 var UPLOAD_STATUS = {
-    WAIT: 0,
-    UPLOAD_ING: 1,
-    SUCESS: 2,
-    FAILED: 3
+  WAIT: 0,
+  UPLOAD_ING: 1,
+  SUCESS: 2,
+  FAILED: 3
 };
 
 function log(info) {
-    if (isDebug) {
-        console.log(info);
-    }
+  if (isDebug) {
+    console.log(info);
+  }
 }
 
 function query(key, value, list) {
-    for (var i = 0; i < list.length; i++) {
-        if (typeof value === 'function') {
-            if (value(list[i])) {
-                return list[i];
-            }
-        } else {
-            if (list[i][key] === value) {
-                return list[i];
-            }
-        }
+  for (var i = 0; i < list.length; i++) {
+    if (typeof value === 'function') {
+      if (value(list[i])) {
+        return list[i];
+      }
+    } else {
+      if (list[i][key] === value) {
+        return list[i];
+      }
     }
+  }
 }
 
 function where(key, value, list) {
-    var arr = [];
-    for (var i = 0; i < list.length; i++) {
-        if (typeof value === 'function') {
-            if (value(list[i])) {
-                arr.push(list[i]);
-            }
-        } else {
-            if (list[i][key] === value) {
-                arr.push(list[i]);
-            }
-        }
+  var arr = [];
+  for (var i = 0; i < list.length; i++) {
+    if (typeof value === 'function') {
+      if (value(list[i])) {
+        arr.push(list[i]);
+      }
+    } else {
+      if (list[i][key] === value) {
+        arr.push(list[i]);
+      }
     }
-    return arr;
+  }
+  return arr;
 }
 
 function createObjectURL() {
-    return window.URL.createObjectURL.apply(this, arguments);
+  return window.URL.createObjectURL.apply(this, arguments);
 }
 
 var Uploader = function (_Ctrl) {
-    _inherits(Uploader, _Ctrl);
+  _inherits(Uploader, _Ctrl);
 
-    function Uploader(options) {
-        _classCallCheck(this, Uploader);
+  function Uploader(options) {
+    _classCallCheck(this, Uploader);
 
-        var _this = _possibleConstructorReturn(this, (Uploader.__proto__ || Object.getPrototypeOf(Uploader)).call(this));
+    var _this = _possibleConstructorReturn(this, (Uploader.__proto__ || Object.getPrototypeOf(Uploader)).call(this));
 
-        var self = _this;
-        self.xhr = new XMLHttpRequest();
-        self.counter = 0;
-        self.uploadingCounter = 0;
-        self._beforeLen = 0;
-        self._files = [];
-        self._queue = [];
-        var defaultOptions = {
-            uploadUrl: '',
-            uuidPrefix: 'file-',
-            //最多选择数量，默认为0不限制
-            maxSize: 0,
-            //同时上传的最多数量
-            uploadFileMax: 5,
-            //向后台传递的参数
-            param: {},
-            fileParamName: 'file',
-            //只接受类型或者正则
-            /**
+    var self = _this;
+    self.xhr = new XMLHttpRequest();
+    self.counter = 0;
+    self.uploadingCounter = 0;
+    self._beforeLen = 0;
+    self._files = [];
+    self._queue = [];
+    var defaultOptions = {
+      uploadUrl: '',
+      uuidPrefix: 'file-',
+      // 最多选择数量，默认为0不限制
+      maxSize: 0,
+      // 同时上传的最多数量
+      uploadFileMax: 5,
+      // 向后台传递的参数
+      param: {},
+      fileParamName: 'file',
+      // 只接受类型或者正则
+      /**
              * @example
              * accept:'jpg,png,bmp,gif,jpeg'
              * accept:'xls,doc,docx,ppt,pptx'
              */
-            accept: '',
-            thumb: {
-                defaultUrl: 'defaultThumb.jpg'
-            }
-        };
-        if (!options.uploadUrl) {
-            throw Error('上传地址不能为空');
-        }
-        //浅拷贝，对象属性会覆盖而不是合并
-        self.options = Object.assign({}, defaultOptions, options);
-        if (typeof self.options.accept === 'string') {
-            var typeStr = self.options.accept.split(',').join('|');
-            // 黑人❓ 的全局模式g lastIndex会记录上次执行的位置，下次执行的时候从lastIndex开始查询
-            // self.options.acceptReg=new RegExp(`.*\\.(${typeStr})$`,'ig')
-            self.options.acceptReg = new RegExp('.*\\.(' + typeStr + ')$', 'i');
-        } else if (_typeof(self.options.accept) === 'object') {
-            self.options.acceptReg = self.options.accept;
-        }
-        return _this;
+      accept: '',
+      thumb: {
+        defaultUrl: 'defaultThumb.jpg'
+      }
+    };
+    if (!options.uploadUrl) {
+      throw Error('上传地址不能为空');
     }
+    // 浅拷贝，对象属性会覆盖而不是合并
+    self.options = Object.assign({}, defaultOptions, options);
+    if (typeof self.options.accept === 'string') {
+      var typeStr = self.options.accept.split(',').join('|');
+      // 黑人❓ 的全局模式g lastIndex会记录上次执行的位置，下次执行的时候从lastIndex开始查询
+      // self.options.acceptReg=new RegExp(`.*\\.(${typeStr})$`,'ig')
+      self.options.acceptReg = new RegExp('.*\\.(' + typeStr + ')$', 'i');
+    } else if (_typeof(self.options.accept) === 'object') {
+      self.options.acceptReg = self.options.accept;
+    }
+    return _this;
+  }
 
-    /**
+  /**
      * 上传
      */
 
 
-    _createClass(Uploader, [{
-        key: 'upload',
-        value: function upload() {
-            var self = this;
-            var options = self.options;
-            if (self._uploading) {
-                log('上传中...');
-                return false;
-            }
-            self._uploading = true;
-            self._files.forEach(function (item) {
-                if (item.status === UPLOAD_STATUS.UPLOAD_ING || item.status === UPLOAD_STATUS.FAILED) {
-                    item.status = UPLOAD_STATUS.WAIT;
-                }
-            });
-            self._queue = where('status', function (file) {
-                return file.status === UPLOAD_STATUS.WAIT;
-            }, self._files);
-            self._timer = setInterval(function () {
-                var queue = self._queue;
-                var len = Math.min(self.uploadingCounter + options.uploadFileMax, queue.length);
-                for (var i = self._beforeLen; i < len; i++) {
-                    self._upload(queue[i]);
-                }
-                self._beforeLen = len;
-                if (self.uploadingCounter + options.uploadFileMax > queue.length) {
-                    clearInterval(self._timer);
-                }
-                log(new Date());
-            }, 300);
+  _createClass(Uploader, [{
+    key: 'upload',
+    value: function upload() {
+      var self = this;
+      var options = self.options;
+      if (self._uploading) {
+        log('上传中...');
+        return false;
+      }
+      self._uploading = true;
+      self._files.forEach(function (item) {
+        if (item.status === UPLOAD_STATUS.UPLOAD_ING || item.status === UPLOAD_STATUS.FAILED) {
+          item.status = UPLOAD_STATUS.WAIT;
         }
-    }, {
-        key: '_upload',
-        value: function _upload(file) {
-            var self = this;
-            var options = self.options;
-            //不是等待状态的就不上传
-            if (file.status !== UPLOAD_STATUS.WAIT) {
-                self.uploadingCounter++;
-                return false;
-            }
-            var xhr = new XMLHttpRequest();
-            var formData = new FormData();
-            formData.append(options.fileParamName, file.source);
-            for (key in options.param) {
-                formData.append(key, options.param[key]);
-            }
-            xhr.open('post', options.uploadUrl);
-            xhr.send(formData);
-            file.status = UPLOAD_STATUS.UPLOAD_ING;
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4) {
-                    if (xhr.status == 200) {
-                        var json = {};
-                        //不要将onSuccess或者onError包括道try中
-                        //避免回调函数中报错触发catch
-                        try {
-                            json = JSON.parse(xhr.responseText);
-                        } catch (e) {
-                            self.onFail(file);
-                            json.success = false;
-                        }
-                        if (json.success) {
-                            self.onSuccess(file, json);
-                        } else {
-                            self.onFail(file);
-                        }
-                    } else {
-                        log(xhr.status);
-                        self.onFail(file);
-                    }
-                }
-            };
+      });
+      self._queue = where('status', function (file) {
+        return file.status === UPLOAD_STATUS.WAIT;
+      }, self._files);
+      self._timer = setInterval(function () {
+        var queue = self._queue;
+        var len = Math.min(self.uploadingCounter + options.uploadFileMax, queue.length);
+        for (var i = self._beforeLen; i < len; i++) {
+          self._upload(queue[i]);
         }
-    }, {
-        key: 'onEnd',
-        value: function onEnd(file) {
-            var self = this;
+        self._beforeLen = len;
+        if (self.uploadingCounter + options.uploadFileMax > queue.length) {
+          clearInterval(self._timer);
+        }
+        log(new Date());
+      }, 300);
+    }
+  }, {
+    key: '_upload',
+    value: function _upload(file) {
+      var self = this;
+      var options = self.options;
+      // 不是等待状态的就不上传
+      if (file.status !== UPLOAD_STATUS.WAIT) {
+        self.uploadingCounter++;
+        return false;
+      }
+      var xhr = new XMLHttpRequest();
+      var formData = new FormData();
+      formData.append(options.fileParamName, file.source);
+      for (var key in options.param) {
+        formData.append(key, options.param[key]);
+      }
 
-            self.uploadingCounter++;
-            //所有的文件都执行完毕，未必都成功
-            if (self.uploadingCounter === self._queue.length) {
-                self._uploading = false;
-                self.uploadingCounter = 0;
-                self._beforeLen = 0;
-                var _flag = true;
-                self._files.forEach(function (item) {
-                    if (item.status === UPLOAD_STATUS.FAILED) {
-                        _flag = false;
-                        return false;
-                    }
-                });
-                self.trigger('finish', _flag);
-            }
+      file.status = UPLOAD_STATUS.UPLOAD_ING;
+      xhr.onload = function () {
+        if (xhr.status < 200 || xhr.status >= 300) {
+          log(xhr.status);
+          self.onFail(file);
+          // return option.onError(getError(action, option, xhr), getBody(xhr));
         }
-    }, {
-        key: 'onSuccess',
-        value: function onSuccess(file, json) {
-            var self = this;
-            file.status = UPLOAD_STATUS.SUCESS;
-            file.returnJson = json;
-            self.trigger('uploadSuccess', file);
-            self.onEnd(file);
-        }
-    }, {
-        key: 'onFail',
-        value: function onFail(file) {
-            var self = this;
-            file.status = UPLOAD_STATUS.FAILED;
-            self.trigger('uploadFail', file);
-            self.onEnd(file);
-        }
-    }, {
-        key: 'addFile',
-        value: function addFile(sourceFile) {
-            var self = this;
-            var options = self.options;
 
-            if (options.acceptReg && !options.acceptReg.test(sourceFile.name)) {
-                log(sourceFile.name + '不在accept设置范围内');
-                return false;
-            }
-            var file = {
-                source: sourceFile,
-                id: self.uuid(),
-                status: UPLOAD_STATUS.WAIT,
-                thumb: options.thumb.defaultUrl
-            };
+        var json = {};
+        // 不要将onSuccess或者onError包括道try中
+        // 避免回调函数中报错触发catch
+        try {
+          json = JSON.parse(xhr.responseText);
+        } catch (e) {
+          self.onFail(file);
+          json.success = false;
+        }
+        if (json.success) {
+          self.onSuccess(file, json);
+        } else {
+          self.onFail(file);
+        }
+      };
+      function updateProgress(event) {
+        var complete = event.loaded / event.total * 100 | 0;
+        console.log(complete);
+        file.percent = complete;
+      }
+      if (options.showProgress) {
+        xhr.upload.onprogress = updateProgress;
+      }
+      // progress事件需要注册在open之前，否则无响应
+      xhr.open('post', options.uploadUrl);
+      xhr.send(formData);
+    }
+  }, {
+    key: 'onEnd',
+    value: function onEnd(file) {
+      var self = this;
 
-            self._files.push(file);
-            if (options.thumb) {
-                if (options.compress) {
-                    self._makeThumb(file);
-                } else {
-                    file.thumb = createObjectURL(sourceFile);
-                }
-            }
-        }
-    }, {
-        key: 'removeFile',
-        value: function removeFile(file) {
-            var targetIndex = -1;
-            this._files.forEach(function (item, index) {
-                if (item.id === file.id) {
-                    targetIndex = index;
-                }
-            });
-            this._files.splice(targetIndex, 1);
-        }
-    }, {
-        key: '_makeThumb',
-        value: function _makeThumb(file) {
-            this.makeThumb(file.source).then(function (thumbUrl) {
-                file.thumb = thumbUrl;
-            });
-        }
-    }, {
-        key: 'makeThumb',
-        value: function makeThumb(sourceFile) {
-            return new Promise(function (resolve, reject) {
-                var thumbOptions = this.options.thumb;
-                var blob_url = createObjectURL(sourceFile);
-                var temp_image = new Image();
-                var canvas = document.createElement('canvas');
-                var preview_width = thumbOptions.width;
-                var preview_height = thumbOptions.height;
-                temp_image.src = blob_url;
-                canvas.width = preview_width;
-                canvas.height = preview_height;
-                var ctx = canvas.getContext('2d');
-                temp_image.onload = function () {
-                    ctx.drawImage(temp_image, 0, 0, preview_width, preview_height);
-                    //清空原来的BLOB对象，释放内存。
-                    window.URL.revokeObjectURL(this.src);
-                    //耗时操作
-                    var blob_image_url = canvas.toDataURL("image/jpeg");
-                    resolve(blob_image_url);
-                    //切除引用关系
-                    //delete temp_image;
-                    //delete canvas;
-                    //delete ctx;
-                    this.src = null;
-                    canvas = null;
-                    ctx = null;
-                    temp_image.onload = null;
-                    temp_image = null;
-                };
-            });
-        }
-    }, {
-        key: 'stop',
-        value: function stop() {}
-    }, {
-        key: 'uuid',
-        value: function uuid() {
-            var uuid = this.options.uuidPrefix + this.counter;
-            this.counter++;
-            return uuid;
-        }
-    }, {
-        key: 'getFiles',
-        value: function getFiles() {
-            return this._files;
-        }
-    }, {
-        key: 'clear',
-        value: function clear() {
-            this._files = [];
-        }
-    }]);
+      self.uploadingCounter++;
+      // 所有的文件都执行完毕，未必都成功
+      if (self.uploadingCounter === self._queue.length) {
+        self._uploading = false;
+        self.uploadingCounter = 0;
+        self._beforeLen = 0;
+        var _flag = true;
+        self._files.forEach(function (item) {
+          if (item.status === UPLOAD_STATUS.FAILED) {
+            _flag = false;
+            return false;
+          }
+        });
+        self.trigger('finish', _flag);
+      }
+    }
+  }, {
+    key: 'onSuccess',
+    value: function onSuccess(file, json) {
+      var self = this;
+      file.status = UPLOAD_STATUS.SUCESS;
+      file.returnJson = json;
+      self.trigger('uploadSuccess', file);
+      self.onEnd(file);
+    }
+  }, {
+    key: 'onFail',
+    value: function onFail(file) {
+      var self = this;
+      file.status = UPLOAD_STATUS.FAILED;
+      self.trigger('uploadFail', file);
+      self.onEnd(file);
+    }
+  }, {
+    key: 'addFile',
+    value: function addFile(sourceFile) {
+      var self = this;
+      var options = self.options;
 
-    return Uploader;
+      if (options.acceptReg && !options.acceptReg.test(sourceFile.name)) {
+        log(sourceFile.name + '不在accept设置范围内');
+        return false;
+      }
+      var file = {
+        source: sourceFile,
+        id: self.uuid(),
+        status: UPLOAD_STATUS.WAIT,
+        thumb: options.thumb.defaultUrl
+      };
+
+      self._files.push(file);
+      if (options.thumb) {
+        if (options.compress) {
+          self._makeThumb(file);
+        } else {
+          file.thumb = createObjectURL(sourceFile);
+        }
+      }
+    }
+  }, {
+    key: 'removeFile',
+    value: function removeFile(file) {
+      var targetIndex = -1;
+      this._files.forEach(function (item, index) {
+        if (item.id === file.id) {
+          targetIndex = index;
+        }
+      });
+      this._files.splice(targetIndex, 1);
+    }
+  }, {
+    key: '_makeThumb',
+    value: function _makeThumb(file) {
+      this.makeThumb(file.source).then(function (thumbUrl) {
+        file.thumb = thumbUrl;
+      });
+    }
+  }, {
+    key: 'makeThumb',
+    value: function makeThumb(sourceFile) {
+      return new Promise(function (resolve, reject) {
+        var thumbOptions = this.options.thumb;
+        var blob_url = createObjectURL(sourceFile);
+        var temp_image = new Image();
+        var canvas = document.createElement('canvas');
+        var preview_width = thumbOptions.width;
+        var preview_height = thumbOptions.height;
+        temp_image.src = blob_url;
+        canvas.width = preview_width;
+        canvas.height = preview_height;
+        var ctx = canvas.getContext('2d');
+        temp_image.onload = function () {
+          ctx.drawImage(temp_image, 0, 0, preview_width, preview_height);
+          // 清空原来的BLOB对象，释放内存。
+          window.URL.revokeObjectURL(this.src);
+          // 耗时操作
+          var blob_image_url = canvas.toDataURL('image/jpeg');
+          resolve(blob_image_url);
+          // 切除引用关系
+          // delete temp_image;
+          // delete canvas;
+          // delete ctx;
+          this.src = null;
+          canvas = null;
+          ctx = null;
+          temp_image.onload = null;
+          temp_image = null;
+        };
+      });
+    }
+  }, {
+    key: 'stop',
+    value: function stop() {}
+  }, {
+    key: 'uuid',
+    value: function uuid() {
+      var uuid = this.options.uuidPrefix + this.counter;
+      this.counter++;
+      return uuid;
+    }
+  }, {
+    key: 'getFiles',
+    value: function getFiles() {
+      return this._files;
+    }
+  }, {
+    key: 'clear',
+    value: function clear() {
+      this._files = [];
+    }
+  }]);
+
+  return Uploader;
 }(_ctrl2.default);
 
 module.exports = Uploader;
@@ -1157,7 +1133,7 @@ exports = module.exports = __webpack_require__(7)(true);
 
 
 // module
-exports.push([module.i, "\n.btn[data-v-7facc3e3] {\n  color: #fff;\n  background-color: #20a0ff;\n  border-color: #20a0ff;\n  -webkit-appearance: none;\n  border: none;\n  outline: none;\n  margin: 0;\n  padding: 10px 15px;\n  font-size: 14px;\n  border-radius: 4px;\n  cursor: pointer;\n}\n.mask[data-v-7facc3e3] {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 999;\n}\n.place-holder[data-v-7facc3e3] {\n  text-align: center;\n  margin-top: 200px;\n}\n.panel[data-v-7facc3e3] {\n  z-index: 1009;\n  width: 80%;\n  padding: 15px;\n  background: white;\n  color: #333;\n  margin: 100px auto 0 auto;\n}\n.panel h2[data-v-7facc3e3] {\n    margin: 0;\n    position: relative;\n}\n.panel .bottom[data-v-7facc3e3] {\n    margin-top: 15px;\n}\n.panel .close[data-v-7facc3e3] {\n    position: absolute;\n    top: -11px;\n    right: 0;\n    font-size: 28px;\n    color: gray;\n    cursor: pointer;\n}\n.image-list[data-v-7facc3e3] {\n  border: 1px dashed #eee;\n  height: 500px;\n  overflow: auto;\n  margin-top: 15px;\n}\n.image-item[data-v-7facc3e3] {\n  display: inline-block;\n  overflow: hidden;\n  position: relative;\n  background: white;\n  text-align: center;\n  border: 1px solid #eee;\n  box-sizing: border-box;\n  width: 25%;\n}\n.image-item:hover .title[data-v-7facc3e3] {\n    display: block;\n}\n.image-item .title[data-v-7facc3e3] {\n    background: rgba(0, 0, 0, 0.8);\n    color: white;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    font-size: 14px;\n    padding: 5px;\n    box-sizing: border-box;\n}\n.image-item .cover[data-v-7facc3e3] {\n    height: 100%;\n}\n.image-item .loader[data-v-7facc3e3] {\n    position: absolute;\n    top: 50%;\n    margin-top: -15px;\n    width: 30px;\n    display: block;\n    left: 50%;\n    margin-left: -15px;\n}\n", "", {"version":3,"sources":["/Users/jump/GitHub/vue-image-uploader/src/uploader.scss"],"names":[],"mappings":";AAAA;EACE,YAAY;EACZ,0BAA0B;EAC1B,sBAAsB;EACtB,yBAAyB;EACzB,aAAa;EACb,cAAc;EACd,UAAU;EACV,mBAAmB;EACnB,gBAAgB;EAChB,mBAAmB;EACnB,gBAAgB;CAAE;AAEpB;EACE,OAAO;EACP,UAAU;EACV,QAAQ;EACR,SAAS;EACT,+BAA+B;EAC/B,gBAAgB;EAChB,aAAa;CAAE;AAEjB;EACE,mBAAmB;EACnB,kBAAkB;CAAE;AAEtB;EACE,cAAc;EACd,WAAW;EACX,cAAc;EACd,kBAAkB;EAClB,YAAY;EACZ,0BAA0B;CAAE;AAC5B;IACE,UAAU;IACV,mBAAmB;CAAE;AACvB;IACE,iBAAiB;CAAE;AACrB;IACE,mBAAmB;IACnB,WAAW;IACX,SAAS;IACT,gBAAgB;IAChB,YAAY;IACZ,gBAAgB;CAAE;AAEtB;EACE,wBAAwB;EACxB,cAAc;EACd,eAAe;EACf,iBAAiB;CAAE;AAErB;EACE,sBAAsB;EACtB,iBAAiB;EACjB,mBAAmB;EACnB,kBAAkB;EAClB,mBAAmB;EACnB,uBAAuB;EACvB,uBAAuB;EACvB,WAAW;CAAE;AACb;IACE,eAAe;CAAE;AACnB;IACE,+BAA+B;IAC/B,aAAa;IACb,mBAAmB;IACnB,OAAO;IACP,QAAQ;IACR,YAAY;IACZ,gBAAgB;IAChB,aAAa;IACb,uBAAuB;CAAE;AAC3B;IACE,aAAa;CAAE;AACjB;IACE,mBAAmB;IACnB,SAAS;IACT,kBAAkB;IAClB,YAAY;IACZ,eAAe;IACf,UAAU;IACV,mBAAmB;CAAE","file":"uploader.scss","sourcesContent":[".btn {\n  color: #fff;\n  background-color: #20a0ff;\n  border-color: #20a0ff;\n  -webkit-appearance: none;\n  border: none;\n  outline: none;\n  margin: 0;\n  padding: 10px 15px;\n  font-size: 14px;\n  border-radius: 4px;\n  cursor: pointer; }\n\n.mask {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 999; }\n\n.place-holder {\n  text-align: center;\n  margin-top: 200px; }\n\n.panel {\n  z-index: 1009;\n  width: 80%;\n  padding: 15px;\n  background: white;\n  color: #333;\n  margin: 100px auto 0 auto; }\n  .panel h2 {\n    margin: 0;\n    position: relative; }\n  .panel .bottom {\n    margin-top: 15px; }\n  .panel .close {\n    position: absolute;\n    top: -11px;\n    right: 0;\n    font-size: 28px;\n    color: gray;\n    cursor: pointer; }\n\n.image-list {\n  border: 1px dashed #eee;\n  height: 500px;\n  overflow: auto;\n  margin-top: 15px; }\n\n.image-item {\n  display: inline-block;\n  overflow: hidden;\n  position: relative;\n  background: white;\n  text-align: center;\n  border: 1px solid #eee;\n  box-sizing: border-box;\n  width: 25%; }\n  .image-item:hover .title {\n    display: block; }\n  .image-item .title {\n    background: rgba(0, 0, 0, 0.8);\n    color: white;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    font-size: 14px;\n    padding: 5px;\n    box-sizing: border-box; }\n  .image-item .cover {\n    height: 100%; }\n  .image-item .loader {\n    position: absolute;\n    top: 50%;\n    margin-top: -15px;\n    width: 30px;\n    display: block;\n    left: 50%;\n    margin-left: -15px; }\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.btn[data-v-7facc3e3] {\n  color: #fff;\n  background-color: #20a0ff;\n  border-color: #20a0ff;\n  -webkit-appearance: none;\n  border: none;\n  outline: none;\n  margin: 0;\n  padding: 10px 15px;\n  font-size: 14px;\n  border-radius: 4px;\n  cursor: pointer;\n}\n.mask[data-v-7facc3e3] {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 999;\n}\n.place-holder[data-v-7facc3e3] {\n  text-align: center;\n  margin-top: 200px;\n}\n.panel[data-v-7facc3e3] {\n  width: 750px;\n  background: white;\n  color: #333;\n  margin: 100px auto 0 auto;\n}\n.panel h2[data-v-7facc3e3] {\n    margin: 0;\n    position: relative;\n}\n.panel .bottom[data-v-7facc3e3] {\n    padding: 15px;\n    border-top: 1px solid #eee;\n}\n.panel .close[data-v-7facc3e3] {\n    position: absolute;\n    padding: 6px 15px;\n    right: 0;\n    top: 0;\n    font-size: 28px;\n    color: gray;\n    cursor: pointer;\n}\n.image-list[data-v-7facc3e3] {\n  height: 500px;\n  overflow: auto;\n  padding: 15px;\n}\n.image-item[data-v-7facc3e3] {\n  display: inline-block;\n  overflow: hidden;\n  position: relative;\n  background: white;\n  text-align: center;\n  border: 1px solid #eee;\n  box-sizing: border-box;\n  width: 175px;\n  height: 175px;\n  margin: 0px 2px;\n}\n.image-item:hover .title[data-v-7facc3e3] {\n    display: block;\n}\n.image-item .title[data-v-7facc3e3] {\n    background: rgba(0, 0, 0, 0.8);\n    color: white;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    font-size: 14px;\n    padding: 5px;\n    box-sizing: border-box;\n    cursor: pointer;\n}\n.image-item .cover[data-v-7facc3e3] {\n    height: 100%;\n}\n.image-item .loader[data-v-7facc3e3] {\n    position: absolute;\n    top: 50%;\n    margin-top: -15px;\n    width: 30px;\n    display: block;\n    left: 50%;\n    margin-left: -15px;\n}\n.percent[data-v-7facc3e3] {\n  width: 90%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.8);\n  position: absolute;\n  bottom: 8px;\n  left: 5%;\n}\n.percent .percent-inner[data-v-7facc3e3] {\n    height: 4px;\n    background: #5a5a5a;\n    width: 0;\n}\nh2[data-v-7facc3e3] {\n  padding: 15px;\n  border-bottom: 1px solid #eee;\n}\n", "", {"version":3,"sources":["/Users/jump/GitHub/vue-image-uploader/src/uploader.scss"],"names":[],"mappings":";AAAA;EACE,YAAY;EACZ,0BAA0B;EAC1B,sBAAsB;EACtB,yBAAyB;EACzB,aAAa;EACb,cAAc;EACd,UAAU;EACV,mBAAmB;EACnB,gBAAgB;EAChB,mBAAmB;EACnB,gBAAgB;CAAE;AAEpB;EACE,OAAO;EACP,UAAU;EACV,QAAQ;EACR,SAAS;EACT,+BAA+B;EAC/B,gBAAgB;EAChB,aAAa;CAAE;AAEjB;EACE,mBAAmB;EACnB,kBAAkB;CAAE;AAEtB;EACE,aAAa;EACb,kBAAkB;EAClB,YAAY;EACZ,0BAA0B;CAAE;AAC5B;IACE,UAAU;IACV,mBAAmB;CAAE;AACvB;IACE,cAAc;IACd,2BAA2B;CAAE;AAC/B;IACE,mBAAmB;IACnB,kBAAkB;IAClB,SAAS;IACT,OAAO;IACP,gBAAgB;IAChB,YAAY;IACZ,gBAAgB;CAAE;AAEtB;EACE,cAAc;EACd,eAAe;EACf,cAAc;CAAE;AAElB;EACE,sBAAsB;EACtB,iBAAiB;EACjB,mBAAmB;EACnB,kBAAkB;EAClB,mBAAmB;EACnB,uBAAuB;EACvB,uBAAuB;EACvB,aAAa;EACb,cAAc;EACd,gBAAgB;CAAE;AAClB;IACE,eAAe;CAAE;AACnB;IACE,+BAA+B;IAC/B,aAAa;IACb,mBAAmB;IACnB,OAAO;IACP,QAAQ;IACR,YAAY;IACZ,gBAAgB;IAChB,aAAa;IACb,uBAAuB;IACvB,gBAAgB;CAAE;AACpB;IACE,aAAa;CAAE;AACjB;IACE,mBAAmB;IACnB,SAAS;IACT,kBAAkB;IAClB,YAAY;IACZ,eAAe;IACf,UAAU;IACV,mBAAmB;CAAE;AAEzB;EACE,WAAW;EACX,YAAY;EACZ,qCAAqC;EACrC,mBAAmB;EACnB,YAAY;EACZ,SAAS;CAAE;AACX;IACE,YAAY;IACZ,oBAAoB;IACpB,SAAS;CAAE;AAEf;EACE,cAAc;EACd,8BAA8B;CAAE","file":"uploader.scss","sourcesContent":[".btn {\n  color: #fff;\n  background-color: #20a0ff;\n  border-color: #20a0ff;\n  -webkit-appearance: none;\n  border: none;\n  outline: none;\n  margin: 0;\n  padding: 10px 15px;\n  font-size: 14px;\n  border-radius: 4px;\n  cursor: pointer; }\n\n.mask {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n  z-index: 999; }\n\n.place-holder {\n  text-align: center;\n  margin-top: 200px; }\n\n.panel {\n  width: 750px;\n  background: white;\n  color: #333;\n  margin: 100px auto 0 auto; }\n  .panel h2 {\n    margin: 0;\n    position: relative; }\n  .panel .bottom {\n    padding: 15px;\n    border-top: 1px solid #eee; }\n  .panel .close {\n    position: absolute;\n    padding: 6px 15px;\n    right: 0;\n    top: 0;\n    font-size: 28px;\n    color: gray;\n    cursor: pointer; }\n\n.image-list {\n  height: 500px;\n  overflow: auto;\n  padding: 15px; }\n\n.image-item {\n  display: inline-block;\n  overflow: hidden;\n  position: relative;\n  background: white;\n  text-align: center;\n  border: 1px solid #eee;\n  box-sizing: border-box;\n  width: 175px;\n  height: 175px;\n  margin: 0px 2px; }\n  .image-item:hover .title {\n    display: block; }\n  .image-item .title {\n    background: rgba(0, 0, 0, 0.8);\n    color: white;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    font-size: 14px;\n    padding: 5px;\n    box-sizing: border-box;\n    cursor: pointer; }\n  .image-item .cover {\n    height: 100%; }\n  .image-item .loader {\n    position: absolute;\n    top: 50%;\n    margin-top: -15px;\n    width: 30px;\n    display: block;\n    left: 50%;\n    margin-left: -15px; }\n\n.percent {\n  width: 90%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.8);\n  position: absolute;\n  bottom: 8px;\n  left: 5%; }\n  .percent .percent-inner {\n    height: 4px;\n    background: #5a5a5a;\n    width: 0; }\n\nh2 {\n  padding: 15px;\n  border-bottom: 1px solid #eee; }\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -1548,7 +1524,7 @@ module.exports = function listToStyles (parentId, list) {
 
 var VueImageUploader = unwrapExports(vueImageUploader);
 
-var template$3 = "<div> <input type=\"text\" v-model=\"imageUrl\" maxlength=\"255\" :placeholder=\"$parent.locale['please enter a url']\"> <button type=\"button\" @click=\"insertImageUrl\">{{$parent.locale.save}}</button> <button type=\"button\" @click=\"pick\">{{$parent.locale.upload}}</button> <image-uploader :show=\"showDialog\" :url=\"serverUrl\" @finish=\"onFinish\"></image-uploader> </div>";
+var template$3 = "<div> <image-uploader :show=\"true\" :url=\"serverUrl\" @finish=\"onFinish\"></image-uploader> </div>";
 
 // uploader.upload()
 
@@ -1576,9 +1552,6 @@ var dashboard$3 = {
             this.insertImg(this.imageUrl);
             this.imageUrl = null;
         },
-        pick: function pick() {
-            this.showDialog = true;
-        },
         onFinish: function onFinish(files) {
             var self = this;
             var config = self.$options.module.config;
@@ -1586,7 +1559,7 @@ var dashboard$3 = {
             if (config.returnUrl){
                 returnUrl = config.returnUrl;
             }
-            self.showDialog = false;
+            self.$parent.dashboard = null;
             files.forEach(function (item) {
                 self.insertImg(item[returnUrl]);
             });

@@ -29,9 +29,6 @@ export default {
             this.insertImg(this.imageUrl)
             this.imageUrl = null
         },
-        pick() {
-            this.showDialog = true
-        },
         onFinish(files) {
             const self = this
             const config = self.$options.module.config
@@ -39,7 +36,7 @@ export default {
             if (config.returnUrl){
                 returnUrl = config.returnUrl
             }
-            self.showDialog = false
+            self.$parent.dashboard = null
             files.forEach((item) => {
                 self.insertImg(item[returnUrl])
             })
