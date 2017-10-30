@@ -11,7 +11,7 @@ import Command from '../../range/command'
 export default {
     template,
     components: {
-        'image-uploader': vueUploader.VueImageUploader
+        'video-uploader': vueUploader.VueVideoUploader
     },
     data() {
         const config = this.$options.module.config
@@ -32,17 +32,17 @@ export default {
         onFinish(files) {
             const self = this
             const config = self.$options.module.config
-            let returnUrl = 'fileUrl'
+            let returnUrl = 'path'
             if (config.returnUrl){
                 returnUrl = config.returnUrl
             }
             self.$parent.dashboard = null
             files.forEach((item) => {
-                self.insertImg(item[returnUrl])
+                self.insertImg(item[returnUrl],item.video_path)
             })
         },
-        insertImg(url) {
-            this.$parent.execCommand(Command.INSERT_IMAGE, url)
+        insertImg(url,videoUrl) {
+            this.$parent.execCommand(Command.INSERT_VIDEO, url,videoUrl)
         }
     }
 }

@@ -242,7 +242,25 @@ export default class RangeHandler {
                 break
             }
             case Command.INSERT_IMAGE: {
-                document.execCommand(Command.INSERT_IMAGE, false, arg)
+                // const id = `img-random${Math.random()}`
+                const img = `<img src='${arg}' class="vue-editor-image" >`
+                document.execCommand('insertHTML', false, img)
+                // document.getElementsByClassName('vue-editor-image').forEach((item) => {
+                //     if (item.src === arg){
+                //         return item
+                //     }
+                // })
+                break
+            }
+            case Command.INSERT_VIDEO: {
+                // const id = `img-random${Math.random()}`
+                const img = `<img src='${arg}' class="vue-editor-video-preview" >`
+                document.execCommand('insertHTML', false, img)
+                // document.getElementsByClassName('vue-editor-image').forEach((item) => {
+                //     if (item.src === arg){
+                //         return item
+                //     }
+                // })
                 break
             }
             case Command.CREATE_LINK: {

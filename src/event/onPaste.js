@@ -1,7 +1,6 @@
 export default function onPaste(e){
     e.preventDefault()
     let text = ''
-
     if (window.clipboardData && window.clipboardData.setData) {
         // IE
         text = window.clipboardData.getData('text')

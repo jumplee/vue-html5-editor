@@ -53,13 +53,14 @@ export default {
         commonJs({
             include: [
                 'node_modules/lrz/**',
+                'node_modules/vue-video-uploader/**',
                 'node_modules/vue-image-uploader/**'
             ],
             namedExports: {
                 // left-hand side can be an absolute path, a path
                 // relative to the current directory, or the name
                 // of a module in node_modules
-                'node_modules/vue-image-uploader/dist/vueImageUploader.js': ['VueImageUploader']
+                'node_modules/vue-image-uploader/dist/vueUploader.js': ['vueUploader']
             }
         }),
         nodeResolve({

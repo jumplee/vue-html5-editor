@@ -2,6 +2,7 @@ import RangeHandler from './range/handler'
 import './style.css'
 import template from './editor.html'
 import onPaste from './event/onPaste'
+import Command from './range/command'
 /**
  * Created by peak on 2017/2/9.
  */
@@ -20,7 +21,7 @@ export default {
         height: {
             type: Number,
             default: 300,
-            validator(val){
+            validator(val) {
                 return val >= 100
             }
         },
@@ -34,7 +35,7 @@ export default {
         },
         showModuleName: {}
     },
-    data(){
+    data() {
         return {
             // defaultShowModuleName:false
             // locale: {},
@@ -50,7 +51,7 @@ export default {
                 this.$refs.content.innerHTML = val
             }
         },
-        fullScreen(val){
+        fullScreen(val) {
             const component = this
             if (val) {
                 component.parentEl = component.$el.parentNode
@@ -66,7 +67,7 @@ export default {
         }
     },
     computed: {
-        contentStyle(){
+        contentStyle() {
             const style = {}
             if (this.fullScreen) {
                 style.height = `${window.innerHeight - this.$refs.toolbar.clientHeight - 1}px`
@@ -81,22 +82,22 @@ export default {
         }
     },
     methods: {
-        toggleFullScreen(){
+        toggleFullScreen() {
             this.fullScreen = !this.fullScreen
         },
-        enableFullScreen(){
+        enableFullScreen() {
             this.fullScreen = true
         },
-        exitFullScreen(){
+        exitFullScreen() {
             this.fullScreen = false
         },
-        focus(){
+        focus() {
             this.$refs.content.focus()
         },
-        toggleDashboard(dashboard){
+        toggleDashboard(dashboard) {
             this.dashboard = this.dashboard === dashboard ? null : dashboard
         },
-        execCommand(command, arg){
+        execCommand(command, arg) {
             this.restoreSelection()
             if (this.range) {
                 new RangeHandler(this.range).execCommand(command, arg)
@@ -104,13 +105,13 @@ export default {
             this.toggleDashboard()
             // https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events
             // 通过触发input 实现数据同步
-            this.$emit('input',this.$refs.content.innerHTML)
+            this.$emit('input', this.$refs.content.innerHTML)
             this.$emit('change', this.$refs.content.innerHTML)
         },
-        getCurrentRange(){
+        getCurrentRange() {
             return this.range
         },
-        saveCurrentRange(){
+        saveCurrentRange() {
             const selection = window.getSelection ? window.getSelection() : document.getSelection()
             if (!selection.rangeCount) {
                 return
@@ -129,7 +130,7 @@ export default {
                 }
             }
         },
-        restoreSelection(){
+        restoreSelection() {
             const selection = window.getSelection ? window.getSelection() : document.getSelection()
             selection.removeAllRanges()
             if (this.range) {
@@ -145,7 +146,7 @@ export default {
                 this.range = range
             }
         },
-        activeModule(module){
+        activeModule(module) {
             if (typeof module.handler === 'function') {
                 module.handler(this)
                 return
@@ -155,14 +156,14 @@ export default {
             }
         }
     },
-    created(){
+    created() {
         this.modules.forEach((module) => {
             if (typeof module.init === 'function') {
                 module.init(this)
             }
         })
     },
-    mounted(){
+    mounted() {
         const editor = this
         const content = this.$refs.content
         content.innerHTML = this.content
@@ -184,21 +185,49 @@ export default {
 
         window.addEventListener('touchend', this.touchHandler, false)
 
-        // 注册paste方法，粘贴的都是纯文本
-        // 代码来自http://www.zhangxinxu.com/wordpress/2016/01/contenteditable-plaintext-only/
-        content.addEventListener('paste',(...args) => {
-            if (editor.plainTextPaste){
-                onPaste.apply(this,args)
+        content.addEventListener('paste', (...args) => {
+            // const e = args[0]
+            // 注册paste方法，粘贴的都是纯文本
+            // 代码来自http://www.zhangxinxu.com/wordpress/2016/01/contenteditable-plaintext-only/
+            if (editor.plainTextPaste) {
+                onPaste.apply(this, args)
             }
+            // } else {
+            //      // 阻止默认的粘贴行为
+            //     e.preventDefault()
+            //     // 过滤script等安全问题代码
+            //     let text = ''
+            //     if (window.clipboardData && window.clipboardData.setData) {
+            //         // IE
+            //         text = window.clipboardData.getData('text/html')
+            //     } else {
+            //         text = (e.originalEvent || e).clipboardData.getData('text/html')
+            //     }
+
+            //     editor.execCommand(Command.INSERT_HTML,false,editor.safeHtml(text))
+            // }
         })
     },
-    updated(){
+    // /**
+	// * 将不安全的标签去除
+	//  * @param text
+	//  * @returns {*}
+	//  */
+	// safeHtml(text){
+	// 	// 还不是很完整，待续
+	// 	if (text){
+	// 		return	text.replace(/<script.*>.*<\/script>/ig,'')
+	// 			.replace(/<style.*>.*<\/style>/ig,'')
+	// 	}
+    //         return text
+	// },
+    updated() {
         // update dashboard style
-        if (this.$refs.dashboard){
+        if (this.$refs.dashboard) {
             this.$refs.dashboard.style.maxHeight = `${this.$refs.content.clientHeight}px`
         }
     },
-    beforeDestroy(){
+    beforeDestroy() {
         window.removeEventListener('touchend', this.touchHandler)
         this.modules.forEach((module) => {
             if (typeof module.destroyed === 'function') {

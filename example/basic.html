@@ -43,7 +43,27 @@
                 quality: 80,
                 url: '/file/uploading',
                 returnKey:'fileUrl'
-            }
+            },
+            video:{
+                url: '/file/uploading',
+                returnKey:'fileUrl'
+            },
+            visibleModules: [
+            "info",
+            "text",
+            "color",
+            "font",
+            "align",
+            "tabulation",
+            "hr",
+            "list",
+            "link",
+            "unlink",
+            "full-screen",
+            "image",
+            "video"//will not show in editor
+
+        ]
         })
 
         new Vue({
