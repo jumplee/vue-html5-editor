@@ -33,7 +33,16 @@ export default {
             type: Boolean,
             default: true
         },
-        showModuleName: {}
+        showModuleName: {
+            type: Boolean,
+            default: false
+        },
+        toolbars: {
+            type: Array,
+            default(){
+                return []
+            }
+        }
     },
     data() {
         return {
@@ -97,10 +106,11 @@ export default {
         toggleDashboard(dashboard) {
             this.dashboard = this.dashboard === dashboard ? null : dashboard
         },
-        execCommand(command, arg) {
+        execCommand(command,...arg) {
             this.restoreSelection()
             if (this.range) {
-                new RangeHandler(this.range).execCommand(command, arg)
+                const handler = new RangeHandler(this.range)
+                handler.execCommand(command,...arg)
             }
             this.toggleDashboard()
             // https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events
@@ -157,6 +167,16 @@ export default {
         }
     },
     created() {
+        const newModules = []
+        if (this.toolbars.length > 0){
+            this.modules.forEach((item) => {
+                if (this.toolbars.indexOf(item.name) > 0){
+                    newModules.push(item)
+                }
+            })
+            this.modules = newModules
+        }
+
         this.modules.forEach((module) => {
             if (typeof module.init === 'function') {
                 module.init(this)

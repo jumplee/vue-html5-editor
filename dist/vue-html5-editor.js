@@ -1,7 +1,7 @@
 /**
  * Vue-html5-editor 1.1.0
  * https://github.com/PeakTai/vue-html5-editor
- * build at Mon Oct 30 2017 10:58:22 GMT+0800 (CST)
+ * build at Tue Oct 31 2017 09:21:02 GMT+0800 (CST)
  */
 
 (function (global, factory) {
@@ -2025,11 +2025,6 @@ var vueUploader$1 = unwrapExports(vueUploader);
 
 var template$3 = "<div> <image-uploader :show-progress=\"true\" :show=\"true\" :url=\"serverUrl\" @finish=\"onFinish\"></image-uploader> </div>";
 
-// uploader.upload()
-
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$3 = {
     template: template$3,
     components: {
@@ -2246,6 +2241,11 @@ var unlink = {
 
 var template$9 = "<div> <video-uploader :show-progress=\"true\" :show=\"true\" :url=\"serverUrl\" @finish=\"onFinish\"></video-uploader> </div>";
 
+// uploader.upload()
+
+/**
+ * Created by peak on 2017/2/10.
+ */
 var dashboard$9 = {
     template: template$9,
     components: {
@@ -2689,7 +2689,9 @@ RangeHandler.prototype.execCommand = function execCommand (command, arg) {
         }
         case Command.INSERT_VIDEO: {
             // const id = `img-random${Math.random()}`
-            var img$1 = "<img src='" + arg + "' class=\"vue-editor-video-preview\" >";
+            var url = arguments[1];
+            var videoPath = arguments[2];
+            var img$1 = "<img src=\"" + url + "\" _url=\"" + videoPath + "\" class=\"vue-editor-video-preview\" >";
             document.execCommand('insertHTML', false, img$1);
             // document.getElementsByClassName('vue-editor-image').forEach((item) => {
             // if (item.src === arg){
@@ -2832,7 +2834,16 @@ var editor = {
             type: Boolean,
             default: true
         },
-        showModuleName: {}
+        showModuleName: {
+            type: Boolean,
+            default: false
+        },
+        toolbars: {
+            type: Array,
+            default: function default$1(){
+                return []
+            }
+        }
     },
     data: function data() {
         return {
@@ -2896,10 +2907,14 @@ var editor = {
         toggleDashboard: function toggleDashboard(dashboard) {
             this.dashboard = this.dashboard === dashboard ? null : dashboard;
         },
-        execCommand: function execCommand(command, arg) {
+        execCommand: function execCommand(command) {
+            var arg = [], len = arguments.length - 1;
+            while ( len-- > 0 ) arg[ len ] = arguments[ len + 1 ];
+
             this.restoreSelection();
             if (this.range) {
-                new RangeHandler(this.range).execCommand(command, arg);
+                var handler = new RangeHandler(this.range);
+                handler.execCommand.apply(handler, [ command ].concat( arg ));
             }
             this.toggleDashboard();
             // https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events
@@ -2959,6 +2974,16 @@ var editor = {
     },
     created: function created() {
         var this$1 = this;
+
+        var newModules = [];
+        if (this.toolbars.length > 0){
+            this.modules.forEach(function (item) {
+                if (this$1.toolbars.indexOf(item.name) > 0){
+                    newModules.push(item);
+                }
+            });
+            this.modules = newModules;
+        }
 
         this.modules.forEach(function (module) {
             if (typeof module.init === 'function') {

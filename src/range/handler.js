@@ -254,7 +254,9 @@ export default class RangeHandler {
             }
             case Command.INSERT_VIDEO: {
                 // const id = `img-random${Math.random()}`
-                const img = `<img src='${arg}' class="vue-editor-video-preview" >`
+                const url = arguments[1]
+                const videoPath = arguments[2]
+                const img = `<img src="${url}" _url="${videoPath}" class="vue-editor-video-preview" >`
                 document.execCommand('insertHTML', false, img)
                 // document.getElementsByClassName('vue-editor-image').forEach((item) => {
                 //     if (item.src === arg){
