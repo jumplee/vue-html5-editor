@@ -130,7 +130,7 @@ export default class RangeHandler {
             }
             case Command.INDENT: {
                 const range = this.range
-                let parentNode = range.startContainer.parentNode
+                let parentNode = getParentBlockNode(range.startContainer)
                 if (parentNode === this.rootElement){
                     parentNode = range.startContainer
                 }
