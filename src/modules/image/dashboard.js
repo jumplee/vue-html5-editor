@@ -32,14 +32,16 @@ export default {
         onFinish(files) {
             const self = this
             const config = self.$options.module.config
-            let returnUrl = 'fileUrl'
+            let returnUrl = 'path'
             if (config.returnUrl){
                 returnUrl = config.returnUrl
             }
             self.$parent.dashboard = null
+            const urlAr = []
             files.forEach((item) => {
-                self.insertImg(item[returnUrl])
+                urlAr.push(item[returnUrl])
             })
+            this.insertImg(urlAr)
         },
         insertImg(url) {
             this.$parent.execCommand(Command.INSERT_IMAGE, url)

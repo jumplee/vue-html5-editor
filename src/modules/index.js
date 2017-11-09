@@ -13,6 +13,7 @@ import text from './text/index'
 import undo from './undo/index'
 import unlink from './unlink/index'
 import video from './video/index'
+import indent from './indent/index'
 /**
  * build-in moduls
  * Created by peak on 2016/11/1.
@@ -27,6 +28,7 @@ export default [
     unlink,
     table,
     image,
+    indent,
     hr,
     eraser,
     undo,

@@ -3,6 +3,7 @@ import './style.css'
 import template from './editor.html'
 import onPaste from './event/onPaste'
 import Command from './range/command'
+import {getSelection} from './range/util'
 /**
  * Created by peak on 2017/2/9.
  */
@@ -56,8 +57,9 @@ export default {
     watch: {
         content(val) {
             const content = this.$refs.content.innerHTML
-            if (val !== content) {
-                this.$refs.content.innerHTML = val
+            const convertVal = this.convertToInnerHtml(val)
+            if (convertVal !== content) {
+                this.$refs.content.innerHTML = convertVal
             }
         },
         fullScreen(val) {
@@ -91,6 +93,13 @@ export default {
         }
     },
     methods: {
+        // updateContent(val) {
+        //     const content = this.$refs.content.innerHTML
+        //     const convertVal = this.convertToInnerHtml(val)
+        //     if (convertVal !== content) {
+        //         this.$refs.content.innerHTML = convertVal
+        //     }
+        // },
         toggleFullScreen() {
             this.fullScreen = !this.fullScreen
         },
@@ -109,20 +118,21 @@ export default {
         execCommand(command,...arg) {
             this.restoreSelection()
             if (this.range) {
-                const handler = new RangeHandler(this.range)
+                const handler = new RangeHandler(this.range,this)
                 handler.execCommand(command,...arg)
             }
             this.toggleDashboard()
             // https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events
             // 通过触发input 实现数据同步
-            this.$emit('input', this.$refs.content.innerHTML)
-            this.$emit('change', this.$refs.content.innerHTML)
+            const newConent = this.convertToContent(this.$refs.content.innerHTML)
+            this.$emit('input', newConent)
+            this.$emit('change', newConent)
         },
         getCurrentRange() {
             return this.range
         },
         saveCurrentRange() {
-            const selection = window.getSelection ? window.getSelection() : document.getSelection()
+            const selection = getSelection()
             if (!selection.rangeCount) {
                 return
             }
@@ -141,7 +151,7 @@ export default {
             }
         },
         restoreSelection() {
-            const selection = window.getSelection ? window.getSelection() : document.getSelection()
+            const selection = getSelection()
             selection.removeAllRanges()
             if (this.range) {
                 selection.addRange(this.range)
@@ -164,14 +174,58 @@ export default {
             if (module.hasDashboard) {
                 this.toggleDashboard(`dashboard-${module.name}`)
             }
+        },
+        convertToInnerHtml(content){
+            // 为空返回一个br保证所有的文字都在div中
+            if (content === ''){
+                return '<div><br/></div>'
+            }
+            // 当是纯文本的时候包括在div中
+            if (content.indexOf('<') === -1){
+                return `<div>${content}</div>`
+            }
+            const str = content.replace(/<video .*?poster="(.*?)".*?src="(.*?)".*?>.*?<\/video>/ig,($0,$1,$2) => `<img data-url="${$2}" class="video-poster" src="${$1}">`)
+            return str
+        },
+        convertToContent(html){
+            const ar = html.match(/<img .*?>/)
+            const videoPreviewArray = []
+            if (ar){
+                ar.forEach((item) => {
+                    if (item.indexOf('class="video-poster"') >= 0){
+                        const str = item.replace(/<img .*?data-url="(.*?)".*?class="video-poster".*?src="(.*?)">/ig,($0,$1,$2) =>
+                        `<video poster="${$2}" src="${$1}" controls></video>`)
+                        videoPreviewArray.push({
+                            replaceStr: item,
+                            newStr: str
+                        })
+                    }
+                })
+                let returnStr = ''
+                videoPreviewArray.forEach((item) => {
+                    if (returnStr){
+                        returnStr = returnStr.replace(item.replaceStr,item.newStr)
+                    } else {
+                        returnStr = html.replace(item.replaceStr,item.newStr)
+                    }
+                })
+                // const str = html.replace(/<img .*?data-url="(.*?)".*?class="video-poster".*?src="(.*?)">/ig,($0,$1,$2) =>
+                //  `<video poster="${$2}" src="${$1}" controls></video>`)
+                        return returnStr
+            }
+                return html
         }
     },
     created() {
         const newModules = []
-        if (this.toolbars.length > 0){
+        const toolbars = this.toolbars
+        const editor = this
+        const editorDom = editor.$refs.content
+        if (toolbars.length > 0){
             this.modules.forEach((item) => {
-                if (this.toolbars.indexOf(item.name) > 0){
-                    newModules.push(item)
+                const index = toolbars.indexOf(item.name)
+                if (index > -1){
+                    newModules[index] = item
                 }
             })
             this.modules = newModules
@@ -186,10 +240,29 @@ export default {
     mounted() {
         const editor = this
         const content = this.$refs.content
-        content.innerHTML = this.content
+        content.innerHTML = this.convertToInnerHtml(this.content)
         content.addEventListener('mouseup', this.saveCurrentRange, false)
+        content.addEventListener('keyup',(e) => {
+            const key = e.which
+            if (key === 9){
+                 console.log('tab')
+                 e.preventDefault()
+            }
+            // 回车
+            if (key === 13){
+             // console.log('enter')
+             // editor.execCommand('insertHTML','<p></p>')
+             // e.preventDefault()
+            }
+            // 删除键
+            if (key === 8){
+             if (content.innerHTML === '' || content.innerHTML === '<br>'){
+                content.innerHTML = '<div><br></div>'
+             }
+            }
+         })
         content.addEventListener('keyup', () => {
-            this.$emit('change', content.innerHTML)
+            this.$emit('change', this.convertToContent(content.innerHTML))
             this.saveCurrentRange()
         }, false)
         content.addEventListener('mouseout', (e) => {

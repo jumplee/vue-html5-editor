@@ -36,13 +36,19 @@ export default {
             if (config.returnUrl){
                 returnUrl = config.returnUrl
             }
-            self.$parent.dashboard = null
+            const urlAr = []
             files.forEach((item) => {
-                self.insertImg(item[returnUrl],item.video_path)
+                urlAr.push({
+                    url: item[returnUrl],
+                    videoUrl: item.video_path
+                })
             })
+
+            self.$parent.dashboard = null
+            this.insertImg(urlAr)
         },
-        insertImg(url,videoUrl) {
-            this.$parent.execCommand(Command.INSERT_VIDEO, url,videoUrl)
+        insertImg(urlAr) {
+            this.$parent.execCommand(Command.INSERT_VIDEO, urlAr)
         }
     }
 }

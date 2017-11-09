@@ -1,7 +1,7 @@
 /**
  * Vue-html5-editor 1.1.0
  * https://github.com/PeakTai/vue-html5-editor
- * build at Tue Oct 31 2017 09:21:02 GMT+0800 (CST)
+ * build at Thu Nov 09 2017 18:21:54 GMT+0800 (CST)
  */
 
 (function (global, factory) {
@@ -85,6 +85,9 @@ var polyfill = function () {
 
 var template = "<div> <button type=\"button\" @click=\"$parent.execCommand('justifyLeft')\"> {{$parent.locale[\"left justify\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('justifyCenter')\"> {{$parent.locale[\"center justify\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('justifyRight')\"> {{$parent.locale[\"right justify\"]}} </button> </div>";
 
+/**
+ * Created by peak on 2017/2/10.
+ */
 var dashboard = {
     template: template
 };
@@ -104,6 +107,9 @@ var template$1 = "<div> <div> <label> <input type=\"radio\" value=\"foreColor\" 
 
 __$styleInject(".vue-html5-editor .color-card{margin:2px;width:30px;height:30px;float:left;cursor:pointer}",undefined);
 
+/**
+ * Created by peak on 2017/2/10.
+ */
 var dashboard$1 = {
     template: template$1,
     data: function data(){
@@ -126,6 +132,10 @@ var dashboard$1 = {
     }
 };
 
+/**
+ * fore color and back color
+ * Created by peak on 16/8/18.
+ */
 var color = {
     name: 'color',
     icon: 'fa fa-paint-brush',
@@ -146,7 +156,7 @@ var eraser = {
     }
 };
 
-var template$2 = "<div class=\"dashboard-font\" style=\"line-height: 36px\"> <div> <label>{{$parent.locale[\"heading\"]}}:</label> <button v-for=\"h in 6\" type=\"button\" @click=\"setHeading(h)\">H{{h}}</button> </div> <div> <label> {{$parent.locale[\"font name\"]}}: </label> <button v-for=\"name in nameList\" type=\"button\" @click=\"setFontName(name)\">{{name}}</button> </div> <div> <label> {{$parent.locale[\"font size\"]}}: </label> <button v-for=\"size in fontSizeList\" type=\"button\" @click=\"setFontSize(size)\">{{size}}</button> </div> <div> <label> {{$parent.locale[\"line height\"]}}: </label> <button v-for=\"lh in lineHeightList\" type=\"button\" @click=\"setLineHeight(lh)\"> {{lh}} </button> </div> </div>";
+var template$2 = "<div class=\"dashboard-font\" style=\"line-height: 36px\"> <div> <label>{{$parent.locale[\"heading\"]}}:</label> <button v-for=\"h in 6\" type=\"button\" @click=\"setHeading(h)\">H{{h}}</button> </div> <!-- <div>\n        <label>\n            {{$parent.locale[\"font name\"]}}:\n        </label>\n        <button v-for=\"name in nameList\" type=\"button\" @click=\"setFontName(name)\">{{name}}</button>\n    </div> --> <div> <label> {{$parent.locale[\"font size\"]}}: </label> <button v-for=\"size in fontSizeList\" type=\"button\" @click=\"setFontSize(size)\">{{size}}</button> </div> <div> <label> {{$parent.locale[\"line height\"]}}: </label> <button v-for=\"lh in lineHeightList\" type=\"button\" @click=\"setLineHeight(lh)\"> {{lh}} </button> </div> </div>";
 
 /**
  * Created by peak on 2017/2/14.
@@ -175,9 +185,13 @@ var Command = {
     SUBSCRIPT: 'subscript',
     SUPERSCRIPT: 'superscript',
     UNDO: 'undo',
-    UNLINK: 'unlink'
+    UNLINK: 'unlink',
+    INDENT: 'indent'
 };
 
+/**
+ * Created by peak on 2017/2/10.
+ */
 var dashboard$2 = {
     template: template$2,
     data: function data(){
@@ -232,6 +246,10 @@ var dashboard$2 = {
     }
 };
 
+/**
+ * font name and font size
+ * Created by peak on 16/8/18.
+ */
 var font = {
     name: 'font',
     icon: 'fa fa-font',
@@ -608,13 +626,13 @@ var Uploader = function (_Ctrl) {
         // 避免回调函数中报错触发catch
         try {
           json = JSON.parse(xhr.responseText);
+          if (json.success) {
+            self.onSuccess(file, json);
+          } else {
+            self.onFail(file);
+          }
         } catch (e) {
-          self.onFail(file);
-          json.success = false;
-        }
-        if (json.success) {
-          self.onSuccess(file, json);
-        } else {
+          // 返回的不是json格式
           self.onFail(file);
         }
       };
@@ -1437,6 +1455,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     fileAccept: {
       default: '*'
+    },
+    uploadConfig: {
+      // 二十分钟等待
+      timeout: 20 * 60
     }
   }),
   data: function data() {
@@ -1637,7 +1659,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.btn[data-v-3a211969] {\n  color: #fff;\n  background-color: #20a0ff;\n  border-color: #20a0ff;\n  border: none;\n  outline: none;\n  margin: 0;\n  padding: 10px 15px;\n  font-size: 14px;\n  border-radius: 4px;\n  cursor: pointer;\n  display: inline-block;\n}\n.btn-disable[data-v-3a211969] {\n  background-color: #eee;\n  border-color: #eee;\n  color: black;\n}\n.mask[data-v-3a211969] {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n}\n.place-holder[data-v-3a211969] {\n  text-align: center;\n  margin-top: 200px;\n}\n.panel[data-v-3a211969] {\n  width: 750px;\n  background: white;\n  color: #333;\n  margin: 100px auto 0 auto;\n  position: relative;\n}\n.panel .close[data-v-3a211969] {\n    position: absolute;\n    padding: 1px 15px;\n    right: 0;\n    top: 0;\n    font-size: 28px;\n    color: gray;\n    cursor: pointer;\n}\n.image-list[data-v-3a211969] {\n  height: 500px;\n  overflow: auto;\n  padding: 15px;\n  padding-right: 0;\n}\n.image-list[data-v-3a211969]:before, .image-list[data-v-3a211969]:after {\n    content: \" \";\n    display: table;\n}\n.image-list[data-v-3a211969]:after {\n    clear: both;\n}\n.image-item[data-v-3a211969] {\n  float: left;\n  overflow: hidden;\n  position: relative;\n  text-align: center;\n  border: 1px solid #eee;\n  box-sizing: border-box;\n  width: 140px;\n  height: 140px;\n  margin: 1px 1px 1px 0;\n  vertical-align: top;\n}\n.image-item .title[data-v-3a211969] {\n    background: rgba(0, 0, 0, 0.8);\n    color: white;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    font-size: 14px;\n    padding: 5px;\n    box-sizing: border-box;\n    cursor: pointer;\n    user-select: none;\n}\n.image-item .cover[data-v-3a211969] {\n    height: 100%;\n}\n.image-item .loader[data-v-3a211969] {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    display: block;\n    width: 44px;\n    margin-top: -24px;\n    margin-left: -22px;\n}\n.percent[data-v-3a211969] {\n  width: 100%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.8);\n  position: absolute;\n  bottom: 0;\n  left: 0;\n}\n.percent .percent-inner[data-v-3a211969] {\n    height: 4px;\n    background: #20a0ff;\n    width: 0;\n}\nh3[data-v-3a211969] {\n  padding: 10px 15px;\n  border: 1px solid #eee;\n  margin: 0;\n  position: relative;\n}\n.bottom[data-v-3a211969] {\n  position: relative;\n  padding: 10px 15px;\n  border-top: 1px solid #eee;\n}\n.save-btn[data-v-3a211969] {\n  position: absolute;\n  right: 15px;\n  top: 10px;\n}\n.panel-mask[data-v-3a211969] {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.1);\n  position: absolute;\n}\n.ok[data-v-3a211969] {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n}\n@media (max-width: 1300px) {\n.panel[data-v-3a211969] {\n    margin-top: 50px;\n}\n}\n", "", {"version":3,"sources":["/Users/jump/GitHub/vue-image-uploader/src/uploader.scss"],"names":[],"mappings":";AAAA;EACE,YAAY;EACZ,0BAA0B;EAC1B,sBAAsB;EACtB,aAAa;EACb,cAAc;EACd,UAAU;EACV,mBAAmB;EACnB,gBAAgB;EAChB,mBAAmB;EACnB,gBAAgB;EAChB,sBAAsB;CAAE;AAE1B;EACE,uBAAuB;EACvB,mBAAmB;EACnB,aAAa;CAAE;AAEjB;EACE,OAAO;EACP,UAAU;EACV,QAAQ;EACR,SAAS;EACT,+BAA+B;EAC/B,gBAAgB;CAAE;AAEpB;EACE,mBAAmB;EACnB,kBAAkB;CAAE;AAEtB;EACE,aAAa;EACb,kBAAkB;EAClB,YAAY;EACZ,0BAA0B;EAC1B,mBAAmB;CAAE;AACrB;IACE,mBAAmB;IACnB,kBAAkB;IAClB,SAAS;IACT,OAAO;IACP,gBAAgB;IAChB,YAAY;IACZ,gBAAgB;CAAE;AAEtB;EACE,cAAc;EACd,eAAe;EACf,cAAc;EACd,iBAAiB;CAAE;AACnB;IACE,aAAa;IACb,eAAe;CAAE;AACnB;IACE,YAAY;CAAE;AAElB;EACE,YAAY;EACZ,iBAAiB;EACjB,mBAAmB;EACnB,mBAAmB;EACnB,uBAAuB;EACvB,uBAAuB;EACvB,aAAa;EACb,cAAc;EACd,sBAAsB;EACtB,oBAAoB;CAAE;AACtB;IACE,+BAA+B;IAC/B,aAAa;IACb,mBAAmB;IACnB,OAAO;IACP,QAAQ;IACR,YAAY;IACZ,gBAAgB;IAChB,aAAa;IACb,uBAAuB;IACvB,gBAAgB;IAChB,kBAAkB;CAAE;AACtB;IACE,aAAa;CAAE;AACjB;IACE,mBAAmB;IACnB,SAAS;IACT,UAAU;IACV,eAAe;IACf,YAAY;IACZ,kBAAkB;IAClB,mBAAmB;CAAE;AAEzB;EACE,YAAY;EACZ,YAAY;EACZ,qCAAqC;EACrC,mBAAmB;EACnB,UAAU;EACV,QAAQ;CAAE;AACV;IACE,YAAY;IACZ,oBAAoB;IACpB,SAAS;CAAE;AAEf;EACE,mBAAmB;EACnB,uBAAuB;EACvB,UAAU;EACV,mBAAmB;CAAE;AAEvB;EACE,mBAAmB;EACnB,mBAAmB;EACnB,2BAA2B;CAAE;AAE/B;EACE,mBAAmB;EACnB,YAAY;EACZ,UAAU;CAAE;AAEd;EACE,OAAO;EACP,UAAU;EACV,QAAQ;EACR,SAAS;EACT,+BAA+B;EAC/B,mBAAmB;CAAE;AAEvB;EACE,mBAAmB;EACnB,UAAU;EACV,SAAS;CAAE;AAEb;AACE;IACE,iBAAiB;CAAE;CAAE","file":"uploader.scss","sourcesContent":[".btn {\n  color: #fff;\n  background-color: #20a0ff;\n  border-color: #20a0ff;\n  border: none;\n  outline: none;\n  margin: 0;\n  padding: 10px 15px;\n  font-size: 14px;\n  border-radius: 4px;\n  cursor: pointer;\n  display: inline-block; }\n\n.btn-disable {\n  background-color: #eee;\n  border-color: #eee;\n  color: black; }\n\n.mask {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed; }\n\n.place-holder {\n  text-align: center;\n  margin-top: 200px; }\n\n.panel {\n  width: 750px;\n  background: white;\n  color: #333;\n  margin: 100px auto 0 auto;\n  position: relative; }\n  .panel .close {\n    position: absolute;\n    padding: 1px 15px;\n    right: 0;\n    top: 0;\n    font-size: 28px;\n    color: gray;\n    cursor: pointer; }\n\n.image-list {\n  height: 500px;\n  overflow: auto;\n  padding: 15px;\n  padding-right: 0; }\n  .image-list:before, .image-list:after {\n    content: \" \";\n    display: table; }\n  .image-list:after {\n    clear: both; }\n\n.image-item {\n  float: left;\n  overflow: hidden;\n  position: relative;\n  text-align: center;\n  border: 1px solid #eee;\n  box-sizing: border-box;\n  width: 140px;\n  height: 140px;\n  margin: 1px 1px 1px 0;\n  vertical-align: top; }\n  .image-item .title {\n    background: rgba(0, 0, 0, 0.8);\n    color: white;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    font-size: 14px;\n    padding: 5px;\n    box-sizing: border-box;\n    cursor: pointer;\n    user-select: none; }\n  .image-item .cover {\n    height: 100%; }\n  .image-item .loader {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    display: block;\n    width: 44px;\n    margin-top: -24px;\n    margin-left: -22px; }\n\n.percent {\n  width: 100%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.8);\n  position: absolute;\n  bottom: 0;\n  left: 0; }\n  .percent .percent-inner {\n    height: 4px;\n    background: #20a0ff;\n    width: 0; }\n\nh3 {\n  padding: 10px 15px;\n  border: 1px solid #eee;\n  margin: 0;\n  position: relative; }\n\n.bottom {\n  position: relative;\n  padding: 10px 15px;\n  border-top: 1px solid #eee; }\n\n.save-btn {\n  position: absolute;\n  right: 15px;\n  top: 10px; }\n\n.panel-mask {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.1);\n  position: absolute; }\n\n.ok {\n  position: absolute;\n  bottom: 0;\n  right: 0; }\n\n@media (max-width: 1300px) {\n  .panel {\n    margin-top: 50px; } }\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.btn[data-v-3a211969] {\n  color: #fff;\n  background-color: #20a0ff;\n  border-color: #20a0ff;\n  border: none;\n  outline: none;\n  margin: 0;\n  padding: 10px 15px;\n  font-size: 14px;\n  border-radius: 4px;\n  cursor: pointer;\n  display: inline-block;\n}\n.btn-disable[data-v-3a211969] {\n  background-color: #eee;\n  border-color: #eee;\n  color: black;\n}\n.mask[data-v-3a211969] {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n}\n.place-holder[data-v-3a211969] {\n  text-align: center;\n  margin-top: 200px;\n}\n.panel[data-v-3a211969] {\n  width: 750px;\n  background: white;\n  color: #333;\n  margin: 100px auto 0 auto;\n  position: relative;\n}\n.panel .close[data-v-3a211969] {\n    position: absolute;\n    padding: 1px 15px;\n    right: 0;\n    top: 0;\n    font-size: 28px;\n    color: gray;\n    cursor: pointer;\n}\n.image-list[data-v-3a211969] {\n  height: 500px;\n  overflow: auto;\n  padding: 15px;\n  padding-right: 0;\n}\n.image-list[data-v-3a211969]:before, .image-list[data-v-3a211969]:after {\n    content: \" \";\n    display: table;\n}\n.image-list[data-v-3a211969]:after {\n    clear: both;\n}\n.image-item[data-v-3a211969] {\n  float: left;\n  overflow: hidden;\n  position: relative;\n  text-align: center;\n  border: 1px solid #eee;\n  box-sizing: border-box;\n  width: 140px;\n  height: 140px;\n  margin: 1px 1px 1px 0;\n  vertical-align: top;\n}\n.image-item .title[data-v-3a211969] {\n    background: rgba(0, 0, 0, 0.8);\n    color: white;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    font-size: 14px;\n    padding: 5px;\n    box-sizing: border-box;\n    cursor: pointer;\n    user-select: none;\n}\n.image-item .cover[data-v-3a211969] {\n    height: 100%;\n}\n.image-item .loader[data-v-3a211969] {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    display: block;\n    width: 44px;\n    margin-top: -24px;\n    margin-left: -22px;\n}\n.percent[data-v-3a211969] {\n  width: 100%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.8);\n  position: absolute;\n  bottom: 0;\n  left: 0;\n}\n.percent .percent-inner[data-v-3a211969] {\n    height: 4px;\n    background: #20a0ff;\n    width: 0;\n}\nh3[data-v-3a211969] {\n  padding: 10px 15px;\n  border: 1px solid #eee;\n  margin: 0;\n  position: relative;\n}\n.bottom[data-v-3a211969] {\n  position: relative;\n  padding: 10px 15px;\n  border-top: 1px solid #eee;\n}\n.save-btn[data-v-3a211969] {\n  position: absolute;\n  right: 15px;\n  top: 10px;\n}\n.panel-mask[data-v-3a211969] {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.1);\n  position: absolute;\n}\n.ok[data-v-3a211969] {\n  position: absolute;\n  bottom: 3px;\n  right: 5px;\n  width: 32px;\n}\n@media (max-width: 1300px) {\n.panel[data-v-3a211969] {\n    margin-top: 50px;\n}\n}\n", "", {"version":3,"sources":["/Users/jump/GitHub/vue-image-uploader/src/uploader.scss"],"names":[],"mappings":";AAAA;EACE,YAAY;EACZ,0BAA0B;EAC1B,sBAAsB;EACtB,aAAa;EACb,cAAc;EACd,UAAU;EACV,mBAAmB;EACnB,gBAAgB;EAChB,mBAAmB;EACnB,gBAAgB;EAChB,sBAAsB;CAAE;AAE1B;EACE,uBAAuB;EACvB,mBAAmB;EACnB,aAAa;CAAE;AAEjB;EACE,OAAO;EACP,UAAU;EACV,QAAQ;EACR,SAAS;EACT,+BAA+B;EAC/B,gBAAgB;CAAE;AAEpB;EACE,mBAAmB;EACnB,kBAAkB;CAAE;AAEtB;EACE,aAAa;EACb,kBAAkB;EAClB,YAAY;EACZ,0BAA0B;EAC1B,mBAAmB;CAAE;AACrB;IACE,mBAAmB;IACnB,kBAAkB;IAClB,SAAS;IACT,OAAO;IACP,gBAAgB;IAChB,YAAY;IACZ,gBAAgB;CAAE;AAEtB;EACE,cAAc;EACd,eAAe;EACf,cAAc;EACd,iBAAiB;CAAE;AACnB;IACE,aAAa;IACb,eAAe;CAAE;AACnB;IACE,YAAY;CAAE;AAElB;EACE,YAAY;EACZ,iBAAiB;EACjB,mBAAmB;EACnB,mBAAmB;EACnB,uBAAuB;EACvB,uBAAuB;EACvB,aAAa;EACb,cAAc;EACd,sBAAsB;EACtB,oBAAoB;CAAE;AACtB;IACE,+BAA+B;IAC/B,aAAa;IACb,mBAAmB;IACnB,OAAO;IACP,QAAQ;IACR,YAAY;IACZ,gBAAgB;IAChB,aAAa;IACb,uBAAuB;IACvB,gBAAgB;IAChB,kBAAkB;CAAE;AACtB;IACE,aAAa;CAAE;AACjB;IACE,mBAAmB;IACnB,SAAS;IACT,UAAU;IACV,eAAe;IACf,YAAY;IACZ,kBAAkB;IAClB,mBAAmB;CAAE;AAEzB;EACE,YAAY;EACZ,YAAY;EACZ,qCAAqC;EACrC,mBAAmB;EACnB,UAAU;EACV,QAAQ;CAAE;AACV;IACE,YAAY;IACZ,oBAAoB;IACpB,SAAS;CAAE;AAEf;EACE,mBAAmB;EACnB,uBAAuB;EACvB,UAAU;EACV,mBAAmB;CAAE;AAEvB;EACE,mBAAmB;EACnB,mBAAmB;EACnB,2BAA2B;CAAE;AAE/B;EACE,mBAAmB;EACnB,YAAY;EACZ,UAAU;CAAE;AAEd;EACE,OAAO;EACP,UAAU;EACV,QAAQ;EACR,SAAS;EACT,+BAA+B;EAC/B,mBAAmB;CAAE;AAEvB;EACE,mBAAmB;EACnB,YAAY;EACZ,WAAW;EACX,YAAY;CAAE;AAEhB;AACE;IACE,iBAAiB;CAAE;CAAE","file":"uploader.scss","sourcesContent":[".btn {\n  color: #fff;\n  background-color: #20a0ff;\n  border-color: #20a0ff;\n  border: none;\n  outline: none;\n  margin: 0;\n  padding: 10px 15px;\n  font-size: 14px;\n  border-radius: 4px;\n  cursor: pointer;\n  display: inline-block; }\n\n.btn-disable {\n  background-color: #eee;\n  border-color: #eee;\n  color: black; }\n\n.mask {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed; }\n\n.place-holder {\n  text-align: center;\n  margin-top: 200px; }\n\n.panel {\n  width: 750px;\n  background: white;\n  color: #333;\n  margin: 100px auto 0 auto;\n  position: relative; }\n  .panel .close {\n    position: absolute;\n    padding: 1px 15px;\n    right: 0;\n    top: 0;\n    font-size: 28px;\n    color: gray;\n    cursor: pointer; }\n\n.image-list {\n  height: 500px;\n  overflow: auto;\n  padding: 15px;\n  padding-right: 0; }\n  .image-list:before, .image-list:after {\n    content: \" \";\n    display: table; }\n  .image-list:after {\n    clear: both; }\n\n.image-item {\n  float: left;\n  overflow: hidden;\n  position: relative;\n  text-align: center;\n  border: 1px solid #eee;\n  box-sizing: border-box;\n  width: 140px;\n  height: 140px;\n  margin: 1px 1px 1px 0;\n  vertical-align: top; }\n  .image-item .title {\n    background: rgba(0, 0, 0, 0.8);\n    color: white;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    font-size: 14px;\n    padding: 5px;\n    box-sizing: border-box;\n    cursor: pointer;\n    user-select: none; }\n  .image-item .cover {\n    height: 100%; }\n  .image-item .loader {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    display: block;\n    width: 44px;\n    margin-top: -24px;\n    margin-left: -22px; }\n\n.percent {\n  width: 100%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.8);\n  position: absolute;\n  bottom: 0;\n  left: 0; }\n  .percent .percent-inner {\n    height: 4px;\n    background: #20a0ff;\n    width: 0; }\n\nh3 {\n  padding: 10px 15px;\n  border: 1px solid #eee;\n  margin: 0;\n  position: relative; }\n\n.bottom {\n  position: relative;\n  padding: 10px 15px;\n  border-top: 1px solid #eee; }\n\n.save-btn {\n  position: absolute;\n  right: 15px;\n  top: 10px; }\n\n.panel-mask {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.1);\n  position: absolute; }\n\n.ok {\n  position: absolute;\n  bottom: 3px;\n  right: 5px;\n  width: 32px; }\n\n@media (max-width: 1300px) {\n  .panel {\n    margin-top: 50px; } }\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -1651,7 +1673,7 @@ exports = module.exports = __webpack_require__(4)(true);
 
 
 // module
-exports.push([module.i, "\n.btn[data-v-dc035eee] {\n  color: #fff;\n  background-color: #20a0ff;\n  border-color: #20a0ff;\n  border: none;\n  outline: none;\n  margin: 0;\n  padding: 10px 15px;\n  font-size: 14px;\n  border-radius: 4px;\n  cursor: pointer;\n  display: inline-block;\n}\n.btn-disable[data-v-dc035eee] {\n  background-color: #eee;\n  border-color: #eee;\n  color: black;\n}\n.mask[data-v-dc035eee] {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n}\n.place-holder[data-v-dc035eee] {\n  text-align: center;\n  margin-top: 200px;\n}\n.panel[data-v-dc035eee] {\n  width: 750px;\n  background: white;\n  color: #333;\n  margin: 100px auto 0 auto;\n  position: relative;\n}\n.panel .close[data-v-dc035eee] {\n    position: absolute;\n    padding: 1px 15px;\n    right: 0;\n    top: 0;\n    font-size: 28px;\n    color: gray;\n    cursor: pointer;\n}\n.image-list[data-v-dc035eee] {\n  height: 500px;\n  overflow: auto;\n  padding: 15px;\n  padding-right: 0;\n}\n.image-list[data-v-dc035eee]:before, .image-list[data-v-dc035eee]:after {\n    content: \" \";\n    display: table;\n}\n.image-list[data-v-dc035eee]:after {\n    clear: both;\n}\n.image-item[data-v-dc035eee] {\n  float: left;\n  overflow: hidden;\n  position: relative;\n  text-align: center;\n  border: 1px solid #eee;\n  box-sizing: border-box;\n  width: 140px;\n  height: 140px;\n  margin: 1px 1px 1px 0;\n  vertical-align: top;\n}\n.image-item .title[data-v-dc035eee] {\n    background: rgba(0, 0, 0, 0.8);\n    color: white;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    font-size: 14px;\n    padding: 5px;\n    box-sizing: border-box;\n    cursor: pointer;\n    user-select: none;\n}\n.image-item .cover[data-v-dc035eee] {\n    height: 100%;\n}\n.image-item .loader[data-v-dc035eee] {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    display: block;\n    width: 44px;\n    margin-top: -24px;\n    margin-left: -22px;\n}\n.percent[data-v-dc035eee] {\n  width: 100%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.8);\n  position: absolute;\n  bottom: 0;\n  left: 0;\n}\n.percent .percent-inner[data-v-dc035eee] {\n    height: 4px;\n    background: #20a0ff;\n    width: 0;\n}\nh3[data-v-dc035eee] {\n  padding: 10px 15px;\n  border: 1px solid #eee;\n  margin: 0;\n  position: relative;\n}\n.bottom[data-v-dc035eee] {\n  position: relative;\n  padding: 10px 15px;\n  border-top: 1px solid #eee;\n}\n.save-btn[data-v-dc035eee] {\n  position: absolute;\n  right: 15px;\n  top: 10px;\n}\n.panel-mask[data-v-dc035eee] {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.1);\n  position: absolute;\n}\n.ok[data-v-dc035eee] {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n}\n@media (max-width: 1300px) {\n.panel[data-v-dc035eee] {\n    margin-top: 50px;\n}\n}\n", "", {"version":3,"sources":["/Users/jump/GitHub/vue-image-uploader/src/uploader.scss"],"names":[],"mappings":";AAAA;EACE,YAAY;EACZ,0BAA0B;EAC1B,sBAAsB;EACtB,aAAa;EACb,cAAc;EACd,UAAU;EACV,mBAAmB;EACnB,gBAAgB;EAChB,mBAAmB;EACnB,gBAAgB;EAChB,sBAAsB;CAAE;AAE1B;EACE,uBAAuB;EACvB,mBAAmB;EACnB,aAAa;CAAE;AAEjB;EACE,OAAO;EACP,UAAU;EACV,QAAQ;EACR,SAAS;EACT,+BAA+B;EAC/B,gBAAgB;CAAE;AAEpB;EACE,mBAAmB;EACnB,kBAAkB;CAAE;AAEtB;EACE,aAAa;EACb,kBAAkB;EAClB,YAAY;EACZ,0BAA0B;EAC1B,mBAAmB;CAAE;AACrB;IACE,mBAAmB;IACnB,kBAAkB;IAClB,SAAS;IACT,OAAO;IACP,gBAAgB;IAChB,YAAY;IACZ,gBAAgB;CAAE;AAEtB;EACE,cAAc;EACd,eAAe;EACf,cAAc;EACd,iBAAiB;CAAE;AACnB;IACE,aAAa;IACb,eAAe;CAAE;AACnB;IACE,YAAY;CAAE;AAElB;EACE,YAAY;EACZ,iBAAiB;EACjB,mBAAmB;EACnB,mBAAmB;EACnB,uBAAuB;EACvB,uBAAuB;EACvB,aAAa;EACb,cAAc;EACd,sBAAsB;EACtB,oBAAoB;CAAE;AACtB;IACE,+BAA+B;IAC/B,aAAa;IACb,mBAAmB;IACnB,OAAO;IACP,QAAQ;IACR,YAAY;IACZ,gBAAgB;IAChB,aAAa;IACb,uBAAuB;IACvB,gBAAgB;IAChB,kBAAkB;CAAE;AACtB;IACE,aAAa;CAAE;AACjB;IACE,mBAAmB;IACnB,SAAS;IACT,UAAU;IACV,eAAe;IACf,YAAY;IACZ,kBAAkB;IAClB,mBAAmB;CAAE;AAEzB;EACE,YAAY;EACZ,YAAY;EACZ,qCAAqC;EACrC,mBAAmB;EACnB,UAAU;EACV,QAAQ;CAAE;AACV;IACE,YAAY;IACZ,oBAAoB;IACpB,SAAS;CAAE;AAEf;EACE,mBAAmB;EACnB,uBAAuB;EACvB,UAAU;EACV,mBAAmB;CAAE;AAEvB;EACE,mBAAmB;EACnB,mBAAmB;EACnB,2BAA2B;CAAE;AAE/B;EACE,mBAAmB;EACnB,YAAY;EACZ,UAAU;CAAE;AAEd;EACE,OAAO;EACP,UAAU;EACV,QAAQ;EACR,SAAS;EACT,+BAA+B;EAC/B,mBAAmB;CAAE;AAEvB;EACE,mBAAmB;EACnB,UAAU;EACV,SAAS;CAAE;AAEb;AACE;IACE,iBAAiB;CAAE;CAAE","file":"uploader.scss","sourcesContent":[".btn {\n  color: #fff;\n  background-color: #20a0ff;\n  border-color: #20a0ff;\n  border: none;\n  outline: none;\n  margin: 0;\n  padding: 10px 15px;\n  font-size: 14px;\n  border-radius: 4px;\n  cursor: pointer;\n  display: inline-block; }\n\n.btn-disable {\n  background-color: #eee;\n  border-color: #eee;\n  color: black; }\n\n.mask {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed; }\n\n.place-holder {\n  text-align: center;\n  margin-top: 200px; }\n\n.panel {\n  width: 750px;\n  background: white;\n  color: #333;\n  margin: 100px auto 0 auto;\n  position: relative; }\n  .panel .close {\n    position: absolute;\n    padding: 1px 15px;\n    right: 0;\n    top: 0;\n    font-size: 28px;\n    color: gray;\n    cursor: pointer; }\n\n.image-list {\n  height: 500px;\n  overflow: auto;\n  padding: 15px;\n  padding-right: 0; }\n  .image-list:before, .image-list:after {\n    content: \" \";\n    display: table; }\n  .image-list:after {\n    clear: both; }\n\n.image-item {\n  float: left;\n  overflow: hidden;\n  position: relative;\n  text-align: center;\n  border: 1px solid #eee;\n  box-sizing: border-box;\n  width: 140px;\n  height: 140px;\n  margin: 1px 1px 1px 0;\n  vertical-align: top; }\n  .image-item .title {\n    background: rgba(0, 0, 0, 0.8);\n    color: white;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    font-size: 14px;\n    padding: 5px;\n    box-sizing: border-box;\n    cursor: pointer;\n    user-select: none; }\n  .image-item .cover {\n    height: 100%; }\n  .image-item .loader {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    display: block;\n    width: 44px;\n    margin-top: -24px;\n    margin-left: -22px; }\n\n.percent {\n  width: 100%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.8);\n  position: absolute;\n  bottom: 0;\n  left: 0; }\n  .percent .percent-inner {\n    height: 4px;\n    background: #20a0ff;\n    width: 0; }\n\nh3 {\n  padding: 10px 15px;\n  border: 1px solid #eee;\n  margin: 0;\n  position: relative; }\n\n.bottom {\n  position: relative;\n  padding: 10px 15px;\n  border-top: 1px solid #eee; }\n\n.save-btn {\n  position: absolute;\n  right: 15px;\n  top: 10px; }\n\n.panel-mask {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.1);\n  position: absolute; }\n\n.ok {\n  position: absolute;\n  bottom: 0;\n  right: 0; }\n\n@media (max-width: 1300px) {\n  .panel {\n    margin-top: 50px; } }\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.btn[data-v-dc035eee] {\n  color: #fff;\n  background-color: #20a0ff;\n  border-color: #20a0ff;\n  border: none;\n  outline: none;\n  margin: 0;\n  padding: 10px 15px;\n  font-size: 14px;\n  border-radius: 4px;\n  cursor: pointer;\n  display: inline-block;\n}\n.btn-disable[data-v-dc035eee] {\n  background-color: #eee;\n  border-color: #eee;\n  color: black;\n}\n.mask[data-v-dc035eee] {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed;\n}\n.place-holder[data-v-dc035eee] {\n  text-align: center;\n  margin-top: 200px;\n}\n.panel[data-v-dc035eee] {\n  width: 750px;\n  background: white;\n  color: #333;\n  margin: 100px auto 0 auto;\n  position: relative;\n}\n.panel .close[data-v-dc035eee] {\n    position: absolute;\n    padding: 1px 15px;\n    right: 0;\n    top: 0;\n    font-size: 28px;\n    color: gray;\n    cursor: pointer;\n}\n.image-list[data-v-dc035eee] {\n  height: 500px;\n  overflow: auto;\n  padding: 15px;\n  padding-right: 0;\n}\n.image-list[data-v-dc035eee]:before, .image-list[data-v-dc035eee]:after {\n    content: \" \";\n    display: table;\n}\n.image-list[data-v-dc035eee]:after {\n    clear: both;\n}\n.image-item[data-v-dc035eee] {\n  float: left;\n  overflow: hidden;\n  position: relative;\n  text-align: center;\n  border: 1px solid #eee;\n  box-sizing: border-box;\n  width: 140px;\n  height: 140px;\n  margin: 1px 1px 1px 0;\n  vertical-align: top;\n}\n.image-item .title[data-v-dc035eee] {\n    background: rgba(0, 0, 0, 0.8);\n    color: white;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    font-size: 14px;\n    padding: 5px;\n    box-sizing: border-box;\n    cursor: pointer;\n    user-select: none;\n}\n.image-item .cover[data-v-dc035eee] {\n    height: 100%;\n}\n.image-item .loader[data-v-dc035eee] {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    display: block;\n    width: 44px;\n    margin-top: -24px;\n    margin-left: -22px;\n}\n.percent[data-v-dc035eee] {\n  width: 100%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.8);\n  position: absolute;\n  bottom: 0;\n  left: 0;\n}\n.percent .percent-inner[data-v-dc035eee] {\n    height: 4px;\n    background: #20a0ff;\n    width: 0;\n}\nh3[data-v-dc035eee] {\n  padding: 10px 15px;\n  border: 1px solid #eee;\n  margin: 0;\n  position: relative;\n}\n.bottom[data-v-dc035eee] {\n  position: relative;\n  padding: 10px 15px;\n  border-top: 1px solid #eee;\n}\n.save-btn[data-v-dc035eee] {\n  position: absolute;\n  right: 15px;\n  top: 10px;\n}\n.panel-mask[data-v-dc035eee] {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.1);\n  position: absolute;\n}\n.ok[data-v-dc035eee] {\n  position: absolute;\n  bottom: 3px;\n  right: 5px;\n  width: 32px;\n}\n@media (max-width: 1300px) {\n.panel[data-v-dc035eee] {\n    margin-top: 50px;\n}\n}\n", "", {"version":3,"sources":["/Users/jump/GitHub/vue-image-uploader/src/uploader.scss"],"names":[],"mappings":";AAAA;EACE,YAAY;EACZ,0BAA0B;EAC1B,sBAAsB;EACtB,aAAa;EACb,cAAc;EACd,UAAU;EACV,mBAAmB;EACnB,gBAAgB;EAChB,mBAAmB;EACnB,gBAAgB;EAChB,sBAAsB;CAAE;AAE1B;EACE,uBAAuB;EACvB,mBAAmB;EACnB,aAAa;CAAE;AAEjB;EACE,OAAO;EACP,UAAU;EACV,QAAQ;EACR,SAAS;EACT,+BAA+B;EAC/B,gBAAgB;CAAE;AAEpB;EACE,mBAAmB;EACnB,kBAAkB;CAAE;AAEtB;EACE,aAAa;EACb,kBAAkB;EAClB,YAAY;EACZ,0BAA0B;EAC1B,mBAAmB;CAAE;AACrB;IACE,mBAAmB;IACnB,kBAAkB;IAClB,SAAS;IACT,OAAO;IACP,gBAAgB;IAChB,YAAY;IACZ,gBAAgB;CAAE;AAEtB;EACE,cAAc;EACd,eAAe;EACf,cAAc;EACd,iBAAiB;CAAE;AACnB;IACE,aAAa;IACb,eAAe;CAAE;AACnB;IACE,YAAY;CAAE;AAElB;EACE,YAAY;EACZ,iBAAiB;EACjB,mBAAmB;EACnB,mBAAmB;EACnB,uBAAuB;EACvB,uBAAuB;EACvB,aAAa;EACb,cAAc;EACd,sBAAsB;EACtB,oBAAoB;CAAE;AACtB;IACE,+BAA+B;IAC/B,aAAa;IACb,mBAAmB;IACnB,OAAO;IACP,QAAQ;IACR,YAAY;IACZ,gBAAgB;IAChB,aAAa;IACb,uBAAuB;IACvB,gBAAgB;IAChB,kBAAkB;CAAE;AACtB;IACE,aAAa;CAAE;AACjB;IACE,mBAAmB;IACnB,SAAS;IACT,UAAU;IACV,eAAe;IACf,YAAY;IACZ,kBAAkB;IAClB,mBAAmB;CAAE;AAEzB;EACE,YAAY;EACZ,YAAY;EACZ,qCAAqC;EACrC,mBAAmB;EACnB,UAAU;EACV,QAAQ;CAAE;AACV;IACE,YAAY;IACZ,oBAAoB;IACpB,SAAS;CAAE;AAEf;EACE,mBAAmB;EACnB,uBAAuB;EACvB,UAAU;EACV,mBAAmB;CAAE;AAEvB;EACE,mBAAmB;EACnB,mBAAmB;EACnB,2BAA2B;CAAE;AAE/B;EACE,mBAAmB;EACnB,YAAY;EACZ,UAAU;CAAE;AAEd;EACE,OAAO;EACP,UAAU;EACV,QAAQ;EACR,SAAS;EACT,+BAA+B;EAC/B,mBAAmB;CAAE;AAEvB;EACE,mBAAmB;EACnB,YAAY;EACZ,WAAW;EACX,YAAY;CAAE;AAEhB;AACE;IACE,iBAAiB;CAAE;CAAE","file":"uploader.scss","sourcesContent":[".btn {\n  color: #fff;\n  background-color: #20a0ff;\n  border-color: #20a0ff;\n  border: none;\n  outline: none;\n  margin: 0;\n  padding: 10px 15px;\n  font-size: 14px;\n  border-radius: 4px;\n  cursor: pointer;\n  display: inline-block; }\n\n.btn-disable {\n  background-color: #eee;\n  border-color: #eee;\n  color: black; }\n\n.mask {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.5);\n  position: fixed; }\n\n.place-holder {\n  text-align: center;\n  margin-top: 200px; }\n\n.panel {\n  width: 750px;\n  background: white;\n  color: #333;\n  margin: 100px auto 0 auto;\n  position: relative; }\n  .panel .close {\n    position: absolute;\n    padding: 1px 15px;\n    right: 0;\n    top: 0;\n    font-size: 28px;\n    color: gray;\n    cursor: pointer; }\n\n.image-list {\n  height: 500px;\n  overflow: auto;\n  padding: 15px;\n  padding-right: 0; }\n  .image-list:before, .image-list:after {\n    content: \" \";\n    display: table; }\n  .image-list:after {\n    clear: both; }\n\n.image-item {\n  float: left;\n  overflow: hidden;\n  position: relative;\n  text-align: center;\n  border: 1px solid #eee;\n  box-sizing: border-box;\n  width: 140px;\n  height: 140px;\n  margin: 1px 1px 1px 0;\n  vertical-align: top; }\n  .image-item .title {\n    background: rgba(0, 0, 0, 0.8);\n    color: white;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    font-size: 14px;\n    padding: 5px;\n    box-sizing: border-box;\n    cursor: pointer;\n    user-select: none; }\n  .image-item .cover {\n    height: 100%; }\n  .image-item .loader {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    display: block;\n    width: 44px;\n    margin-top: -24px;\n    margin-left: -22px; }\n\n.percent {\n  width: 100%;\n  height: 4px;\n  background: rgba(255, 255, 255, 0.8);\n  position: absolute;\n  bottom: 0;\n  left: 0; }\n  .percent .percent-inner {\n    height: 4px;\n    background: #20a0ff;\n    width: 0; }\n\nh3 {\n  padding: 10px 15px;\n  border: 1px solid #eee;\n  margin: 0;\n  position: relative; }\n\n.bottom {\n  position: relative;\n  padding: 10px 15px;\n  border-top: 1px solid #eee; }\n\n.save-btn {\n  position: absolute;\n  right: 15px;\n  top: 10px; }\n\n.panel-mask {\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: rgba(0, 0, 0, 0.1);\n  position: absolute; }\n\n.ok {\n  position: absolute;\n  bottom: 3px;\n  right: 5px;\n  width: 32px; }\n\n@media (max-width: 1300px) {\n  .panel {\n    margin-top: 50px; } }\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -2025,6 +2047,11 @@ var vueUploader$1 = unwrapExports(vueUploader);
 
 var template$3 = "<div> <image-uploader :show-progress=\"true\" :show=\"true\" :url=\"serverUrl\" @finish=\"onFinish\"></image-uploader> </div>";
 
+// uploader.upload()
+
+/**
+ * Created by peak on 2017/2/10.
+ */
 var dashboard$3 = {
     template: template$3,
     components: {
@@ -2049,14 +2076,16 @@ var dashboard$3 = {
         onFinish: function onFinish(files) {
             var self = this;
             var config = self.$options.module.config;
-            var returnUrl = 'fileUrl';
+            var returnUrl = 'path';
             if (config.returnUrl){
                 returnUrl = config.returnUrl;
             }
             self.$parent.dashboard = null;
+            var urlAr = [];
             files.forEach(function (item) {
-                self.insertImg(item[returnUrl]);
+                urlAr.push(item[returnUrl]);
             });
+            this.insertImg(urlAr);
         },
         insertImg: function insertImg(url) {
             this.$parent.execCommand(Command.INSERT_IMAGE, url);
@@ -2064,6 +2093,10 @@ var dashboard$3 = {
     }
 };
 
+/**
+ * insert image
+ * Created by peak on 16/8/18.
+ */
 var image = {
     name: 'image',
     icon: 'fa fa-file-image-o',
@@ -2076,6 +2109,9 @@ var image = {
 
 var template$4 = "<div> <h3 style=\"text-align: center\">Vue-html5-editor&nbsp;{{version}}</h3> <p style=\"text-align: center\"> repository: <a href=\"https://github.com/PeakTai/vue-html5-editor\" target=\"_blank\"> https://github.com/PeakTai/vue-html5-editor </a> </p> </div> ";
 
+/**
+ * Created by peak on 2017/2/10.
+ */
 var dashboard$4 = {
     template: template$4,
     data: function data(){
@@ -2136,6 +2172,9 @@ var link = {
 
 var template$6 = "<div> <button type=\"button\" @click=\"$parent.execCommand('insertOrderedList')\"> {{$parent.locale[\"ordered list\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('insertUnorderedList')\"> {{$parent.locale[\"unordered list\"]}} </button> </div>";
 
+/**
+ * Created by peak on 2017/2/10.
+ */
 var dashboard$6 = {
     template: template$6
 };
@@ -2153,6 +2192,9 @@ var list = {
 
 var template$7 = "<form @submit.prevent=\"insertTable\"> <label> {{$parent.locale[\"row count\"]}} <input type=\"number\" style=\"width: 60px\" maxlength=\"2\" min=\"2\" max=\"10\" v-model=\"rows\"> </label> <label> {{$parent.locale[\"column count\"]}} <input type=\"number\" style=\"width: 60px\" maxlength=\"2\" min=\"2\" max=\"10\" v-model=\"cols\"> </label> <button type=\"submit\">{{$parent.locale.save}}</button> </form>";
 
+/**
+ * Created by peak on 2017/2/10.
+ */
 var dashboard$7 = {
     template: template$7,
     data: function data(){
@@ -2186,6 +2228,10 @@ var dashboard$7 = {
     }
 };
 
+/**
+ * insert table
+ * Created by peak on 16/8/18.
+ */
 var table = {
     // can not named table
     // dashboard.html will add to editor as a child component and named as module name
@@ -2196,7 +2242,7 @@ var table = {
     dashboard: dashboard$7
 };
 
-var template$8 = "<div> <button type=\"button\" @click=\"$parent.execCommand('bold')\">{{$parent.locale[\"bold\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('italic')\">{{$parent.locale[\"italic\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('underline')\">{{$parent.locale[\"underline\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('strikeThrough')\">{{$parent.locale[\"strike through\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('subscript')\">{{$parent.locale[\"subscript\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('superscript')\">{{$parent.locale[\"superscript\"]}}</button> </div> ";
+var template$8 = "<div> <button type=\"button\" @click=\"$parent.execCommand('bold')\">{{$parent.locale[\"bold\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('italic')\">{{$parent.locale[\"italic\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('underline')\">{{$parent.locale[\"underline\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('strikeThrough')\">{{$parent.locale[\"strike through\"]}} </button> <!-- <button type=\"button\" @click=\"$parent.execCommand('subscript')\">{{$parent.locale[\"subscript\"]}}</button>\n    <button type=\"button\" @click=\"$parent.execCommand('superscript')\">{{$parent.locale[\"superscript\"]}}</button> --> </div> ";
 
 var dashboard$8 = {
     template: template$8
@@ -2274,17 +2320,26 @@ var dashboard$9 = {
             if (config.returnUrl){
                 returnUrl = config.returnUrl;
             }
-            self.$parent.dashboard = null;
+            var urlAr = [];
             files.forEach(function (item) {
-                self.insertImg(item[returnUrl],item.video_path);
+                urlAr.push({
+                    url: item[returnUrl],
+                    videoUrl: item.video_path
+                });
             });
+
+            self.$parent.dashboard = null;
+            this.insertImg(urlAr);
         },
-        insertImg: function insertImg(url,videoUrl) {
-            this.$parent.execCommand(Command.INSERT_VIDEO, url,videoUrl);
+        insertImg: function insertImg(urlAr) {
+            this.$parent.execCommand(Command.INSERT_VIDEO, urlAr);
         }
     }
 };
 
+/**
+ * insert video
+ */
 var video = {
     name: 'video',
     icon: 'fa fa-file-video-o',
@@ -2295,6 +2350,23 @@ var video = {
     dashboard: dashboard$9
 };
 
+/**
+ * undo
+ * Created by peak on 16/8/20.
+ */
+var indent = {
+    name: 'indent',
+    icon: 'fa-indent fa',
+    i18n: 'indent',
+    handler: function handler(editor) {
+        editor.execCommand('indent');
+    }
+};
+
+/**
+ * build-in moduls
+ * Created by peak on 2016/11/1.
+ */
 var buildInModules = [
     text,
     color,
@@ -2305,6 +2377,7 @@ var buildInModules = [
     unlink,
     table,
     image,
+    indent,
     hr,
     eraser,
     undo,
@@ -2330,6 +2403,7 @@ var mergeArray = function (sourceArr, extArr) {
 
 /**
  * find all the descendant text nodes of a element
+ * 获得所有文本节点
  * @param ancestor
  */
 var getDescendantTextNodes = function (ancestor) {
@@ -2446,7 +2520,16 @@ var isInlineElement = function (node) {
         'FONT', 'IMG', 'S', 'SMALL', 'SPAN', 'STRIKE', 'STRONG', 'U', 'SUB', 'SUP'];
     return inlineNodeNames.includes(node.nodeName)
 };
+/**
+ * is headline
+ * @param {*} node
+ */
 
+function getSelection(){
+    return window.getSelection ? window.getSelection() : document.getSelection()
+}
+
+// for IE 11
 if (!Text.prototype.contains) {
     Text.prototype.contains = function contains(otherNode) {
         return this === otherNode
@@ -2457,11 +2540,13 @@ if (!Text.prototype.contains) {
 /**
  * Created by peak on 2017/2/14.
  */
-var RangeHandler = function RangeHandler(range) {
+var RangeHandler = function RangeHandler(range,editor) {
     if (!range || !(range instanceof Range)) {
         throw new TypeError('cant\'t resolve range')
     }
     this.range = range;
+    this.editor = editor;
+    this.rootElement = editor.$refs.content;
 };
 
 
@@ -2559,6 +2644,23 @@ RangeHandler.prototype.execCommand = function execCommand (command, arg) {
         }
         case Command.FONT_NAME: {
             document.execCommand(Command.FONT_NAME, false, arg);
+            break
+        }
+        case Command.INDENT: {
+            var range = this.range;
+            var parentNode = range.startContainer.parentNode;
+            if (parentNode === this.rootElement){
+                parentNode = range.startContainer;
+            }
+            // h1等标签不能缩进
+            if (parentNode.tagName === 'DIV'){
+                if (parentNode.style.textIndent){
+                    parentNode.style.textIndent = '';
+                } else {
+                    parentNode.style.textIndent = '2em';
+                }
+            }
+
             break
         }
         case Command.FONT_SIZE: {
@@ -2678,26 +2780,25 @@ RangeHandler.prototype.execCommand = function execCommand (command, arg) {
         }
         case Command.INSERT_IMAGE: {
             // const id = `img-random${Math.random()}`
-            var img = "<img src='" + arg + "' class=\"vue-editor-image\" >";
+            var img = '';
+            if (typeof arg === 'string'){
+                img = "<img src=\"" + arg + "\" class=\"vue-editor-image\" >";
+            }
+            if (typeof arg === 'object'){
+                arg.forEach(function (item) {
+                    img += "<img src=\"" + item + "\" class=\"vue-editor-image\" >";
+                });
+            }
+
             document.execCommand('insertHTML', false, img);
-            // document.getElementsByClassName('vue-editor-image').forEach((item) => {
-            // if (item.src === arg){
-            //     return item
-            // }
-            // })
             break
         }
         case Command.INSERT_VIDEO: {
-            // const id = `img-random${Math.random()}`
-            var url = arguments[1];
-            var videoPath = arguments[2];
-            var img$1 = "<img src=\"" + url + "\" _url=\"" + videoPath + "\" class=\"vue-editor-video-preview\" >";
-            document.execCommand('insertHTML', false, img$1);
-            // document.getElementsByClassName('vue-editor-image').forEach((item) => {
-            // if (item.src === arg){
-            //     return item
-            // }
-            // })
+            var video = '';
+            arg.forEach(function (item) {
+                video += "<img data-url=\"" + (item.videoUrl) + "\" class=\"video-poster\" src=\"" + (item.url) + "\">";
+            });
+            document.execCommand('insertHTML', false, video);
             break
         }
         case Command.CREATE_LINK: {
@@ -2768,7 +2869,7 @@ RangeHandler.prototype.execCommand = function execCommand (command, arg) {
     }
 };
 
-__$styleInject(".vue-html5-editor,.vue-html5-editor *{box-sizing:border-box}.vue-html5-editor{font-size:14px;background-color:#fff;color:#333;border:1px solid #ddd;text-align:left;border-radius:5px;overflow:hidden}.vue-html5-editor.full-screen{position:fixed!important;top:0!important;left:0!important;bottom:0!important;right:0!important;border-radius:0}.vue-html5-editor>.toolbar{position:relative;background-color:inherit}.vue-html5-editor>.toolbar>ul{list-style:none;padding:0;margin:0;border-bottom:1px solid #ddd}.vue-html5-editor>.toolbar>ul>li{display:inline-block;cursor:pointer;text-align:center;padding:8px 10px}.vue-html5-editor>.toolbar>ul>li .icon{height:16px;width:16px;display:inline-block;vertical-align:middle}.vue-html5-editor>.toolbar>.dashboard{background-color:inherit;border-bottom:1px solid #ddd;padding:10px;position:absolute;top:100%;left:0;right:0;overflow:auto}.vue-html5-editor>.toolbar>.dashboard input[type=text],.vue-html5-editor>.toolbar>.dashboard input[type=number],.vue-html5-editor>.toolbar>.dashboard select{padding:6px 12px;color:inherit;background-color:transparent;border:1px solid #ddd;border-radius:5px}.vue-html5-editor>.toolbar>.dashboard input[type=text]:hover,.vue-html5-editor>.toolbar>.dashboard input[type=number]:hover,.vue-html5-editor>.toolbar>.dashboard select:hover{border-color:#bebebe}.vue-html5-editor>.toolbar>.dashboard input[type=text][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=text][readonly],.vue-html5-editor>.toolbar>.dashboard input[type=number][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=number][readonly],.vue-html5-editor>.toolbar>.dashboard select[disabled],.vue-html5-editor>.toolbar>.dashboard select[readonly]{background-color:#eee;opacity:1}.vue-html5-editor>.toolbar>.dashboard input[type=text][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=number][disabled],.vue-html5-editor>.toolbar>.dashboard select[disabled]{cursor:not-allowed}.vue-html5-editor>.toolbar>.dashboard button{color:inherit;background-color:inherit;padding:6px 12px;white-space:nowrap;vertical-align:middle;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border:1px solid #ddd;border-radius:5px;margin-right:4px;margin-bottom:4px}.vue-html5-editor>.toolbar>.dashboard button:hover{border-color:#bebebe}.vue-html5-editor>.toolbar>.dashboard button[disabled]{cursor:not-allowed;opacity:.68}.vue-html5-editor>.toolbar>.dashboard button:last-child{margin-right:0}.vue-html5-editor>.toolbar>.dashboard label{font-weight:bolder}.vue-html5-editor>.content{overflow:auto;padding:10px}.vue-html5-editor>.content:focus{outline:0}",undefined);
+__$styleInject(".vue-html5-editor,.vue-html5-editor *{box-sizing:border-box}.video-poster{width:100%;border:1px solid #eee;position:relative}.video-poster:after{width:100px;height:100px;position:absolute;border:1px solid;content:' '}.vue-html5-editor{font-size:14px;background-color:#fff;color:#333;border:1px solid #ddd;text-align:left;border-radius:5px;overflow:hidden}.vue-html5-editor.full-screen{position:fixed!important;top:0!important;left:0!important;bottom:0!important;right:0!important;border-radius:0}.vue-html5-editor>.toolbar{position:relative;background-color:inherit}.vue-html5-editor>.toolbar>ul{list-style:none;padding:0;margin:0;border-bottom:1px solid #ddd}.vue-html5-editor>.toolbar>ul>li{display:inline-block;cursor:pointer;text-align:center;padding:8px 10px}.vue-html5-editor>.toolbar>ul>li .icon{height:16px;width:16px;display:inline-block;vertical-align:middle}.vue-html5-editor>.toolbar>.dashboard{background-color:inherit;border-bottom:1px solid #ddd;padding:10px;position:absolute;top:100%;left:0;right:0;overflow:auto}.vue-html5-editor>.toolbar>.dashboard input[type=text],.vue-html5-editor>.toolbar>.dashboard input[type=number],.vue-html5-editor>.toolbar>.dashboard select{padding:6px 12px;color:inherit;background-color:transparent;border:1px solid #ddd;border-radius:5px}.vue-html5-editor>.toolbar>.dashboard input[type=text]:hover,.vue-html5-editor>.toolbar>.dashboard input[type=number]:hover,.vue-html5-editor>.toolbar>.dashboard select:hover{border-color:#bebebe}.vue-html5-editor>.toolbar>.dashboard input[type=text][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=text][readonly],.vue-html5-editor>.toolbar>.dashboard input[type=number][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=number][readonly],.vue-html5-editor>.toolbar>.dashboard select[disabled],.vue-html5-editor>.toolbar>.dashboard select[readonly]{background-color:#eee;opacity:1}.vue-html5-editor>.toolbar>.dashboard input[type=text][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=number][disabled],.vue-html5-editor>.toolbar>.dashboard select[disabled]{cursor:not-allowed}.vue-html5-editor>.toolbar>.dashboard button{color:inherit;background-color:inherit;padding:6px 12px;white-space:nowrap;vertical-align:middle;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border:1px solid #ddd;border-radius:5px;margin-right:4px;margin-bottom:4px}.vue-html5-editor>.toolbar>.dashboard button:hover{border-color:#bebebe}.vue-html5-editor>.toolbar>.dashboard button[disabled]{cursor:not-allowed;opacity:.68}.vue-html5-editor>.toolbar>.dashboard button:last-child{margin-right:0}.vue-html5-editor>.toolbar>.dashboard label{font-weight:bolder}.vue-html5-editor>.content{overflow:auto;padding:15px 25px}.vue-html5-editor>.content:focus{outline:0}",undefined);
 
 var template$10 = "<div class=\"vue-html5-editor\" :class=\"{'full-screen':fullScreen}\" :style=\"{'z-index':zIndex}\"> <div class=\"toolbar\" :style=\"{'z-index':zIndex+1}\" ref=\"toolbar\"> <ul> <template v-for=\"module in modules\"> <li :title=\"locale[module.i18n]\" @click=\"activeModule(module)\"> <span class=\"icon\" :class=\"module.icon\"></span> <template v-if=\"showModuleName === undefined ? defaultShowModuleName : showModuleName\"> &nbsp;{{locale[module.i18n]}} </template> </li> </template> </ul> <div class=\"dashboard\" v-show=\"dashboard\" ref=\"dashboard\"> <keep-alive> <div v-show=\"dashboard\" :is=\"dashboard\"></div> </keep-alive> </div> </div> <div class=\"content\" ref=\"content\" :style=\"contentStyle\" contenteditable @click=\"toggleDashboard(dashboard)\"> </div> </div>";
 
@@ -2807,6 +2908,9 @@ function onPaste(e){
     }
 }
 
+/**
+ * Created by peak on 2017/2/9.
+ */
 var editor = {
     template: template$10,
     props: {
@@ -2857,8 +2961,9 @@ var editor = {
     watch: {
         content: function content(val) {
             var content = this.$refs.content.innerHTML;
-            if (val !== content) {
-                this.$refs.content.innerHTML = val;
+            var convertVal = this.convertToInnerHtml(val);
+            if (convertVal !== content) {
+                this.$refs.content.innerHTML = convertVal;
             }
         },
         fullScreen: function fullScreen(val) {
@@ -2892,6 +2997,13 @@ var editor = {
         }
     },
     methods: {
+        // updateContent(val) {
+        //     const content = this.$refs.content.innerHTML
+        //     const convertVal = this.convertToInnerHtml(val)
+        //     if (convertVal !== content) {
+        //         this.$refs.content.innerHTML = convertVal
+        //     }
+        // },
         toggleFullScreen: function toggleFullScreen() {
             this.fullScreen = !this.fullScreen;
         },
@@ -2913,14 +3025,15 @@ var editor = {
 
             this.restoreSelection();
             if (this.range) {
-                var handler = new RangeHandler(this.range);
+                var handler = new RangeHandler(this.range,this);
                 handler.execCommand.apply(handler, [ command ].concat( arg ));
             }
             this.toggleDashboard();
             // https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events
             // 通过触发input 实现数据同步
-            this.$emit('input', this.$refs.content.innerHTML);
-            this.$emit('change', this.$refs.content.innerHTML);
+            var newConent = this.convertToContent(this.$refs.content.innerHTML);
+            this.$emit('input', newConent);
+            this.$emit('change', newConent);
         },
         getCurrentRange: function getCurrentRange() {
             return this.range
@@ -2928,7 +3041,7 @@ var editor = {
         saveCurrentRange: function saveCurrentRange() {
             var this$1 = this;
 
-            var selection = window.getSelection ? window.getSelection() : document.getSelection();
+            var selection = getSelection();
             if (!selection.rangeCount) {
                 return
             }
@@ -2947,7 +3060,7 @@ var editor = {
             }
         },
         restoreSelection: function restoreSelection() {
-            var selection = window.getSelection ? window.getSelection() : document.getSelection();
+            var selection = getSelection();
             selection.removeAllRanges();
             if (this.range) {
                 selection.addRange(this.range);
@@ -2970,16 +3083,59 @@ var editor = {
             if (module.hasDashboard) {
                 this.toggleDashboard(("dashboard-" + (module.name)));
             }
+        },
+        convertToInnerHtml: function convertToInnerHtml(content){
+            // 为空返回一个br保证所有的文字都在div中
+            if (content === ''){
+                return '<div><br/></div>'
+            }
+            // 当是纯文本的时候包括在div中
+            if (content.indexOf('<') === -1){
+                return ("<div>" + content + "</div>")
+            }
+            var str = content.replace(/<video .*?poster="(.*?)".*?src="(.*?)".*?>.*?<\/video>/ig,function ($0,$1,$2) { return ("<img data-url=\"" + $2 + "\" class=\"video-poster\" src=\"" + $1 + "\">"); });
+            return str
+        },
+        convertToContent: function convertToContent(html){
+            var ar = html.match(/<img .*?>/);
+            var videoPreviewArray = [];
+            if (ar){
+                ar.forEach(function (item) {
+                    if (item.indexOf('class="video-poster"') >= 0){
+                        var str = item.replace(/<img .*?data-url="(.*?)".*?class="video-poster".*?src="(.*?)">/ig,function ($0,$1,$2) { return ("<video poster=\"" + $2 + "\" src=\"" + $1 + "\" controls></video>"); });
+                        videoPreviewArray.push({
+                            replaceStr: item,
+                            newStr: str
+                        });
+                    }
+                });
+                var returnStr = '';
+                videoPreviewArray.forEach(function (item) {
+                    if (returnStr){
+                        returnStr = returnStr.replace(item.replaceStr,item.newStr);
+                    } else {
+                        returnStr = html.replace(item.replaceStr,item.newStr);
+                    }
+                });
+                // const str = html.replace(/<img .*?data-url="(.*?)".*?class="video-poster".*?src="(.*?)">/ig,($0,$1,$2) =>
+                //  `<video poster="${$2}" src="${$1}" controls></video>`)
+                        return returnStr
+            }
+                return html
         }
     },
     created: function created() {
         var this$1 = this;
 
         var newModules = [];
-        if (this.toolbars.length > 0){
+        var toolbars = this.toolbars;
+        var editor = this;
+        var editorDom = editor.$refs.content;
+        if (toolbars.length > 0){
             this.modules.forEach(function (item) {
-                if (this$1.toolbars.indexOf(item.name) > 0){
-                    newModules.push(item);
+                var index = toolbars.indexOf(item.name);
+                if (index > -1){
+                    newModules[index] = item;
                 }
             });
             this.modules = newModules;
@@ -2996,10 +3152,29 @@ var editor = {
 
         var editor = this;
         var content = this.$refs.content;
-        content.innerHTML = this.content;
+        content.innerHTML = this.convertToInnerHtml(this.content);
         content.addEventListener('mouseup', this.saveCurrentRange, false);
+        content.addEventListener('keyup',function (e) {
+            var key = e.which;
+            if (key === 9){
+                 console.log('tab');
+                 e.preventDefault();
+            }
+            // 回车
+            if (key === 13){
+             // console.log('enter')
+             // editor.execCommand('insertHTML','<p></p>')
+             // e.preventDefault()
+            }
+            // 删除键
+            if (key === 8){
+             if (content.innerHTML === '' || content.innerHTML === '<br>'){
+                content.innerHTML = '<div><br></div>';
+             }
+            }
+         });
         content.addEventListener('keyup', function () {
-            this$1.$emit('change', content.innerHTML);
+            this$1.$emit('change', this$1.convertToContent(content.innerHTML));
             this$1.saveCurrentRange();
         }, false);
         content.addEventListener('mouseout', function (e) {
@@ -3076,6 +3251,7 @@ var i18nZhCn = {
     align: '对齐方式',
     image: '图片',
     images: '图片',
+    indent: '缩进',
     list: '列表',
     link: '链接',
     unlink: '去除链接',
@@ -3116,6 +3292,7 @@ var i18nZhCn = {
     reset: '重置',
     hr: '分隔线',
     undo: '撤消',
+
     'line height': '行高',
     'exceed size limit': '超出大小限制'
 };
@@ -3123,6 +3300,7 @@ var i18nZhCn = {
 var i18nEnUs = {
     align: 'align',
     image: 'image',
+    indent: 'indent',
     list: 'list',
     link: 'link',
     unlink: 'unlink',

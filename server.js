@@ -42,12 +42,12 @@ app.post('/file/uploading', (req, res, next) => {
       'content-type': 'text/plain;charset=utf-8'
     })
     // 随机生成一个延迟
-    const timeout = Math.ceil(Math.random() * 5) + 2
-    if (timeout > 5) {
+    const timeout = Math.ceil(Math.random() * 5)
+    if (timeout > 4) {
       res.end('{"success":false}')
     } else {
       setTimeout(() => {
-        res.end(`{"success":true,"fileUrl":"${dstPath.replace('./server', '')}"}`)
+        res.end(`{"success":true,"video_path":"${dstPath.replace('./server', '')}","path":"/files/1.png"}`)
       }, timeout * 1000)
     }
   })

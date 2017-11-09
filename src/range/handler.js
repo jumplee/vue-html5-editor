@@ -24,11 +24,13 @@ export default class RangeHandler {
      * build range handler
      * @param {Range} range
      */
-    constructor(range) {
+    constructor(range,editor) {
         if (!range || !(range instanceof Range)) {
             throw new TypeError('cant\'t resolve range')
         }
         this.range = range
+        this.editor = editor
+        this.rootElement = editor.$refs.content
     }
 
 
@@ -124,6 +126,23 @@ export default class RangeHandler {
             }
             case Command.FONT_NAME: {
                 document.execCommand(Command.FONT_NAME, false, arg)
+                break
+            }
+            case Command.INDENT: {
+                const range = this.range
+                let parentNode = range.startContainer.parentNode
+                if (parentNode === this.rootElement){
+                    parentNode = range.startContainer
+                }
+                // h1等标签不能缩进
+                if (parentNode.tagName === 'DIV'){
+                    if (parentNode.style.textIndent){
+                        parentNode.style.textIndent = ''
+                    } else {
+                        parentNode.style.textIndent = '2em'
+                    }
+                }
+
                 break
             }
             case Command.FONT_SIZE: {
@@ -243,26 +262,25 @@ export default class RangeHandler {
             }
             case Command.INSERT_IMAGE: {
                 // const id = `img-random${Math.random()}`
-                const img = `<img src='${arg}' class="vue-editor-image" >`
+                let img = ''
+                if (typeof arg === 'string'){
+                    img = `<img src="${arg}" class="vue-editor-image" >`
+                }
+                if (typeof arg === 'object'){
+                    arg.forEach((item) => {
+                        img += `<img src="${item}" class="vue-editor-image" >`
+                    })
+                }
+
                 document.execCommand('insertHTML', false, img)
-                // document.getElementsByClassName('vue-editor-image').forEach((item) => {
-                //     if (item.src === arg){
-                //         return item
-                //     }
-                // })
                 break
             }
             case Command.INSERT_VIDEO: {
-                // const id = `img-random${Math.random()}`
-                const url = arguments[1]
-                const videoPath = arguments[2]
-                const img = `<img src="${url}" _url="${videoPath}" class="vue-editor-video-preview" >`
-                document.execCommand('insertHTML', false, img)
-                // document.getElementsByClassName('vue-editor-image').forEach((item) => {
-                //     if (item.src === arg){
-                //         return item
-                //     }
-                // })
+                let video = ''
+                arg.forEach((item) => {
+                    video += `<img data-url="${item.videoUrl}" class="video-poster" src="${item.url}">`
+                })
+                document.execCommand('insertHTML', false, video)
                 break
             }
             case Command.CREATE_LINK: {

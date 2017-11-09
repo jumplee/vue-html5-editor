@@ -48,13 +48,11 @@
                 i18n: "time",
                 show: true,
                 init: function (editor) {
-                    alert("time module init, config is \r\n" + JSON.stringify(this.config))
                 },
                 handler: function (editor) {
                     editor.execCommand("insertHTML", moment().format(this.config.format || "YYYY-MM-DD HH:mm"))
                 },
                 destroyed: function (editor) {
-                    alert("time module destroyed")
                 }
             },
             {
@@ -105,12 +103,18 @@
             }
         ]
     })
-    new Vue({
+    var app=new Vue({
         el: "#app",
         data: {
-            content: "<h3>vue html5 editor</h3>",
+            content: "你好",
+        },
+        methods:{
+            
         }
     })
+    // setTimeout(function(){
+    //     app.content=''
+    // },1000)
 </script>
 </body>
 </html>

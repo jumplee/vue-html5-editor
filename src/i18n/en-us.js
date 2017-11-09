@@ -1,6 +1,7 @@
 export default {
     align: 'align',
     image: 'image',
+    indent: 'indent',
     list: 'list',
     link: 'link',
     unlink: 'unlink',

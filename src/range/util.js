@@ -15,6 +15,7 @@ export const mergeArray = (sourceArr, extArr) => {
 
 /**
  * find all the descendant text nodes of a element
+ * 获得所有文本节点
  * @param ancestor
  */
 export const getDescendantTextNodes = (ancestor) => {
@@ -130,4 +131,15 @@ export const isInlineElement = (node) => {
     const inlineNodeNames = ['A', 'ABBR', 'ACRONYM', 'B', 'CITE', 'CODE', 'EM', 'I',
         'FONT', 'IMG', 'S', 'SMALL', 'SPAN', 'STRIKE', 'STRONG', 'U', 'SUB', 'SUP']
     return inlineNodeNames.includes(node.nodeName)
+}
+/**
+ * is headline
+ * @param {*} node
+ */
+export function isHead(node){
+    const headNames = ['H1','H2','H3','H4','H5','H6']
+    return headNames.includes(node.nodeName)
+}
+export function getSelection(){
+    return window.getSelection ? window.getSelection() : document.getSelection()
 }

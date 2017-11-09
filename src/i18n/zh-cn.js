@@ -2,6 +2,7 @@ export default {
     align: '对齐方式',
     image: '图片',
     images: '图片',
+    indent: '缩进',
     list: '列表',
     link: '链接',
     unlink: '去除链接',
@@ -42,6 +43,7 @@ export default {
     reset: '重置',
     hr: '分隔线',
     undo: '撤消',
+
     'line height': '行高',
     'exceed size limit': '超出大小限制'
 }
