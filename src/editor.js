@@ -184,7 +184,6 @@ export default {
             if (content.indexOf('<') === -1){
                 return `<div>${content}</div>`
             }
-            debugger
             const str = content.replace(/<video .*?poster="(.*?)".*?src="(.*?)".*?>.*?<\/video>/ig,($0,$1,$2) => `<img data-url="${$2}" class="video-poster" src="${$1}">`)
             return str
         },
@@ -192,7 +191,6 @@ export default {
             const ar = html.match(/<img .*?>/ig)
             const videoPreviewArray = []
             if (ar){
-                debugger
                 ar.forEach((item) => {
                     if (item.indexOf('class="video-poster"') >= 0){
                         const str = item.replace(/<img .*?data-url="(.*?)".*?class="video-poster".*?src="(.*?)">/ig,($0,$1,$2) =>
