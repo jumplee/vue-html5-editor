@@ -14,6 +14,9 @@ import undo from './undo/index'
 import unlink from './unlink/index'
 import video from './video/index'
 import indent from './indent/index'
+import center from './align/center'
+import right from './align/right'
+import left from './align/left'
 /**
  * build-in moduls
  * Created by peak on 2016/11/1.
@@ -34,5 +37,8 @@ export default [
     undo,
     fullScreen,
     info,
-    video
+    video,
+    center,
+    right,
+    left
 ]

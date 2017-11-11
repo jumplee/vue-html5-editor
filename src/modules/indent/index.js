@@ -1,6 +1,6 @@
 /**
- * undo
- * Created by peak on 16/8/20.
+ * indent
+ * 缩进功能
  */
 export default {
     name: 'indent',

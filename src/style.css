@@ -11,19 +11,7 @@
     |    └── .dashboard.html
     └──.content
 */
-    .video-poster {
-      width: 100%;
-      border: 1px solid #eee;
-      position:relative;
- 
-    }
-        .video-poster:after{
-        width:100px;
-        height:100px;
-        position:absolute;
-        border:1px solid;
-        content:' '
-      }
+
 .vue-html5-editor {
   font-size: 14px;
   background-color: white;
@@ -143,7 +131,11 @@
   & > .content {
     overflow: auto;
     padding: 15px 25px;
-
+    .video-poster {
+      width: 100%;
+      border: 1px solid #eee;
+      position:relative;
+    }
     hr{
       border: 1px solid #DFDFDF;
     }

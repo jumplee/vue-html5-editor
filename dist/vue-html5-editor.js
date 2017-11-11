@@ -1,7 +1,7 @@
 /**
  * Vue-html5-editor 1.1.0
  * https://github.com/PeakTai/vue-html5-editor
- * build at Thu Nov 09 2017 18:21:54 GMT+0800 (CST)
+ * build at Sat Nov 11 2017 11:12:31 GMT+0800 (CST)
  */
 
 (function (global, factory) {
@@ -85,9 +85,6 @@ var polyfill = function () {
 
 var template = "<div> <button type=\"button\" @click=\"$parent.execCommand('justifyLeft')\"> {{$parent.locale[\"left justify\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('justifyCenter')\"> {{$parent.locale[\"center justify\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('justifyRight')\"> {{$parent.locale[\"right justify\"]}} </button> </div>";
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard = {
     template: template
 };
@@ -107,9 +104,6 @@ var template$1 = "<div> <div> <label> <input type=\"radio\" value=\"foreColor\" 
 
 __$styleInject(".vue-html5-editor .color-card{margin:2px;width:30px;height:30px;float:left;cursor:pointer}",undefined);
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$1 = {
     template: template$1,
     data: function data(){
@@ -132,10 +126,6 @@ var dashboard$1 = {
     }
 };
 
-/**
- * fore color and back color
- * Created by peak on 16/8/18.
- */
 var color = {
     name: 'color',
     icon: 'fa fa-paint-brush',
@@ -189,9 +179,6 @@ var Command = {
     INDENT: 'indent'
 };
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$2 = {
     template: template$2,
     data: function data(){
@@ -246,10 +233,6 @@ var dashboard$2 = {
     }
 };
 
-/**
- * font name and font size
- * Created by peak on 16/8/18.
- */
 var font = {
     name: 'font',
     icon: 'fa fa-font',
@@ -2047,11 +2030,6 @@ var vueUploader$1 = unwrapExports(vueUploader);
 
 var template$3 = "<div> <image-uploader :show-progress=\"true\" :show=\"true\" :url=\"serverUrl\" @finish=\"onFinish\"></image-uploader> </div>";
 
-// uploader.upload()
-
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$3 = {
     template: template$3,
     components: {
@@ -2093,10 +2071,6 @@ var dashboard$3 = {
     }
 };
 
-/**
- * insert image
- * Created by peak on 16/8/18.
- */
 var image = {
     name: 'image',
     icon: 'fa fa-file-image-o',
@@ -2109,9 +2083,6 @@ var image = {
 
 var template$4 = "<div> <h3 style=\"text-align: center\">Vue-html5-editor&nbsp;{{version}}</h3> <p style=\"text-align: center\"> repository: <a href=\"https://github.com/PeakTai/vue-html5-editor\" target=\"_blank\"> https://github.com/PeakTai/vue-html5-editor </a> </p> </div> ";
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$4 = {
     template: template$4,
     data: function data(){
@@ -2172,9 +2143,6 @@ var link = {
 
 var template$6 = "<div> <button type=\"button\" @click=\"$parent.execCommand('insertOrderedList')\"> {{$parent.locale[\"ordered list\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('insertUnorderedList')\"> {{$parent.locale[\"unordered list\"]}} </button> </div>";
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$6 = {
     template: template$6
 };
@@ -2192,9 +2160,6 @@ var list = {
 
 var template$7 = "<form @submit.prevent=\"insertTable\"> <label> {{$parent.locale[\"row count\"]}} <input type=\"number\" style=\"width: 60px\" maxlength=\"2\" min=\"2\" max=\"10\" v-model=\"rows\"> </label> <label> {{$parent.locale[\"column count\"]}} <input type=\"number\" style=\"width: 60px\" maxlength=\"2\" min=\"2\" max=\"10\" v-model=\"cols\"> </label> <button type=\"submit\">{{$parent.locale.save}}</button> </form>";
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$7 = {
     template: template$7,
     data: function data(){
@@ -2228,10 +2193,6 @@ var dashboard$7 = {
     }
 };
 
-/**
- * insert table
- * Created by peak on 16/8/18.
- */
 var table = {
     // can not named table
     // dashboard.html will add to editor as a child component and named as module name
@@ -2287,11 +2248,6 @@ var unlink = {
 
 var template$9 = "<div> <video-uploader :show-progress=\"true\" :show=\"true\" :url=\"serverUrl\" @finish=\"onFinish\"></video-uploader> </div>";
 
-// uploader.upload()
-
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$9 = {
     template: template$9,
     components: {
@@ -2337,9 +2293,6 @@ var dashboard$9 = {
     }
 };
 
-/**
- * insert video
- */
 var video = {
     name: 'video',
     icon: 'fa fa-file-video-o',
@@ -2351,8 +2304,8 @@ var video = {
 };
 
 /**
- * undo
- * Created by peak on 16/8/20.
+ * indent
+ * 缩进功能
  */
 var indent = {
     name: 'indent',
@@ -2364,9 +2317,44 @@ var indent = {
 };
 
 /**
- * build-in moduls
- * Created by peak on 2016/11/1.
+ * center
+ * 居中功能
  */
+var center = {
+    name: 'justifyCenter',
+    icon: 'fa-align-center fa',
+    i18n: 'center justify',
+    handler: function handler(editor) {
+        editor.execCommand('justifyCenter');
+    }
+};
+
+/**
+ * justifyRight
+ * 居中功能
+ */
+var right = {
+    name: 'justifyRight',
+    icon: 'fa-align-right fa',
+    i18n: 'right justify',
+    handler: function handler(editor) {
+        editor.execCommand('justifyRight');
+    }
+};
+
+/**
+ * justifyLeft
+ * 居中功能
+ */
+var left = {
+    name: 'justifyLeft',
+    icon: 'fa-align-left fa',
+    i18n: 'left justify',
+    handler: function handler(editor) {
+        editor.execCommand('justifyLeft');
+    }
+};
+
 var buildInModules = [
     text,
     color,
@@ -2383,7 +2371,10 @@ var buildInModules = [
     undo,
     fullScreen$1,
     info,
-    video
+    video,
+    center,
+    right,
+    left
 ];
 
 /**
@@ -2648,7 +2639,7 @@ RangeHandler.prototype.execCommand = function execCommand (command, arg) {
         }
         case Command.INDENT: {
             var range = this.range;
-            var parentNode = range.startContainer.parentNode;
+            var parentNode = getParentBlockNode(range.startContainer);
             if (parentNode === this.rootElement){
                 parentNode = range.startContainer;
             }
@@ -2869,7 +2860,7 @@ RangeHandler.prototype.execCommand = function execCommand (command, arg) {
     }
 };
 
-__$styleInject(".vue-html5-editor,.vue-html5-editor *{box-sizing:border-box}.video-poster{width:100%;border:1px solid #eee;position:relative}.video-poster:after{width:100px;height:100px;position:absolute;border:1px solid;content:' '}.vue-html5-editor{font-size:14px;background-color:#fff;color:#333;border:1px solid #ddd;text-align:left;border-radius:5px;overflow:hidden}.vue-html5-editor.full-screen{position:fixed!important;top:0!important;left:0!important;bottom:0!important;right:0!important;border-radius:0}.vue-html5-editor>.toolbar{position:relative;background-color:inherit}.vue-html5-editor>.toolbar>ul{list-style:none;padding:0;margin:0;border-bottom:1px solid #ddd}.vue-html5-editor>.toolbar>ul>li{display:inline-block;cursor:pointer;text-align:center;padding:8px 10px}.vue-html5-editor>.toolbar>ul>li .icon{height:16px;width:16px;display:inline-block;vertical-align:middle}.vue-html5-editor>.toolbar>.dashboard{background-color:inherit;border-bottom:1px solid #ddd;padding:10px;position:absolute;top:100%;left:0;right:0;overflow:auto}.vue-html5-editor>.toolbar>.dashboard input[type=text],.vue-html5-editor>.toolbar>.dashboard input[type=number],.vue-html5-editor>.toolbar>.dashboard select{padding:6px 12px;color:inherit;background-color:transparent;border:1px solid #ddd;border-radius:5px}.vue-html5-editor>.toolbar>.dashboard input[type=text]:hover,.vue-html5-editor>.toolbar>.dashboard input[type=number]:hover,.vue-html5-editor>.toolbar>.dashboard select:hover{border-color:#bebebe}.vue-html5-editor>.toolbar>.dashboard input[type=text][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=text][readonly],.vue-html5-editor>.toolbar>.dashboard input[type=number][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=number][readonly],.vue-html5-editor>.toolbar>.dashboard select[disabled],.vue-html5-editor>.toolbar>.dashboard select[readonly]{background-color:#eee;opacity:1}.vue-html5-editor>.toolbar>.dashboard input[type=text][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=number][disabled],.vue-html5-editor>.toolbar>.dashboard select[disabled]{cursor:not-allowed}.vue-html5-editor>.toolbar>.dashboard button{color:inherit;background-color:inherit;padding:6px 12px;white-space:nowrap;vertical-align:middle;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border:1px solid #ddd;border-radius:5px;margin-right:4px;margin-bottom:4px}.vue-html5-editor>.toolbar>.dashboard button:hover{border-color:#bebebe}.vue-html5-editor>.toolbar>.dashboard button[disabled]{cursor:not-allowed;opacity:.68}.vue-html5-editor>.toolbar>.dashboard button:last-child{margin-right:0}.vue-html5-editor>.toolbar>.dashboard label{font-weight:bolder}.vue-html5-editor>.content{overflow:auto;padding:15px 25px}.vue-html5-editor>.content:focus{outline:0}",undefined);
+__$styleInject(".vue-html5-editor,.vue-html5-editor *{box-sizing:border-box}.vue-html5-editor{font-size:14px;background-color:#fff;color:#333;border:1px solid #ddd;text-align:left;border-radius:5px;overflow:hidden}.vue-html5-editor.full-screen{position:fixed!important;top:0!important;left:0!important;bottom:0!important;right:0!important;border-radius:0}.vue-html5-editor>.toolbar{position:relative;background-color:inherit}.vue-html5-editor>.toolbar>ul{list-style:none;padding:0;margin:0;border-bottom:1px solid #ddd}.vue-html5-editor>.toolbar>ul>li{display:inline-block;cursor:pointer;text-align:center;padding:8px 10px}.vue-html5-editor>.toolbar>ul>li .icon{height:16px;width:16px;display:inline-block;vertical-align:middle}.vue-html5-editor>.toolbar>.dashboard{background-color:inherit;border-bottom:1px solid #ddd;padding:10px;position:absolute;top:100%;left:0;right:0;overflow:auto}.vue-html5-editor>.toolbar>.dashboard input[type=text],.vue-html5-editor>.toolbar>.dashboard input[type=number],.vue-html5-editor>.toolbar>.dashboard select{padding:6px 12px;color:inherit;background-color:transparent;border:1px solid #ddd;border-radius:5px}.vue-html5-editor>.toolbar>.dashboard input[type=text]:hover,.vue-html5-editor>.toolbar>.dashboard input[type=number]:hover,.vue-html5-editor>.toolbar>.dashboard select:hover{border-color:#bebebe}.vue-html5-editor>.toolbar>.dashboard input[type=text][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=text][readonly],.vue-html5-editor>.toolbar>.dashboard input[type=number][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=number][readonly],.vue-html5-editor>.toolbar>.dashboard select[disabled],.vue-html5-editor>.toolbar>.dashboard select[readonly]{background-color:#eee;opacity:1}.vue-html5-editor>.toolbar>.dashboard input[type=text][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=number][disabled],.vue-html5-editor>.toolbar>.dashboard select[disabled]{cursor:not-allowed}.vue-html5-editor>.toolbar>.dashboard button{color:inherit;background-color:inherit;padding:6px 12px;white-space:nowrap;vertical-align:middle;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border:1px solid #ddd;border-radius:5px;margin-right:4px;margin-bottom:4px}.vue-html5-editor>.toolbar>.dashboard button:hover{border-color:#bebebe}.vue-html5-editor>.toolbar>.dashboard button[disabled]{cursor:not-allowed;opacity:.68}.vue-html5-editor>.toolbar>.dashboard button:last-child{margin-right:0}.vue-html5-editor>.toolbar>.dashboard label{font-weight:bolder}.vue-html5-editor>.content{overflow:auto;padding:15px 25px}.vue-html5-editor>.content:focus{outline:0}",undefined);
 
 var template$10 = "<div class=\"vue-html5-editor\" :class=\"{'full-screen':fullScreen}\" :style=\"{'z-index':zIndex}\"> <div class=\"toolbar\" :style=\"{'z-index':zIndex+1}\" ref=\"toolbar\"> <ul> <template v-for=\"module in modules\"> <li :title=\"locale[module.i18n]\" @click=\"activeModule(module)\"> <span class=\"icon\" :class=\"module.icon\"></span> <template v-if=\"showModuleName === undefined ? defaultShowModuleName : showModuleName\"> &nbsp;{{locale[module.i18n]}} </template> </li> </template> </ul> <div class=\"dashboard\" v-show=\"dashboard\" ref=\"dashboard\"> <keep-alive> <div v-show=\"dashboard\" :is=\"dashboard\"></div> </keep-alive> </div> </div> <div class=\"content\" ref=\"content\" :style=\"contentStyle\" contenteditable @click=\"toggleDashboard(dashboard)\"> </div> </div>";
 
@@ -2908,9 +2899,6 @@ function onPaste(e){
     }
 }
 
-/**
- * Created by peak on 2017/2/9.
- */
 var editor = {
     template: template$10,
     props: {
@@ -2944,7 +2932,7 @@ var editor = {
         },
         toolbars: {
             type: Array,
-            default: function default$1(){
+            default: function default$1 () {
                 return []
             }
         }
@@ -3025,7 +3013,7 @@ var editor = {
 
             this.restoreSelection();
             if (this.range) {
-                var handler = new RangeHandler(this.range,this);
+                var handler = new RangeHandler(this.range, this);
                 handler.execCommand.apply(handler, [ command ].concat( arg ));
             }
             this.toggleDashboard();
@@ -3038,6 +3026,9 @@ var editor = {
         getCurrentRange: function getCurrentRange() {
             return this.range
         },
+        /**
+         * 获取当前的光标对象并赋值给this.range
+         */
         saveCurrentRange: function saveCurrentRange() {
             var this$1 = this;
 
@@ -3084,25 +3075,25 @@ var editor = {
                 this.toggleDashboard(("dashboard-" + (module.name)));
             }
         },
-        convertToInnerHtml: function convertToInnerHtml(content){
+        convertToInnerHtml: function convertToInnerHtml(content) {
             // 为空返回一个br保证所有的文字都在div中
-            if (content === ''){
-                return '<div><br/></div>'
+            if (content === '') {
+                return '<p><br/></p>'
             }
             // 当是纯文本的时候包括在div中
-            if (content.indexOf('<') === -1){
-                return ("<div>" + content + "</div>")
+            if (content.indexOf('<') === -1) {
+                return ("<p>" + content + "</p>")
             }
-            var str = content.replace(/<video .*?poster="(.*?)".*?src="(.*?)".*?>.*?<\/video>/ig,function ($0,$1,$2) { return ("<img data-url=\"" + $2 + "\" class=\"video-poster\" src=\"" + $1 + "\">"); });
+            var str = content.replace(/<video .*?poster="(.*?)".*?src="(.*?)".*?>.*?<\/video>/ig, function ($0, $1, $2) { return ("<img data-url=\"" + $2 + "\" class=\"video-poster\" src=\"" + $1 + "\">"); });
             return str
         },
-        convertToContent: function convertToContent(html){
-            var ar = html.match(/<img .*?>/);
+        convertToContent: function convertToContent(html) {
+            var ar = html.match(/<img .*?>/ig);
             var videoPreviewArray = [];
-            if (ar){
+            if (ar) {
                 ar.forEach(function (item) {
-                    if (item.indexOf('class="video-poster"') >= 0){
-                        var str = item.replace(/<img .*?data-url="(.*?)".*?class="video-poster".*?src="(.*?)">/ig,function ($0,$1,$2) { return ("<video poster=\"" + $2 + "\" src=\"" + $1 + "\" controls></video>"); });
+                    if (item.indexOf('class="video-poster"') >= 0) {
+                        var str = item.replace(/<img .*?data-url="(.*?)".*?class="video-poster".*?src="(.*?)">/ig, function ($0, $1, $2) { return ("<video poster=\"" + $2 + "\" src=\"" + $1 + "\" controls></video>"); });
                         videoPreviewArray.push({
                             replaceStr: item,
                             newStr: str
@@ -3111,17 +3102,15 @@ var editor = {
                 });
                 var returnStr = '';
                 videoPreviewArray.forEach(function (item) {
-                    if (returnStr){
-                        returnStr = returnStr.replace(item.replaceStr,item.newStr);
+                    if (returnStr) {
+                        returnStr = returnStr.replace(item.replaceStr, item.newStr);
                     } else {
-                        returnStr = html.replace(item.replaceStr,item.newStr);
+                        returnStr = html.replace(item.replaceStr, item.newStr);
                     }
                 });
-                // const str = html.replace(/<img .*?data-url="(.*?)".*?class="video-poster".*?src="(.*?)">/ig,($0,$1,$2) =>
-                //  `<video poster="${$2}" src="${$1}" controls></video>`)
-                        return returnStr
+                return returnStr
             }
-                return html
+            return html
         }
     },
     created: function created() {
@@ -3131,10 +3120,10 @@ var editor = {
         var toolbars = this.toolbars;
         var editor = this;
         var editorDom = editor.$refs.content;
-        if (toolbars.length > 0){
+        if (toolbars.length > 0) {
             this.modules.forEach(function (item) {
                 var index = toolbars.indexOf(item.name);
-                if (index > -1){
+                if (index > -1) {
                     newModules[index] = item;
                 }
             });
@@ -3154,29 +3143,38 @@ var editor = {
         var content = this.$refs.content;
         content.innerHTML = this.convertToInnerHtml(this.content);
         content.addEventListener('mouseup', this.saveCurrentRange, false);
-        content.addEventListener('keyup',function (e) {
+        content.addEventListener('keyup', function (e) {
             var key = e.which;
-            if (key === 9){
-                 console.log('tab');
-                 e.preventDefault();
+            this$1.$emit('change', this$1.convertToContent(content.innerHTML));
+            //需要在前面执行
+            this$1.saveCurrentRange();
+            var startContainer=this$1.range.startContainer;
+            var endContainer =this$1.range.endContainer;
+            var pNode= getParentBlockNode(startContainer);
+            if (key === 9) {
+                console.log('tab');
+                e.preventDefault();
             }
             // 回车
-            if (key === 13){
-             // console.log('enter')
-             // editor.execCommand('insertHTML','<p></p>')
-             // e.preventDefault()
+            if (key === 13) {
+                // console.log('enter')
+                // editor.execCommand('insertHTML','<p></p>')
+                // e.preventDefault()
             }
             // 删除键
-            if (key === 8){
-             if (content.innerHTML === '' || content.innerHTML === '<br>'){
-                content.innerHTML = '<div><br></div>';
-             }
+            if (key === 8) {
+                
+                if (content.innerHTML === '' || content.innerHTML === '<br>') {
+                    content.innerHTML = '<p><br></p>';
+                }else{
+                    // if(startContainer==endContainer && startContainer.length===0){
+                        
+                    //     pNode.parentNode.removeChild(pNode)
+                    // }
+                }
+                
             }
-         });
-        content.addEventListener('keyup', function () {
-            this$1.$emit('change', this$1.convertToContent(content.innerHTML));
-            this$1.saveCurrentRange();
-        }, false);
+        },false);
         content.addEventListener('mouseout', function (e) {
             if (e.target === content) {
                 this$1.saveCurrentRange();
@@ -3217,18 +3215,18 @@ var editor = {
         });
     },
     // /**
-	// * 将不安全的标签去除
-	//  * @param text
-	//  * @returns {*}
-	//  */
-	// safeHtml(text){
-	// 	// 还不是很完整，待续
-	// 	if (text){
-	// 		return	text.replace(/<script.*>.*<\/script>/ig,'')
-	// 			.replace(/<style.*>.*<\/style>/ig,'')
-	// 	}
+    // * 将不安全的标签去除
+    //  * @param text
+    //  * @returns {*}
+    //  */
+    // safeHtml(text){
+    // 	// 还不是很完整，待续
+    // 	if (text){
+    // 		return	text.replace(/<script.*>.*<\/script>/ig,'')
+    // 			.replace(/<style.*>.*<\/style>/ig,'')
+    // 	}
     //         return text
-	// },
+    // },
     updated: function updated() {
         // update dashboard style
         if (this.$refs.dashboard) {

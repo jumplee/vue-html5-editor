@@ -3,7 +3,9 @@ import './style.css'
 import template from './editor.html'
 import onPaste from './event/onPaste'
 import Command from './range/command'
-import {getSelection} from './range/util'
+import {
+    getSelection, getParentBlockNode
+} from './range/util'
 /**
  * Created by peak on 2017/2/9.
  */
@@ -40,7 +42,7 @@ export default {
         },
         toolbars: {
             type: Array,
-            default(){
+            default () {
                 return []
             }
         }
@@ -115,11 +117,11 @@ export default {
         toggleDashboard(dashboard) {
             this.dashboard = this.dashboard === dashboard ? null : dashboard
         },
-        execCommand(command,...arg) {
+        execCommand(command, ...arg) {
             this.restoreSelection()
             if (this.range) {
-                const handler = new RangeHandler(this.range,this)
-                handler.execCommand(command,...arg)
+                const handler = new RangeHandler(this.range, this)
+                handler.execCommand(command, ...arg)
             }
             this.toggleDashboard()
             // https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events
@@ -131,6 +133,9 @@ export default {
         getCurrentRange() {
             return this.range
         },
+        /**
+         * 获取当前的光标对象并赋值给this.range
+         */
         saveCurrentRange() {
             const selection = getSelection()
             if (!selection.rangeCount) {
@@ -175,26 +180,26 @@ export default {
                 this.toggleDashboard(`dashboard-${module.name}`)
             }
         },
-        convertToInnerHtml(content){
+        convertToInnerHtml(content) {
             // 为空返回一个br保证所有的文字都在div中
-            if (content === ''){
-                return '<div><br/></div>'
+            if (content === '') {
+                return '<p><br/></p>'
             }
             // 当是纯文本的时候包括在div中
-            if (content.indexOf('<') === -1){
-                return `<div>${content}</div>`
+            if (content.indexOf('<') === -1) {
+                return `<p>${content}</p>`
             }
-            const str = content.replace(/<video .*?poster="(.*?)".*?src="(.*?)".*?>.*?<\/video>/ig,($0,$1,$2) => `<img data-url="${$2}" class="video-poster" src="${$1}">`)
+            const str = content.replace(/<video .*?poster="(.*?)".*?src="(.*?)".*?>.*?<\/video>/ig, ($0, $1, $2) => `<img data-url="${$2}" class="video-poster" src="${$1}">`)
             return str
         },
-        convertToContent(html){
+        convertToContent(html) {
             const ar = html.match(/<img .*?>/ig)
             const videoPreviewArray = []
-            if (ar){
+            if (ar) {
                 ar.forEach((item) => {
-                    if (item.indexOf('class="video-poster"') >= 0){
-                        const str = item.replace(/<img .*?data-url="(.*?)".*?class="video-poster".*?src="(.*?)">/ig,($0,$1,$2) =>
-                        `<video poster="${$2}" src="${$1}" controls></video>`)
+                    if (item.indexOf('class="video-poster"') >= 0) {
+                        const str = item.replace(/<img .*?data-url="(.*?)".*?class="video-poster".*?src="(.*?)">/ig, ($0, $1, $2) =>
+                            `<video poster="${$2}" src="${$1}" controls></video>`)
                         videoPreviewArray.push({
                             replaceStr: item,
                             newStr: str
@@ -203,17 +208,15 @@ export default {
                 })
                 let returnStr = ''
                 videoPreviewArray.forEach((item) => {
-                    if (returnStr){
-                        returnStr = returnStr.replace(item.replaceStr,item.newStr)
+                    if (returnStr) {
+                        returnStr = returnStr.replace(item.replaceStr, item.newStr)
                     } else {
-                        returnStr = html.replace(item.replaceStr,item.newStr)
+                        returnStr = html.replace(item.replaceStr, item.newStr)
                     }
                 })
-                // const str = html.replace(/<img .*?data-url="(.*?)".*?class="video-poster".*?src="(.*?)">/ig,($0,$1,$2) =>
-                //  `<video poster="${$2}" src="${$1}" controls></video>`)
-                        return returnStr
+                return returnStr
             }
-                return html
+            return html
         }
     },
     created() {
@@ -221,10 +224,10 @@ export default {
         const toolbars = this.toolbars
         const editor = this
         const editorDom = editor.$refs.content
-        if (toolbars.length > 0){
+        if (toolbars.length > 0) {
             this.modules.forEach((item) => {
                 const index = toolbars.indexOf(item.name)
-                if (index > -1){
+                if (index > -1) {
                     newModules[index] = item
                 }
             })
@@ -242,29 +245,38 @@ export default {
         const content = this.$refs.content
         content.innerHTML = this.convertToInnerHtml(this.content)
         content.addEventListener('mouseup', this.saveCurrentRange, false)
-        content.addEventListener('keyup',(e) => {
+        content.addEventListener('keyup', (e) => {
             const key = e.which
-            if (key === 9){
-                 console.log('tab')
-                 e.preventDefault()
+            this.$emit('change', this.convertToContent(content.innerHTML))
+            //需要在前面执行
+            this.saveCurrentRange()
+            let startContainer=this.range.startContainer
+            let endContainer =this.range.endContainer
+            let pNode= getParentBlockNode(startContainer)
+            if (key === 9) {
+                console.log('tab')
+                e.preventDefault()
             }
             // 回车
-            if (key === 13){
-             // console.log('enter')
-             // editor.execCommand('insertHTML','<p></p>')
-             // e.preventDefault()
+            if (key === 13) {
+                // console.log('enter')
+                // editor.execCommand('insertHTML','<p></p>')
+                // e.preventDefault()
             }
             // 删除键
-            if (key === 8){
-             if (content.innerHTML === '' || content.innerHTML === '<br>'){
-                content.innerHTML = '<div><br></div>'
-             }
+            if (key === 8) {
+                
+                if (content.innerHTML === '' || content.innerHTML === '<br>') {
+                    content.innerHTML = '<p><br></p>'
+                }else{
+                    // if(startContainer==endContainer && startContainer.length===0){
+                        
+                    //     pNode.parentNode.removeChild(pNode)
+                    // }
+                }
+                
             }
-         })
-        content.addEventListener('keyup', () => {
-            this.$emit('change', this.convertToContent(content.innerHTML))
-            this.saveCurrentRange()
-        }, false)
+        },false)
         content.addEventListener('mouseout', (e) => {
             if (e.target === content) {
                 this.saveCurrentRange()
@@ -302,18 +314,18 @@ export default {
         })
     },
     // /**
-	// * 将不安全的标签去除
-	//  * @param text
-	//  * @returns {*}
-	//  */
-	// safeHtml(text){
-	// 	// 还不是很完整，待续
-	// 	if (text){
-	// 		return	text.replace(/<script.*>.*<\/script>/ig,'')
-	// 			.replace(/<style.*>.*<\/style>/ig,'')
-	// 	}
+    // * 将不安全的标签去除
+    //  * @param text
+    //  * @returns {*}
+    //  */
+    // safeHtml(text){
+    // 	// 还不是很完整，待续
+    // 	if (text){
+    // 		return	text.replace(/<script.*>.*<\/script>/ig,'')
+    // 			.replace(/<style.*>.*<\/style>/ig,'')
+    // 	}
     //         return text
-	// },
+    // },
     updated() {
         // update dashboard style
         if (this.$refs.dashboard) {
