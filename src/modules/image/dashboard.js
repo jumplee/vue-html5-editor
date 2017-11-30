@@ -41,7 +41,11 @@ export default {
             files.forEach((item) => {
                 urlAr.push(item[returnUrl])
             })
-            this.insertImg(urlAr)
+            
+            if(urlAr.length>0){
+                this.insertImg(urlAr)
+            }
+            
         },
         insertImg(url) {
             this.$parent.execCommand(Command.INSERT_IMAGE, url)

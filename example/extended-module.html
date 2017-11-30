@@ -41,6 +41,19 @@
         date: {
             format: "YYYY-MM-DD"
         },
+        image: {
+                sizeLimit: 512 * 1024,
+                compress: true,
+                width: 500,
+                height: 500,
+                quality: 80,
+                url: '/file/uploading',
+                returnKey:'fileUrl'
+            },
+            video:{
+                url: '/file/uploading',
+                returnKey:'fileUrl'
+            },
         modules: [
             {
                 name: "date",

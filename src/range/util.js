@@ -143,3 +143,18 @@ export function isHead(node){
 export function getSelection(){
     return window.getSelection ? window.getSelection() : document.getSelection()
 }
+
+// 封装 document.queryCommandValue
+export function queryCommandValue(name) {
+    return document.queryCommandValue(name)
+}
+
+// 封装 document.queryCommandState
+export function queryCommandState(name) {
+    return document.queryCommandState(name)
+}
+
+// 封装 document.queryCommandSupported
+export function queryCommandSupported(name) {
+    return document.queryCommandSupported(name)
+}

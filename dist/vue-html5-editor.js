@@ -1,7 +1,7 @@
 /**
  * Vue-html5-editor 1.1.0
  * https://github.com/PeakTai/vue-html5-editor
- * build at Sat Nov 11 2017 11:12:31 GMT+0800 (CST)
+ * build at Thu Nov 30 2017 16:12:37 GMT+0800 (CST)
  */
 
 (function (global, factory) {
@@ -85,6 +85,9 @@ var polyfill = function () {
 
 var template = "<div> <button type=\"button\" @click=\"$parent.execCommand('justifyLeft')\"> {{$parent.locale[\"left justify\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('justifyCenter')\"> {{$parent.locale[\"center justify\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('justifyRight')\"> {{$parent.locale[\"right justify\"]}} </button> </div>";
 
+/**
+ * Created by peak on 2017/2/10.
+ */
 var dashboard = {
     template: template
 };
@@ -104,6 +107,9 @@ var template$1 = "<div> <div> <label> <input type=\"radio\" value=\"foreColor\" 
 
 __$styleInject(".vue-html5-editor .color-card{margin:2px;width:30px;height:30px;float:left;cursor:pointer}",undefined);
 
+/**
+ * Created by peak on 2017/2/10.
+ */
 var dashboard$1 = {
     template: template$1,
     data: function data(){
@@ -126,6 +132,10 @@ var dashboard$1 = {
     }
 };
 
+/**
+ * fore color and back color
+ * Created by peak on 16/8/18.
+ */
 var color = {
     name: 'color',
     icon: 'fa fa-paint-brush',
@@ -179,6 +189,9 @@ var Command = {
     INDENT: 'indent'
 };
 
+/**
+ * Created by peak on 2017/2/10.
+ */
 var dashboard$2 = {
     template: template$2,
     data: function data(){
@@ -233,6 +246,10 @@ var dashboard$2 = {
     }
 };
 
+/**
+ * font name and font size
+ * Created by peak on 16/8/18.
+ */
 var font = {
     name: 'font',
     icon: 'fa fa-font',
@@ -468,7 +485,12 @@ exports.default = {
     type: Number
   },
   uploadConfig: {
-    timeout: 20
+    default: function _default() {
+      return {
+        timeout: 20
+      };
+    },
+    type: Object
   }
 };
 
@@ -519,7 +541,7 @@ var Uploader = function (_Ctrl) {
       // 向后台传递的参数
       param: {},
       fileParamName: 'file',
-      timeout: 30,
+      timeout: 60 * 5,
       // 只接受类型或者正则
       /**
        * @example
@@ -588,7 +610,7 @@ var Uploader = function (_Ctrl) {
       }
       var options = self.options;
       var xhr = new XMLHttpRequest();
-      // 20秒超时
+      //超时
       xhr.timeout = options.timeout * 1000;
       var formData = new FormData();
       formData.append(options.fileParamName, file.source);
@@ -1421,29 +1443,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
+var newProps = Object.assign({}, __WEBPACK_IMPORTED_MODULE_2__props___default.a, {
+  accept: {
+    type: Array,
+    default: function () {
+      return ['flv', 'mkv', 'avi', 'rm', 'rmvb', 'mpeg', 'mpg', 'ogg', 'ogv', 'mov', 'wmv', 'mp4', 'webm', 'mp3', 'wav'];
+    }
+  },
+  fileAccept: {
+    default: '*'
+  },
+  uploadConfig: {
+    default: function () {
+      return {
+        // 三十分钟等待
+        timeout: 30 * 60
+      };
+    },
+    type: Object
+  }
+});
 /**
  *  
- *  vue的图片上传组件
+ *  vue的视频上传组件
  * 
  */
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: Object.assign({}, __WEBPACK_IMPORTED_MODULE_2__props___default.a, {
-    accept: {
-      type: Array,
-      default: function () {
-        return ['flv', 'mkv', 'avi', 'rm', 'rmvb', 'mpeg', 'mpg', 'ogg', 'ogv', 'mov', 'wmv', 'mp4', 'webm', 'mp3', 'wav'];
-      }
-    },
-    fileAccept: {
-      default: '*'
-    },
-    uploadConfig: {
-      // 二十分钟等待
-      timeout: 20 * 60
-    }
-  }),
+  props: newProps,
   data: function data() {
     return {
       files: [],
@@ -2030,6 +2057,11 @@ var vueUploader$1 = unwrapExports(vueUploader);
 
 var template$3 = "<div> <image-uploader :show-progress=\"true\" :show=\"true\" :url=\"serverUrl\" @finish=\"onFinish\"></image-uploader> </div>";
 
+// uploader.upload()
+
+/**
+ * Created by peak on 2017/2/10.
+ */
 var dashboard$3 = {
     template: template$3,
     components: {
@@ -2063,7 +2095,11 @@ var dashboard$3 = {
             files.forEach(function (item) {
                 urlAr.push(item[returnUrl]);
             });
-            this.insertImg(urlAr);
+            
+            if(urlAr.length>0){
+                this.insertImg(urlAr);
+            }
+            
         },
         insertImg: function insertImg(url) {
             this.$parent.execCommand(Command.INSERT_IMAGE, url);
@@ -2071,6 +2107,10 @@ var dashboard$3 = {
     }
 };
 
+/**
+ * insert image
+ * Created by peak on 16/8/18.
+ */
 var image = {
     name: 'image',
     icon: 'fa fa-file-image-o',
@@ -2083,6 +2123,9 @@ var image = {
 
 var template$4 = "<div> <h3 style=\"text-align: center\">Vue-html5-editor&nbsp;{{version}}</h3> <p style=\"text-align: center\"> repository: <a href=\"https://github.com/PeakTai/vue-html5-editor\" target=\"_blank\"> https://github.com/PeakTai/vue-html5-editor </a> </p> </div> ";
 
+/**
+ * Created by peak on 2017/2/10.
+ */
 var dashboard$4 = {
     template: template$4,
     data: function data(){
@@ -2143,6 +2186,9 @@ var link = {
 
 var template$6 = "<div> <button type=\"button\" @click=\"$parent.execCommand('insertOrderedList')\"> {{$parent.locale[\"ordered list\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('insertUnorderedList')\"> {{$parent.locale[\"unordered list\"]}} </button> </div>";
 
+/**
+ * Created by peak on 2017/2/10.
+ */
 var dashboard$6 = {
     template: template$6
 };
@@ -2160,6 +2206,9 @@ var list = {
 
 var template$7 = "<form @submit.prevent=\"insertTable\"> <label> {{$parent.locale[\"row count\"]}} <input type=\"number\" style=\"width: 60px\" maxlength=\"2\" min=\"2\" max=\"10\" v-model=\"rows\"> </label> <label> {{$parent.locale[\"column count\"]}} <input type=\"number\" style=\"width: 60px\" maxlength=\"2\" min=\"2\" max=\"10\" v-model=\"cols\"> </label> <button type=\"submit\">{{$parent.locale.save}}</button> </form>";
 
+/**
+ * Created by peak on 2017/2/10.
+ */
 var dashboard$7 = {
     template: template$7,
     data: function data(){
@@ -2193,6 +2242,10 @@ var dashboard$7 = {
     }
 };
 
+/**
+ * insert table
+ * Created by peak on 16/8/18.
+ */
 var table = {
     // can not named table
     // dashboard.html will add to editor as a child component and named as module name
@@ -2248,6 +2301,11 @@ var unlink = {
 
 var template$9 = "<div> <video-uploader :show-progress=\"true\" :show=\"true\" :url=\"serverUrl\" @finish=\"onFinish\"></video-uploader> </div>";
 
+// uploader.upload()
+
+/**
+ * Created by peak on 2017/2/10.
+ */
 var dashboard$9 = {
     template: template$9,
     components: {
@@ -2293,6 +2351,9 @@ var dashboard$9 = {
     }
 };
 
+/**
+ * insert video
+ */
 var video = {
     name: 'video',
     icon: 'fa fa-file-video-o',
@@ -2355,6 +2416,10 @@ var left = {
     }
 };
 
+/**
+ * build-in moduls
+ * Created by peak on 2016/11/1.
+ */
 var buildInModules = [
     text,
     color,
@@ -2520,6 +2585,14 @@ function getSelection(){
     return window.getSelection ? window.getSelection() : document.getSelection()
 }
 
+// 封装 document.queryCommandValue
+
+
+// 封装 document.queryCommandState
+
+
+// 封装 document.queryCommandSupported
+
 // for IE 11
 if (!Text.prototype.contains) {
     Text.prototype.contains = function contains(otherNode) {
@@ -2596,6 +2669,16 @@ RangeHandler.prototype.getAllTextNodesInRange = function getAllTextNodesInRange 
     return textNodes
 };
 
+
+RangeHandler.prototype.getParentNode = function getParentNode (){
+    var range = this.range;
+    var parentNode = getParentBlockNode(range.startContainer);
+    debugger
+    if (parentNode === this.rootElement){
+        parentNode = range.startContainer;
+    }
+    return parentNode
+};
 /**
  * execute edit command
  * @param {String} command
@@ -2607,17 +2690,20 @@ RangeHandler.prototype.execCommand = function execCommand (command, arg) {
     switch (command) {
 
         case Command.JUSTIFY_LEFT: {
-            document.execCommand(Command.JUSTIFY_LEFT, false, arg);
+            var parentNode=this.getParentNode();
+            parentNode.style.textAlign='';
             break
         }
 
         case Command.JUSTIFY_RIGHT: {
-            document.execCommand(Command.JUSTIFY_RIGHT, false, arg);
+            var parentNode$1=this.getParentNode();
+            parentNode$1.style.textAlign='right';
             break
         }
 
         case Command.JUSTIFY_CENTER: {
-            document.execCommand(Command.JUSTIFY_CENTER, false, arg);
+            var parentNode$2=this.getParentNode();
+            parentNode$2.style.textAlign='center';
             break
         }
 
@@ -2639,16 +2725,16 @@ RangeHandler.prototype.execCommand = function execCommand (command, arg) {
         }
         case Command.INDENT: {
             var range = this.range;
-            var parentNode = getParentBlockNode(range.startContainer);
-            if (parentNode === this.rootElement){
-                parentNode = range.startContainer;
+            var parentNode$3 = getParentBlockNode(range.startContainer);
+            if (parentNode$3 === this.rootElement){
+                parentNode$3 = range.startContainer;
             }
             // h1等标签不能缩进
-            if (parentNode.tagName === 'DIV'){
-                if (parentNode.style.textIndent){
-                    parentNode.style.textIndent = '';
+            if (parentNode$3.tagName === 'DIV' ||parentNode$3.tagName === 'P'){
+                if (parentNode$3.style.textIndent){
+                    parentNode$3.style.textIndent = '';
                 } else {
-                    parentNode.style.textIndent = '2em';
+                    parentNode$3.style.textIndent = '2em';
                 }
             }
 
@@ -2771,17 +2857,33 @@ RangeHandler.prototype.execCommand = function execCommand (command, arg) {
         }
         case Command.INSERT_IMAGE: {
             // const id = `img-random${Math.random()}`
-            var img = '';
+            var img;
+            var editor=this.editor;
+            var content =this.rootElement;
+            var range$1=this.range;
+            var selection = getSelection();
+            var fragment = document.createDocumentFragment();
             if (typeof arg === 'string'){
-                img = "<img src=\"" + arg + "\" class=\"vue-editor-image\" >";
+                img=document.createElement('img');
+                img.src=arg;
+                img.className='vue-editor-image';
+                var div=document.createElement('p');
+                div.appendChild(img);
+                fragment.appendChild(div);
             }
             if (typeof arg === 'object'){
                 arg.forEach(function (item) {
-                    img += "<img src=\"" + item + "\" class=\"vue-editor-image\" >";
+                    img=document.createElement('img');
+                    img.src=item;
+                    img.className='vue-editor-image';
+                    var div=document.createElement('p');
+                    div.appendChild(img);
+                    fragment.appendChild(div);
                 });
             }
-
-            document.execCommand('insertHTML', false, img);
+            range$1.insertNode(fragment);
+            //将光标聚焦
+            range$1.collapse();
             break
         }
         case Command.INSERT_VIDEO: {
@@ -2809,16 +2911,16 @@ RangeHandler.prototype.execCommand = function execCommand (command, arg) {
                 break
             }
             // hack
-            var fragment = document.createDocumentFragment();
-            var div = document.createElement('div');
-            div.innerHTML = arg;
-            if (div.hasChildNodes()) {
-                for (var i = 0; i < div.childNodes.length; i++) {
-                    fragment.appendChild(div.childNodes[i].cloneNode(true));
+            var fragment$1 = document.createDocumentFragment();
+            var div$1 = document.createElement('div');
+            div$1.innerHTML = arg;
+            if (div$1.hasChildNodes()) {
+                for (var i = 0; i < div$1.childNodes.length; i++) {
+                    fragment$1.appendChild(div$1.childNodes[i].cloneNode(true));
                 }
             }
             this.range.deleteContents();
-            this.range.insertNode(fragment);
+            this.range.insertNode(fragment$1);
             break
         }
         case Command.BOLD: {
@@ -2866,13 +2968,19 @@ var template$10 = "<div class=\"vue-html5-editor\" :class=\"{'full-screen':fullS
 
 function onPaste(e){
     e.preventDefault();
+    //判断一下是否是粘贴截图图片
+
+    var clipboard;
     var text = '';
     if (window.clipboardData && window.clipboardData.setData) {
         // IE
-        text = window.clipboardData.getData('text');
+        clipboard=window.clipboardData;
+        text = clipboard.getData('text');
     } else {
-        text = (e.originalEvent || e).clipboardData.getData('text/plain');
+        clipboard=(e.originalEvent || e).clipboardData;
+        text = clipboard.getData('text/plain');
     }
+    // clipboard.
     var textRange;
     if (document.body.createTextRange) {
         if (document.selection) {
@@ -2899,6 +3007,9 @@ function onPaste(e){
     }
 }
 
+/**
+ * Created by peak on 2017/2/9.
+ */
 var editor = {
     template: template$10,
     props: {
@@ -3050,6 +3161,10 @@ var editor = {
                 }
             }
         },
+        getContent: function getContent(){
+            var newConent = this.convertToContent(this.$refs.content.innerHTML);
+            return newConent
+        },
         restoreSelection: function restoreSelection() {
             var selection = getSelection();
             selection.removeAllRanges();
@@ -3057,11 +3172,12 @@ var editor = {
                 selection.addRange(this.range);
             } else {
                 var content = this.$refs.content;
-                var div = document.createElement('div');
+                var div = document.createElement('p');
                 var range = document.createRange();
                 content.appendChild(div);
                 range.setStart(div, 0);
                 range.setEnd(div, 0);
+                selection.removeAllRanges();
                 selection.addRange(range);
                 this.range = range;
             }
@@ -3108,7 +3224,9 @@ var editor = {
                         returnStr = html.replace(item.replaceStr, item.newStr);
                     }
                 });
-                return returnStr
+                if(returnStr){
+                    html=returnStr;
+                }
             }
             return html
         }
@@ -3142,12 +3260,14 @@ var editor = {
         var editor = this;
         var content = this.$refs.content;
         content.innerHTML = this.convertToInnerHtml(this.content);
-        content.addEventListener('mouseup', this.saveCurrentRange, false);
+        content.addEventListener('mouseup', function(){
+            editor.saveCurrentRange();
+        }, false);
         content.addEventListener('keyup', function (e) {
             var key = e.which;
-            this$1.$emit('change', this$1.convertToContent(content.innerHTML));
+            editor.$emit('change', this$1.convertToContent(content.innerHTML));
             //需要在前面执行
-            this$1.saveCurrentRange();
+            editor.saveCurrentRange();
             var startContainer=this$1.range.startContainer;
             var endContainer =this$1.range.endContainer;
             var pNode= getParentBlockNode(startContainer);

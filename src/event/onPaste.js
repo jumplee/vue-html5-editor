@@ -1,12 +1,18 @@
 export default function onPaste(e){
     e.preventDefault()
+    //判断一下是否是粘贴截图图片
+
+    let clipboard
     let text = ''
     if (window.clipboardData && window.clipboardData.setData) {
         // IE
-        text = window.clipboardData.getData('text')
+        clipboard=window.clipboardData
+        text = clipboard.getData('text')
     } else {
-        text = (e.originalEvent || e).clipboardData.getData('text/plain')
+        clipboard=(e.originalEvent || e).clipboardData
+        text = clipboard.getData('text/plain')
     }
+    // clipboard.
     let textRange
     if (document.body.createTextRange) {
         if (document.selection) {
@@ -31,4 +37,8 @@ export default function onPaste(e){
         // Chrome之类浏览器
         document.execCommand('insertText', false, text)
     }
+}
+
+function insertImage(){
+
 }

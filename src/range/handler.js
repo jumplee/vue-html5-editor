@@ -5,7 +5,8 @@ import {
     getAfterStartDescendantTextNodes,
     getBeforeEndDescendantTextNodes,
     getParentBlockNode,
-    isInlineElement
+    isInlineElement,
+    getSelection
 } from './util'
 
 // for IE 11
@@ -89,6 +90,16 @@ export default class RangeHandler {
         return textNodes
     }
 
+
+    getParentNode(){
+        const range = this.range
+        let parentNode = getParentBlockNode(range.startContainer)
+        debugger
+        if (parentNode === this.rootElement){
+            parentNode = range.startContainer
+        }
+        return parentNode
+    }
     /**
      * execute edit command
      * @param {String} command
@@ -98,17 +109,20 @@ export default class RangeHandler {
         switch (command) {
 
             case Command.JUSTIFY_LEFT: {
-                document.execCommand(Command.JUSTIFY_LEFT, false, arg)
+                const parentNode=this.getParentNode()
+                parentNode.style.textAlign=''
                 break
             }
 
             case Command.JUSTIFY_RIGHT: {
-                document.execCommand(Command.JUSTIFY_RIGHT, false, arg)
+                const parentNode=this.getParentNode()
+                parentNode.style.textAlign='right'
                 break
             }
 
             case Command.JUSTIFY_CENTER: {
-                document.execCommand(Command.JUSTIFY_CENTER, false, arg)
+                const parentNode=this.getParentNode()
+                parentNode.style.textAlign='center'
                 break
             }
 
@@ -135,7 +149,7 @@ export default class RangeHandler {
                     parentNode = range.startContainer
                 }
                 // h1等标签不能缩进
-                if (parentNode.tagName === 'DIV'){
+                if (parentNode.tagName === 'DIV' ||parentNode.tagName === 'P'){
                     if (parentNode.style.textIndent){
                         parentNode.style.textIndent = ''
                     } else {
@@ -262,17 +276,33 @@ export default class RangeHandler {
             }
             case Command.INSERT_IMAGE: {
                 // const id = `img-random${Math.random()}`
-                let img = ''
+                let img
+                let editor=this.editor
+                let content =this.rootElement
+                let range=this.range
+                const selection = getSelection()
+                const fragment = document.createDocumentFragment()
                 if (typeof arg === 'string'){
-                    img = `<img src="${arg}" class="vue-editor-image" >`
+                    img=document.createElement('img')
+                    img.src=arg
+                    img.className='vue-editor-image'
+                    let div=document.createElement('p')
+                    div.appendChild(img)
+                    fragment.appendChild(div)
                 }
                 if (typeof arg === 'object'){
                     arg.forEach((item) => {
-                        img += `<img src="${item}" class="vue-editor-image" >`
+                        img=document.createElement('img')
+                        img.src=item
+                        img.className='vue-editor-image'
+                        let div=document.createElement('p')
+                        div.appendChild(img)
+                        fragment.appendChild(div)
                     })
                 }
-
-                document.execCommand('insertHTML', false, img)
+                range.insertNode(fragment)
+                //将光标聚焦
+                range.collapse()
                 break
             }
             case Command.INSERT_VIDEO: {
@@ -350,4 +380,5 @@ export default class RangeHandler {
             }
         }
     }
+
 }

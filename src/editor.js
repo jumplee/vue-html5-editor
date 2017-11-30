@@ -6,6 +6,7 @@ import Command from './range/command'
 import {
     getSelection, getParentBlockNode
 } from './range/util'
+import {log} from './util/log'
 /**
  * Created by peak on 2017/2/9.
  */
@@ -155,6 +156,10 @@ export default {
                 }
             }
         },
+        getContent(){
+            const newConent = this.convertToContent(this.$refs.content.innerHTML)
+            return newConent
+        },
         restoreSelection() {
             const selection = getSelection()
             selection.removeAllRanges()
@@ -162,11 +167,12 @@ export default {
                 selection.addRange(this.range)
             } else {
                 const content = this.$refs.content
-                const div = document.createElement('div')
+                const div = document.createElement('p')
                 const range = document.createRange()
                 content.appendChild(div)
                 range.setStart(div, 0)
                 range.setEnd(div, 0)
+                selection.removeAllRanges()
                 selection.addRange(range)
                 this.range = range
             }
@@ -214,7 +220,9 @@ export default {
                         returnStr = html.replace(item.replaceStr, item.newStr)
                     }
                 })
-                return returnStr
+                if(returnStr){
+                    html=returnStr
+                }
             }
             return html
         }
@@ -244,12 +252,14 @@ export default {
         const editor = this
         const content = this.$refs.content
         content.innerHTML = this.convertToInnerHtml(this.content)
-        content.addEventListener('mouseup', this.saveCurrentRange, false)
+        content.addEventListener('mouseup', function(){
+            editor.saveCurrentRange()
+        }, false)
         content.addEventListener('keyup', (e) => {
             const key = e.which
-            this.$emit('change', this.convertToContent(content.innerHTML))
+            editor.$emit('change', this.convertToContent(content.innerHTML))
             //需要在前面执行
-            this.saveCurrentRange()
+            editor.saveCurrentRange()
             let startContainer=this.range.startContainer
             let endContainer =this.range.endContainer
             let pNode= getParentBlockNode(startContainer)
