@@ -156,7 +156,7 @@
 }
 .vue-html5-editor .plugins{
     position:absolute;
-    bottom:0;
+    top: 37px;
     left:0;
     width:100%;
 }
@@ -164,7 +164,7 @@
 .vue-html5-editor  .draft__dialog{
     background: #fff8ba;
     padding: 10px 15px;
-    border-top: 1px solid #fdf184;
+    border-bottom: 1px solid #fdf184;
 }
 .vue-html5-editor   .draft_btn{
     color:blue;
