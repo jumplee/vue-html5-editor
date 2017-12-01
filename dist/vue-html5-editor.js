@@ -2954,7 +2954,7 @@ function onPaste(e){
     }
 }
 
-var isDebug = true;
+var isDebug = false;
 
 function log$1(info) {
     if (isDebug) {
@@ -2982,7 +2982,6 @@ var draftIndex = {
             } else {
                 editor.showDraft = false;
                 p = setInterval(function () {
-                    log$1(editor.getContent());
                     localStorage.setItem(storeKey,editor.getContent());
                 },2000);
             }

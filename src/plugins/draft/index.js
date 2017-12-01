@@ -20,7 +20,6 @@ export default {
             } else {
                 editor.showDraft = false
                 p = setInterval(() => {
-                    log(editor.getContent())
                     localStorage.setItem(storeKey,editor.getContent())
                 },2000)
             }
