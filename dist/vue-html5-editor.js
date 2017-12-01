@@ -85,9 +85,6 @@ var polyfill = function () {
 
 var template = "<div> <button type=\"button\" @click=\"$parent.execCommand('justifyLeft')\"> {{$parent.locale[\"left justify\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('justifyCenter')\"> {{$parent.locale[\"center justify\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('justifyRight')\"> {{$parent.locale[\"right justify\"]}} </button> </div>";
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard = {
     template: template
 };
@@ -107,9 +104,6 @@ var template$1 = "<div> <div> <label> <input type=\"radio\" value=\"foreColor\" 
 
 __$styleInject(".vue-html5-editor .color-card{margin:2px;width:30px;height:30px;float:left;cursor:pointer}",undefined);
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$1 = {
     template: template$1,
     data: function data(){
@@ -132,10 +126,6 @@ var dashboard$1 = {
     }
 };
 
-/**
- * fore color and back color
- * Created by peak on 16/8/18.
- */
 var color = {
     name: 'color',
     icon: 'fa fa-paint-brush',
@@ -189,9 +179,6 @@ var Command = {
     INDENT: 'indent'
 };
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$2 = {
     template: template$2,
     data: function data(){
@@ -246,10 +233,6 @@ var dashboard$2 = {
     }
 };
 
-/**
- * font name and font size
- * Created by peak on 16/8/18.
- */
 var font = {
     name: 'font',
     icon: 'fa fa-font',
@@ -2057,11 +2040,6 @@ var vueUploader$1 = unwrapExports(vueUploader);
 
 var template$3 = "<div> <image-uploader :show-progress=\"true\" :show=\"true\" :url=\"serverUrl\" @finish=\"onFinish\"></image-uploader> </div>";
 
-// uploader.upload()
-
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$3 = {
     template: template$3,
     components: {
@@ -2106,10 +2084,6 @@ var dashboard$3 = {
     }
 };
 
-/**
- * insert image
- * Created by peak on 16/8/18.
- */
 var image = {
     name: 'image',
     icon: 'fa fa-file-image-o',
@@ -2122,9 +2096,6 @@ var image = {
 
 var template$4 = "<div> <h3 style=\"text-align: center\">Vue-html5-editor&nbsp;{{version}}</h3> <p style=\"text-align: center\"> repository: <a href=\"https://github.com/PeakTai/vue-html5-editor\" target=\"_blank\"> https://github.com/PeakTai/vue-html5-editor </a> </p> </div> ";
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$4 = {
     template: template$4,
     data: function data(){
@@ -2185,9 +2156,6 @@ var link = {
 
 var template$6 = "<div> <button type=\"button\" @click=\"$parent.execCommand('insertOrderedList')\"> {{$parent.locale[\"ordered list\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('insertUnorderedList')\"> {{$parent.locale[\"unordered list\"]}} </button> </div>";
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$6 = {
     template: template$6
 };
@@ -2205,9 +2173,6 @@ var list = {
 
 var template$7 = "<form @submit.prevent=\"insertTable\"> <label> {{$parent.locale[\"row count\"]}} <input type=\"number\" style=\"width: 60px\" maxlength=\"2\" min=\"2\" max=\"10\" v-model=\"rows\"> </label> <label> {{$parent.locale[\"column count\"]}} <input type=\"number\" style=\"width: 60px\" maxlength=\"2\" min=\"2\" max=\"10\" v-model=\"cols\"> </label> <button type=\"submit\">{{$parent.locale.save}}</button> </form>";
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$7 = {
     template: template$7,
     data: function data(){
@@ -2241,10 +2206,6 @@ var dashboard$7 = {
     }
 };
 
-/**
- * insert table
- * Created by peak on 16/8/18.
- */
 var table = {
     // can not named table
     // dashboard.html will add to editor as a child component and named as module name
@@ -2300,11 +2261,6 @@ var unlink = {
 
 var template$9 = "<div> <video-uploader :show-progress=\"true\" :show=\"true\" :url=\"serverUrl\" @finish=\"onFinish\"></video-uploader> </div>";
 
-// uploader.upload()
-
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$9 = {
     template: template$9,
     components: {
@@ -2350,9 +2306,6 @@ var dashboard$9 = {
     }
 };
 
-/**
- * insert video
- */
 var video = {
     name: 'video',
     icon: 'fa fa-file-video-o',
@@ -2415,10 +2368,6 @@ var left = {
     }
 };
 
-/**
- * build-in moduls
- * Created by peak on 2016/11/1.
- */
 var buildInModules = [
     text,
     color,
@@ -2592,7 +2541,6 @@ function getSelection(){
 
 // 封装 document.queryCommandSupported
 
-// for IE 11
 if (!Text.prototype.contains) {
     Text.prototype.contains = function contains(otherNode) {
         return this === otherNode
@@ -3012,7 +2960,6 @@ function log$1(info) {
     if (isDebug) {
         console.log(info);
     }
-
 }
 
 var p;
@@ -3030,11 +2977,12 @@ var draftIndex = {
     install: function install(editor){
         if (editor.draft){
             var draft = localStorage.getItem(storeKey);
-            if (draft){
+            if (draft && draft !== '<p><br></p>'){
                 editor.showDraft = true;
             } else {
                 editor.showDraft = false;
                 p = setInterval(function () {
+                    log$1(editor.getContent());
                     localStorage.setItem(storeKey,editor.getContent());
                 },2000);
             }
