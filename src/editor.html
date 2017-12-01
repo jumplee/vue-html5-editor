@@ -19,4 +19,7 @@
     <div class="content" ref="content" :style="contentStyle"
          contenteditable @click="toggleDashboard(dashboard)">
     </div>
+    <div class="plugins"  :style="{'z-index':zIndex+1}" ref="plugin">
+           <plugin-draft v-if="showDraft"></plugin-draft>    
+    </div>
 </div>

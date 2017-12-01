@@ -7,11 +7,19 @@ import {
     getSelection, getParentBlockNode
 } from './range/util'
 import {log} from './util/log'
+import plugins from './plugins/index'
+
+const {draft} = plugins
 /**
  * Created by peak on 2017/2/9.
  */
 export default {
     template,
+    components: {
+        'draft-panel': {
+            template: 'hhh'
+        }
+    },
     props: {
         plainTextPaste: {
             type: Boolean,
@@ -43,9 +51,17 @@ export default {
         },
         toolbars: {
             type: Array,
-            default () {
+            default() {
                 return []
             }
+        },
+        draft: {
+            type: Boolean,
+            default: false
+        },
+        draftTime: {
+            type: Number,
+            default: 2000
         }
     },
     data() {
@@ -54,16 +70,17 @@ export default {
             // locale: {},
             // modules:{},
             fullScreen: false,
-            dashboard: null
+            dashboard: null,
+            showDraft: false
         }
     },
     watch: {
+        /**
+         * 监听外部改变了content
+         * @param {string} val
+         */
         content(val) {
-            const content = this.$refs.content.innerHTML
-            const convertVal = this.convertToInnerHtml(val)
-            if (convertVal !== content) {
-                this.$refs.content.innerHTML = convertVal
-            }
+            this.setContent(val)
         },
         fullScreen(val) {
             const component = this
@@ -103,6 +120,9 @@ export default {
         //         this.$refs.content.innerHTML = convertVal
         //     }
         // },
+        stopDraft(){
+            draft.stop()
+        },
         toggleFullScreen() {
             this.fullScreen = !this.fullScreen
         },
@@ -125,10 +145,7 @@ export default {
                 handler.execCommand(command, ...arg)
             }
             this.toggleDashboard()
-            // https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events
-            // 通过触发input 实现数据同步
             const newConent = this.convertToContent(this.$refs.content.innerHTML)
-            this.$emit('input', newConent)
             this.$emit('change', newConent)
         },
         getCurrentRange() {
@@ -159,6 +176,13 @@ export default {
         getContent(){
             const newConent = this.convertToContent(this.$refs.content.innerHTML)
             return newConent
+        },
+        setContent(val){
+            const content = this.$refs.content.innerHTML
+            const convertVal = this.convertToInnerHtml(val)
+            if (convertVal !== content) {
+                this.$refs.content.innerHTML = convertVal
+            }
         },
         restoreSelection() {
             const selection = getSelection()
@@ -220,8 +244,8 @@ export default {
                         returnStr = html.replace(item.replaceStr, item.newStr)
                     }
                 })
-                if(returnStr){
-                    html=returnStr
+                if (returnStr){
+                    html = returnStr
                 }
             }
             return html
@@ -252,19 +276,19 @@ export default {
         const editor = this
         const content = this.$refs.content
         content.innerHTML = this.convertToInnerHtml(this.content)
-        content.addEventListener('mouseup', function(){
+        content.addEventListener('mouseup', () => {
             editor.saveCurrentRange()
         }, false)
         content.addEventListener('keyup', (e) => {
             const key = e.which
             editor.$emit('change', this.convertToContent(content.innerHTML))
-            //需要在前面执行
+            // 需要在前面执行
             editor.saveCurrentRange()
-            let startContainer=this.range.startContainer
-            let endContainer =this.range.endContainer
-            let pNode= getParentBlockNode(startContainer)
+            const startContainer = this.range.startContainer
+            const endContainer = this.range.endContainer
+            const pNode = getParentBlockNode(startContainer)
             if (key === 9) {
-                console.log('tab')
+                log('tab')
                 e.preventDefault()
             }
             // 回车
@@ -275,16 +299,14 @@ export default {
             }
             // 删除键
             if (key === 8) {
-                
                 if (content.innerHTML === '' || content.innerHTML === '<br>') {
                     content.innerHTML = '<p><br></p>'
-                }else{
+                } else {
                     // if(startContainer==endContainer && startContainer.length===0){
-                        
+
                     //     pNode.parentNode.removeChild(pNode)
                     // }
                 }
-                
             }
         },false)
         content.addEventListener('mouseout', (e) => {
@@ -292,14 +314,6 @@ export default {
                 this.saveCurrentRange()
             }
         }, false)
-        this.touchHandler = (e) => {
-            if (content.contains(e.target)) {
-                this.saveCurrentRange()
-            }
-        }
-
-        window.addEventListener('touchend', this.touchHandler, false)
-
         content.addEventListener('paste', (...args) => {
             // const e = args[0]
             // 注册paste方法，粘贴的都是纯文本
@@ -322,6 +336,10 @@ export default {
             //     editor.execCommand(Command.INSERT_HTML,false,editor.safeHtml(text))
             // }
         })
+
+
+        // 执行插件安装
+        draft.install(editor)
     },
     // /**
     // * 将不安全的标签去除
@@ -343,11 +361,12 @@ export default {
         }
     },
     beforeDestroy() {
-        window.removeEventListener('touchend', this.touchHandler)
         this.modules.forEach((module) => {
             if (typeof module.destroyed === 'function') {
                 module.destroyed(this)
             }
         })
+        // 卸载插件
+        draft.uninstall(this)
     }
 }

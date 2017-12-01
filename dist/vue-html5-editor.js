@@ -1,7 +1,7 @@
 /**
  * Vue-html5-editor 1.1.0
  * https://github.com/PeakTai/vue-html5-editor
- * build at Thu Nov 30 2017 16:12:37 GMT+0800 (CST)
+ * build at Fri Dec 01 2017 16:53:57 GMT+0800 (CST)
  */
 
 (function (global, factory) {
@@ -85,9 +85,6 @@ var polyfill = function () {
 
 var template = "<div> <button type=\"button\" @click=\"$parent.execCommand('justifyLeft')\"> {{$parent.locale[\"left justify\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('justifyCenter')\"> {{$parent.locale[\"center justify\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('justifyRight')\"> {{$parent.locale[\"right justify\"]}} </button> </div>";
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard = {
     template: template
 };
@@ -107,9 +104,6 @@ var template$1 = "<div> <div> <label> <input type=\"radio\" value=\"foreColor\" 
 
 __$styleInject(".vue-html5-editor .color-card{margin:2px;width:30px;height:30px;float:left;cursor:pointer}",undefined);
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$1 = {
     template: template$1,
     data: function data(){
@@ -132,10 +126,6 @@ var dashboard$1 = {
     }
 };
 
-/**
- * fore color and back color
- * Created by peak on 16/8/18.
- */
 var color = {
     name: 'color',
     icon: 'fa fa-paint-brush',
@@ -189,9 +179,6 @@ var Command = {
     INDENT: 'indent'
 };
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$2 = {
     template: template$2,
     data: function data(){
@@ -246,10 +233,6 @@ var dashboard$2 = {
     }
 };
 
-/**
- * font name and font size
- * Created by peak on 16/8/18.
- */
 var font = {
     name: 'font',
     icon: 'fa fa-font',
@@ -2057,11 +2040,6 @@ var vueUploader$1 = unwrapExports(vueUploader);
 
 var template$3 = "<div> <image-uploader :show-progress=\"true\" :show=\"true\" :url=\"serverUrl\" @finish=\"onFinish\"></image-uploader> </div>";
 
-// uploader.upload()
-
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$3 = {
     template: template$3,
     components: {
@@ -2095,11 +2073,10 @@ var dashboard$3 = {
             files.forEach(function (item) {
                 urlAr.push(item[returnUrl]);
             });
-            
-            if(urlAr.length>0){
+
+            if (urlAr.length > 0){
                 this.insertImg(urlAr);
             }
-            
         },
         insertImg: function insertImg(url) {
             this.$parent.execCommand(Command.INSERT_IMAGE, url);
@@ -2107,10 +2084,6 @@ var dashboard$3 = {
     }
 };
 
-/**
- * insert image
- * Created by peak on 16/8/18.
- */
 var image = {
     name: 'image',
     icon: 'fa fa-file-image-o',
@@ -2123,9 +2096,6 @@ var image = {
 
 var template$4 = "<div> <h3 style=\"text-align: center\">Vue-html5-editor&nbsp;{{version}}</h3> <p style=\"text-align: center\"> repository: <a href=\"https://github.com/PeakTai/vue-html5-editor\" target=\"_blank\"> https://github.com/PeakTai/vue-html5-editor </a> </p> </div> ";
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$4 = {
     template: template$4,
     data: function data(){
@@ -2186,9 +2156,6 @@ var link = {
 
 var template$6 = "<div> <button type=\"button\" @click=\"$parent.execCommand('insertOrderedList')\"> {{$parent.locale[\"ordered list\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('insertUnorderedList')\"> {{$parent.locale[\"unordered list\"]}} </button> </div>";
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$6 = {
     template: template$6
 };
@@ -2206,9 +2173,6 @@ var list = {
 
 var template$7 = "<form @submit.prevent=\"insertTable\"> <label> {{$parent.locale[\"row count\"]}} <input type=\"number\" style=\"width: 60px\" maxlength=\"2\" min=\"2\" max=\"10\" v-model=\"rows\"> </label> <label> {{$parent.locale[\"column count\"]}} <input type=\"number\" style=\"width: 60px\" maxlength=\"2\" min=\"2\" max=\"10\" v-model=\"cols\"> </label> <button type=\"submit\">{{$parent.locale.save}}</button> </form>";
 
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$7 = {
     template: template$7,
     data: function data(){
@@ -2242,10 +2206,6 @@ var dashboard$7 = {
     }
 };
 
-/**
- * insert table
- * Created by peak on 16/8/18.
- */
 var table = {
     // can not named table
     // dashboard.html will add to editor as a child component and named as module name
@@ -2301,11 +2261,6 @@ var unlink = {
 
 var template$9 = "<div> <video-uploader :show-progress=\"true\" :show=\"true\" :url=\"serverUrl\" @finish=\"onFinish\"></video-uploader> </div>";
 
-// uploader.upload()
-
-/**
- * Created by peak on 2017/2/10.
- */
 var dashboard$9 = {
     template: template$9,
     components: {
@@ -2351,9 +2306,6 @@ var dashboard$9 = {
     }
 };
 
-/**
- * insert video
- */
 var video = {
     name: 'video',
     icon: 'fa fa-file-video-o',
@@ -2416,10 +2368,6 @@ var left = {
     }
 };
 
-/**
- * build-in moduls
- * Created by peak on 2016/11/1.
- */
 var buildInModules = [
     text,
     color,
@@ -2593,7 +2541,6 @@ function getSelection(){
 
 // 封装 document.queryCommandSupported
 
-// for IE 11
 if (!Text.prototype.contains) {
     Text.prototype.contains = function contains(otherNode) {
         return this === otherNode
@@ -2962,9 +2909,9 @@ RangeHandler.prototype.execCommand = function execCommand (command, arg) {
     }
 };
 
-__$styleInject(".vue-html5-editor,.vue-html5-editor *{box-sizing:border-box}.vue-html5-editor{font-size:14px;background-color:#fff;color:#333;border:1px solid #ddd;text-align:left;border-radius:5px;overflow:hidden}.vue-html5-editor.full-screen{position:fixed!important;top:0!important;left:0!important;bottom:0!important;right:0!important;border-radius:0}.vue-html5-editor>.toolbar{position:relative;background-color:inherit}.vue-html5-editor>.toolbar>ul{list-style:none;padding:0;margin:0;border-bottom:1px solid #ddd}.vue-html5-editor>.toolbar>ul>li{display:inline-block;cursor:pointer;text-align:center;padding:8px 10px}.vue-html5-editor>.toolbar>ul>li .icon{height:16px;width:16px;display:inline-block;vertical-align:middle}.vue-html5-editor>.toolbar>.dashboard{background-color:inherit;border-bottom:1px solid #ddd;padding:10px;position:absolute;top:100%;left:0;right:0;overflow:auto}.vue-html5-editor>.toolbar>.dashboard input[type=text],.vue-html5-editor>.toolbar>.dashboard input[type=number],.vue-html5-editor>.toolbar>.dashboard select{padding:6px 12px;color:inherit;background-color:transparent;border:1px solid #ddd;border-radius:5px}.vue-html5-editor>.toolbar>.dashboard input[type=text]:hover,.vue-html5-editor>.toolbar>.dashboard input[type=number]:hover,.vue-html5-editor>.toolbar>.dashboard select:hover{border-color:#bebebe}.vue-html5-editor>.toolbar>.dashboard input[type=text][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=text][readonly],.vue-html5-editor>.toolbar>.dashboard input[type=number][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=number][readonly],.vue-html5-editor>.toolbar>.dashboard select[disabled],.vue-html5-editor>.toolbar>.dashboard select[readonly]{background-color:#eee;opacity:1}.vue-html5-editor>.toolbar>.dashboard input[type=text][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=number][disabled],.vue-html5-editor>.toolbar>.dashboard select[disabled]{cursor:not-allowed}.vue-html5-editor>.toolbar>.dashboard button{color:inherit;background-color:inherit;padding:6px 12px;white-space:nowrap;vertical-align:middle;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border:1px solid #ddd;border-radius:5px;margin-right:4px;margin-bottom:4px}.vue-html5-editor>.toolbar>.dashboard button:hover{border-color:#bebebe}.vue-html5-editor>.toolbar>.dashboard button[disabled]{cursor:not-allowed;opacity:.68}.vue-html5-editor>.toolbar>.dashboard button:last-child{margin-right:0}.vue-html5-editor>.toolbar>.dashboard label{font-weight:bolder}.vue-html5-editor>.content{overflow:auto;padding:15px 25px}.vue-html5-editor>.content:focus{outline:0}",undefined);
+__$styleInject(".vue-html5-editor,.vue-html5-editor *{box-sizing:border-box}.vue-html5-editor{font-size:14px;background-color:#fff;color:#333;border:1px solid #ddd;text-align:left;border-radius:5px;overflow:hidden;position:relative}.vue-html5-editor.full-screen{position:fixed!important;top:0!important;left:0!important;bottom:0!important;right:0!important;border-radius:0}.vue-html5-editor>.toolbar{position:relative;background-color:inherit}.vue-html5-editor>.toolbar>ul{list-style:none;padding:0;margin:0;border-bottom:1px solid #ddd}.vue-html5-editor>.toolbar>ul>li{display:inline-block;cursor:pointer;text-align:center;padding:8px 10px}.vue-html5-editor>.toolbar>ul>li .icon{height:16px;width:16px;display:inline-block;vertical-align:middle}.vue-html5-editor>.toolbar>.dashboard{background-color:inherit;border-bottom:1px solid #ddd;padding:10px;position:absolute;top:100%;left:0;right:0;overflow:auto}.vue-html5-editor>.toolbar>.dashboard input[type=text],.vue-html5-editor>.toolbar>.dashboard input[type=number],.vue-html5-editor>.toolbar>.dashboard select{padding:6px 12px;color:inherit;background-color:transparent;border:1px solid #ddd;border-radius:5px}.vue-html5-editor>.toolbar>.dashboard input[type=text]:hover,.vue-html5-editor>.toolbar>.dashboard input[type=number]:hover,.vue-html5-editor>.toolbar>.dashboard select:hover{border-color:#bebebe}.vue-html5-editor>.toolbar>.dashboard input[type=text][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=text][readonly],.vue-html5-editor>.toolbar>.dashboard input[type=number][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=number][readonly],.vue-html5-editor>.toolbar>.dashboard select[disabled],.vue-html5-editor>.toolbar>.dashboard select[readonly]{background-color:#eee;opacity:1}.vue-html5-editor>.toolbar>.dashboard input[type=text][disabled],.vue-html5-editor>.toolbar>.dashboard input[type=number][disabled],.vue-html5-editor>.toolbar>.dashboard select[disabled]{cursor:not-allowed}.vue-html5-editor>.toolbar>.dashboard button{color:inherit;background-color:inherit;padding:6px 12px;white-space:nowrap;vertical-align:middle;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border:1px solid #ddd;border-radius:5px;margin-right:4px;margin-bottom:4px}.vue-html5-editor>.toolbar>.dashboard button:hover{border-color:#bebebe}.vue-html5-editor>.toolbar>.dashboard button[disabled]{cursor:not-allowed;opacity:.68}.vue-html5-editor>.toolbar>.dashboard button:last-child{margin-right:0}.vue-html5-editor>.toolbar>.dashboard label{font-weight:bolder}.vue-html5-editor>.content{overflow:auto;padding:15px 25px}.vue-html5-editor>.content:focus{outline:0}.vue-html5-editor .plugins{position:absolute;bottom:0;left:0;width:100%}.vue-html5-editor .draft__dialog{background:#fff8ba;padding:10px 15px;border-top:1px solid #fdf184}.vue-html5-editor .draft_btn{color:#00f;margin:0 5px;cursor:pointer}.vue-html5-editor .draft__no{color:#505050}",undefined);
 
-var template$10 = "<div class=\"vue-html5-editor\" :class=\"{'full-screen':fullScreen}\" :style=\"{'z-index':zIndex}\"> <div class=\"toolbar\" :style=\"{'z-index':zIndex+1}\" ref=\"toolbar\"> <ul> <template v-for=\"module in modules\"> <li :title=\"locale[module.i18n]\" @click=\"activeModule(module)\"> <span class=\"icon\" :class=\"module.icon\"></span> <template v-if=\"showModuleName === undefined ? defaultShowModuleName : showModuleName\"> &nbsp;{{locale[module.i18n]}} </template> </li> </template> </ul> <div class=\"dashboard\" v-show=\"dashboard\" ref=\"dashboard\"> <keep-alive> <div v-show=\"dashboard\" :is=\"dashboard\"></div> </keep-alive> </div> </div> <div class=\"content\" ref=\"content\" :style=\"contentStyle\" contenteditable @click=\"toggleDashboard(dashboard)\"> </div> </div>";
+var template$10 = "<div class=\"vue-html5-editor\" :class=\"{'full-screen':fullScreen}\" :style=\"{'z-index':zIndex}\"> <div class=\"toolbar\" :style=\"{'z-index':zIndex+1}\" ref=\"toolbar\"> <ul> <template v-for=\"module in modules\"> <li :title=\"locale[module.i18n]\" @click=\"activeModule(module)\"> <span class=\"icon\" :class=\"module.icon\"></span> <template v-if=\"showModuleName === undefined ? defaultShowModuleName : showModuleName\"> &nbsp;{{locale[module.i18n]}} </template> </li> </template> </ul> <div class=\"dashboard\" v-show=\"dashboard\" ref=\"dashboard\"> <keep-alive> <div v-show=\"dashboard\" :is=\"dashboard\"></div> </keep-alive> </div> </div> <div class=\"content\" ref=\"content\" :style=\"contentStyle\" contenteditable @click=\"toggleDashboard(dashboard)\"> </div> <div class=\"plugins\" :style=\"{'z-index':zIndex+1}\" ref=\"plugin\"> <plugin-draft v-if=\"showDraft\"></plugin-draft> </div> </div>";
 
 function onPaste(e){
     e.preventDefault();
@@ -3007,11 +2954,57 @@ function onPaste(e){
     }
 }
 
+var isDebug = true;
+
+function log$1(info) {
+    if (isDebug) {
+        console.log(info);
+    }
+
+}
+
+var p;
+var storeKey = 'vue_editor_draft';
+var draftIndex = {
+    stop: function stop(){
+        localStorage.setItem(storeKey,'');
+        this.uninstall();
+    },
+    uninstall: function uninstall(){
+        if (p){
+            clearInterval(p);
+        }
+    },
+    install: function install(editor){
+        if (editor.draft){
+            var draft = localStorage.getItem(storeKey);
+            if (draft){
+                editor.showDraft = true;
+            } else {
+                editor.showDraft = false;
+                p = setInterval(function () {
+                    localStorage.setItem(storeKey,editor.getContent());
+                },2000);
+            }
+        }
+    }
+};
+
+var plugins = {
+    draft: draftIndex
+};
+
+var draft = plugins.draft;
 /**
  * Created by peak on 2017/2/9.
  */
 var editor = {
     template: template$10,
+    components: {
+        'draft-panel': {
+            template: 'hhh'
+        }
+    },
     props: {
         plainTextPaste: {
             type: Boolean,
@@ -3043,9 +3036,17 @@ var editor = {
         },
         toolbars: {
             type: Array,
-            default: function default$1 () {
+            default: function default$1() {
                 return []
             }
+        },
+        draft: {
+            type: Boolean,
+            default: false
+        },
+        draftTime: {
+            type: Number,
+            default: 2000
         }
     },
     data: function data() {
@@ -3054,16 +3055,17 @@ var editor = {
             // locale: {},
             // modules:{},
             fullScreen: false,
-            dashboard: null
+            dashboard: null,
+            showDraft: false
         }
     },
     watch: {
+        /**
+         * 监听外部改变了content
+         * @param {string} val
+         */
         content: function content(val) {
-            var content = this.$refs.content.innerHTML;
-            var convertVal = this.convertToInnerHtml(val);
-            if (convertVal !== content) {
-                this.$refs.content.innerHTML = convertVal;
-            }
+            this.setContent(val);
         },
         fullScreen: function fullScreen(val) {
             var component = this;
@@ -3103,6 +3105,9 @@ var editor = {
         //         this.$refs.content.innerHTML = convertVal
         //     }
         // },
+        stopDraft: function stopDraft(){
+            draft.stop();
+        },
         toggleFullScreen: function toggleFullScreen() {
             this.fullScreen = !this.fullScreen;
         },
@@ -3128,10 +3133,7 @@ var editor = {
                 handler.execCommand.apply(handler, [ command ].concat( arg ));
             }
             this.toggleDashboard();
-            // https://vuejs.org/v2/guide/components.html#Form-Input-Components-using-Custom-Events
-            // 通过触发input 实现数据同步
             var newConent = this.convertToContent(this.$refs.content.innerHTML);
-            this.$emit('input', newConent);
             this.$emit('change', newConent);
         },
         getCurrentRange: function getCurrentRange() {
@@ -3164,6 +3166,13 @@ var editor = {
         getContent: function getContent(){
             var newConent = this.convertToContent(this.$refs.content.innerHTML);
             return newConent
+        },
+        setContent: function setContent(val){
+            var content = this.$refs.content.innerHTML;
+            var convertVal = this.convertToInnerHtml(val);
+            if (convertVal !== content) {
+                this.$refs.content.innerHTML = convertVal;
+            }
         },
         restoreSelection: function restoreSelection() {
             var selection = getSelection();
@@ -3224,8 +3233,8 @@ var editor = {
                         returnStr = html.replace(item.replaceStr, item.newStr);
                     }
                 });
-                if(returnStr){
-                    html=returnStr;
+                if (returnStr){
+                    html = returnStr;
                 }
             }
             return html
@@ -3260,19 +3269,19 @@ var editor = {
         var editor = this;
         var content = this.$refs.content;
         content.innerHTML = this.convertToInnerHtml(this.content);
-        content.addEventListener('mouseup', function(){
+        content.addEventListener('mouseup', function () {
             editor.saveCurrentRange();
         }, false);
         content.addEventListener('keyup', function (e) {
             var key = e.which;
             editor.$emit('change', this$1.convertToContent(content.innerHTML));
-            //需要在前面执行
+            // 需要在前面执行
             editor.saveCurrentRange();
-            var startContainer=this$1.range.startContainer;
-            var endContainer =this$1.range.endContainer;
-            var pNode= getParentBlockNode(startContainer);
+            var startContainer = this$1.range.startContainer;
+            var endContainer = this$1.range.endContainer;
+            var pNode = getParentBlockNode(startContainer);
             if (key === 9) {
-                console.log('tab');
+                log$1('tab');
                 e.preventDefault();
             }
             // 回车
@@ -3283,16 +3292,14 @@ var editor = {
             }
             // 删除键
             if (key === 8) {
-                
                 if (content.innerHTML === '' || content.innerHTML === '<br>') {
                     content.innerHTML = '<p><br></p>';
-                }else{
+                } else {
                     // if(startContainer==endContainer && startContainer.length===0){
-                        
+
                     //     pNode.parentNode.removeChild(pNode)
                     // }
                 }
-                
             }
         },false);
         content.addEventListener('mouseout', function (e) {
@@ -3300,14 +3307,6 @@ var editor = {
                 this$1.saveCurrentRange();
             }
         }, false);
-        this.touchHandler = function (e) {
-            if (content.contains(e.target)) {
-                this$1.saveCurrentRange();
-            }
-        };
-
-        window.addEventListener('touchend', this.touchHandler, false);
-
         content.addEventListener('paste', function () {
             var args = [], len = arguments.length;
             while ( len-- ) args[ len ] = arguments[ len ];
@@ -3333,6 +3332,10 @@ var editor = {
             //     editor.execCommand(Command.INSERT_HTML,false,editor.safeHtml(text))
             // }
         });
+
+
+        // 执行插件安装
+        draft.install(editor);
     },
     // /**
     // * 将不安全的标签去除
@@ -3356,12 +3359,13 @@ var editor = {
     beforeDestroy: function beforeDestroy() {
         var this$1 = this;
 
-        window.removeEventListener('touchend', this.touchHandler);
         this.modules.forEach(function (module) {
             if (typeof module.destroyed === 'function') {
                 module.destroyed(this$1);
             }
         });
+        // 卸载插件
+        draft.uninstall(this);
     }
 };
 
@@ -3495,6 +3499,28 @@ function mixin(source, ext) {
     return source
 }
 
+var template$11 = "<div class=\"draft__dialog\"> 草稿箱不为空，是否从草稿加载? <span class=\"draft_btn\" @click=\"onOk\">是</span><span class=\"draft_btn draft__no\" @click=\"onCancel\">否</span> </div>";
+
+var draft$1 = {
+    name: 'draft-name',
+    template: template$11,
+    methods: {
+        onOk: function onOk() {
+            var editor = this.$parent;
+            editor.setContent(localStorage.getItem(storeKey));
+            this.run(editor);
+        },
+        onCancel: function onCancel() {
+            var editor = this.$parent;
+            this.run(editor);
+        },
+        run: function run(editor) {
+            localStorage.setItem(storeKey,'');
+            draftIndex.install(editor);
+        }
+    }
+};
+
 polyfill();
 /**
  * Vue html5 Editor
@@ -3559,7 +3585,8 @@ var VueHtml5Editor = function VueHtml5Editor(options) {
         // prevent vue sync
         module.dashboard = null;
     });
-
+    // 将插件注册到组件中
+    components['plugin-draft'] = draft$1;
     // i18n
     var i18n = {'zh-cn': i18nZhCn, 'en-us': i18nEnUs};
     var customI18n = options.i18n || {};

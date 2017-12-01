@@ -21,7 +21,7 @@
   border-radius: var(--border-radius);
   overflow: hidden;
   box-sizing: border-box;
-
+  position:relative;
   & * {
     box-sizing: border-box;
   }
@@ -154,7 +154,26 @@
   }
 
 }
+.vue-html5-editor .plugins{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+}
 
+.vue-html5-editor  .draft__dialog{
+    background: #fff8ba;
+    padding: 10px 15px;
+    border-top: 1px solid #fdf184;
+}
+.vue-html5-editor   .draft_btn{
+    color:blue;
+    margin:0 5px;
+    cursor:pointer;
+  }
+.vue-html5-editor   .draft__no{
+    color: #505050;
+  }
 @media (max-width: 767px) {
   .vue-html5-editor {
     .dashboard {

@@ -4,6 +4,7 @@ import editor from './editor'
 import i18nZhCn from './i18n/zh-cn'
 import i18nEnUs from './i18n/en-us'
 import mixin from './util/mixin'
+import draft from './plugins/draft/component'
 
 polyfill()
 /**
@@ -72,7 +73,8 @@ class VueHtml5Editor {
             // prevent vue sync
             module.dashboard = null
         })
-
+        // 将插件注册到组件中
+        components['plugin-draft'] = draft
         // i18n
         const i18n = {'zh-cn': i18nZhCn, 'en-us': i18nEnUs}
         const customI18n = options.i18n || {}
