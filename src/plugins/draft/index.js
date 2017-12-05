@@ -1,7 +1,9 @@
 import {log} from '../../util/log'
 
+// 计数器指针
 let p
-export const storeKey = 'vue_editor_draft'
+//
+export let storeKey = 'vue_editor_draft'
 export default {
     stop(){
         localStorage.setItem(storeKey,'')
@@ -14,6 +16,12 @@ export default {
     },
     install(editor){
         if (editor.draft){
+            if (editor.draftStoreKey){
+                storeKey = `vue_editor_draft_${editor.draftStoreKey}`
+            }
+            if (editor.draftTime < 100){
+                throw new Error('draft setInterval can not smaller than 100ms')
+            }
             const draft = localStorage.getItem(storeKey)
             if (draft && draft !== '<p><br></p>'){
                 editor.showDraft = true
@@ -21,7 +29,7 @@ export default {
                 editor.showDraft = false
                 p = setInterval(() => {
                     localStorage.setItem(storeKey,editor.getContent())
-                },2000)
+                },editor.draftTime)
             }
         }
     }

@@ -29,8 +29,8 @@
             <span style="white-space: nowrap">content length : {{content.length}}</span>
         </p>
 
-        <vue-html5-editor :url="uploadUrl" :content="content" :height="300" :show-module-name="showModuleName" @change="updateData"
-            ref="editor" :draft="true"></vue-html5-editor>
+        <vue-html5-editor  :url="uploadUrl" :content="content" :height="300" :show-module-name="showModuleName" @change="updateData"
+            ref="editor" :draft="true" draft-store-key="test"></vue-html5-editor>
     </div>
 
     <script>

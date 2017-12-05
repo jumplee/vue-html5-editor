@@ -62,6 +62,11 @@ export default {
         draftTime: {
             type: Number,
             default: 2000
+        },
+        // 草稿箱自定义字段，可以让多个编辑器同时使用不同的草稿
+        draftStoreKey: {
+            type: String,
+            default: ''
         }
     },
     data() {
