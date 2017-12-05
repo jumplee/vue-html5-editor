@@ -19,7 +19,6 @@
   border: 1px solid var(--border-color);
   text-align: left;
   border-radius: var(--border-radius);
-  overflow: hidden;
   box-sizing: border-box;
   position:relative;
   & * {
@@ -59,12 +58,39 @@
       }
     }
 
+
+  }
+  & > .content {
+    overflow: auto;
+    padding: 15px 25px;
+    .video-poster {
+      width: 100%;
+      border: 1px solid #eee;
+      position:relative;
+    }
+    hr{
+      border: 1px solid #DFDFDF;
+    }
+    a{
+      color:darkblue;
+    }
+    a:hover{
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    &:focus {
+      outline: 0;
+    }
+
+
+  }
+
     & > .dashboard {
       background-color: inherit;
       border-bottom: 1px solid var(--border-color);
       padding: 10px;
       position: absolute;
-      top: 100%;
+      top: 10px;
       left: 0;
       right: 0;
       overflow: auto;
@@ -126,33 +152,6 @@
       }
 
     }
-
-  }
-  & > .content {
-    overflow: auto;
-    padding: 15px 25px;
-    .video-poster {
-      width: 100%;
-      border: 1px solid #eee;
-      position:relative;
-    }
-    hr{
-      border: 1px solid #DFDFDF;
-    }
-    a{
-      color:darkblue;
-    }
-    a:hover{
-      text-decoration: underline;
-      cursor: pointer;
-    }
-    &:focus {
-      outline: 0;
-    }
-
-
-  }
-
 }
 .vue-html5-editor .plugins{
     position:absolute;
