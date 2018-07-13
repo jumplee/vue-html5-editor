@@ -8,11 +8,11 @@
   },
   "main": "dist/vue-html5-editor.js",
   "scripts": {
-    "dev":"rollup -c rollup.config.js --watch",
-    "build": "npm run lint && rollup -c rollup.config.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint --fix -f codeframe src/*",
-    "test": "node ./server.js"
+    "dev": "rollup -c rollup.config.js --watch",
+    "build": "rollup -c rollup.config.js",
+    "build-old": "npm run lint && rollup -c rollup.config.js",
+    "test": "node ./server.js",
+    "lint": "eslint --fix -f codeframe src/*"
   },
   "keywords": [
     "vue",
@@ -49,6 +49,7 @@
     "rollup-plugin-postcss": "^0.2.0",
     "rollup-plugin-progress": "^0.2.1",
     "rollup-plugin-replace": "^1.1.1",
-    "vue-image-uploader": "git+https://github.com/jumplee/vue-image-uploader.git"
-  }
+    "vue-image-uploader": "file:../vue-image-uploader"
+  },
+  "dependencies": {}
 }

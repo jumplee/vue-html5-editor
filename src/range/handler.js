@@ -109,20 +109,20 @@ export default class RangeHandler {
         switch (command) {
 
             case Command.JUSTIFY_LEFT: {
-                const parentNode=this.getParentNode()
-                parentNode.style.textAlign=''
+                const parentNode = this.getParentNode()
+                parentNode.style.textAlign = ''
                 break
             }
 
             case Command.JUSTIFY_RIGHT: {
-                const parentNode=this.getParentNode()
-                parentNode.style.textAlign='right'
+                const parentNode = this.getParentNode()
+                parentNode.style.textAlign = 'right'
                 break
             }
 
             case Command.JUSTIFY_CENTER: {
-                const parentNode=this.getParentNode()
-                parentNode.style.textAlign='center'
+                const parentNode = this.getParentNode()
+                parentNode.style.textAlign = 'center'
                 break
             }
 
@@ -149,7 +149,7 @@ export default class RangeHandler {
                     parentNode = range.startContainer
                 }
                 // h1等标签不能缩进
-                if (parentNode.tagName === 'DIV' ||parentNode.tagName === 'P'){
+                if (parentNode.tagName === 'DIV' || parentNode.tagName === 'P'){
                     if (parentNode.style.textIndent){
                         parentNode.style.textIndent = ''
                     } else {
@@ -277,31 +277,31 @@ export default class RangeHandler {
             case Command.INSERT_IMAGE: {
                 // const id = `img-random${Math.random()}`
                 let img
-                let editor=this.editor
-                let content =this.rootElement
-                let range=this.range
+                const editor = this.editor
+                const content = this.rootElement
+                const range = this.range
                 const selection = getSelection()
                 const fragment = document.createDocumentFragment()
                 if (typeof arg === 'string'){
-                    img=document.createElement('img')
-                    img.src=arg
-                    img.className='vue-editor-image'
-                    let div=document.createElement('p')
+                    img = document.createElement('img')
+                    img.src = arg
+                    img.className = 'vue-editor-image'
+                    const div = document.createElement('p')
                     div.appendChild(img)
                     fragment.appendChild(div)
                 }
                 if (typeof arg === 'object'){
                     arg.forEach((item) => {
-                        img=document.createElement('img')
-                        img.src=item
-                        img.className='vue-editor-image'
-                        let div=document.createElement('p')
+                        img = document.createElement('img')
+                        img.src = item
+                        img.className = 'vue-editor-image'
+                        const div = document.createElement('p')
                         div.appendChild(img)
                         fragment.appendChild(div)
                     })
                 }
                 range.insertNode(fragment)
-                //将光标聚焦
+                // 将光标聚焦
                 range.collapse()
                 break
             }

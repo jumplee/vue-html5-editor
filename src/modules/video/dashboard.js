@@ -18,7 +18,8 @@ export default {
         return {
             imageUrl: '',
             showDialog: false,
-            serverUrl: config.url
+            serverUrl: config.url,
+            uploadConfig: config.uploadConfig
         }
     },
     methods: {
