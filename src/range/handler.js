@@ -314,7 +314,21 @@ export default class RangeHandler {
                 break
             }
             case Command.CREATE_LINK: {
-                document.execCommand(Command.CREATE_LINK, false, arg)
+                // 将光标聚焦
+                this.range.collapse()
+                // 用exeCommand text-decoration 无法加上
+                const fragment = document.createDocumentFragment()
+                const div = document.createElement('div')
+                div.innerHTML = arg
+                if (div.hasChildNodes()) {
+                    for (let i = 0; i < div.childNodes.length; i++) {
+                        fragment.appendChild(div.childNodes[i].cloneNode(true))
+                    }
+                }
+                this.range.deleteContents()
+                this.range.insertNode(fragment)
+                // 将光标聚焦
+                this.range.collapse()
                 break
             }
             case Command.INSERT_ORDERED_LIST: {

@@ -2,7 +2,6 @@ import vueUploader from 'vue-image-uploader'
 import template from './dashboard.html'
 import Command from '../../range/command'
 
-
 // uploader.upload()
 
 /**
@@ -11,7 +10,7 @@ import Command from '../../range/command'
 export default {
     template,
     components: {
-        'video-uploader': vueUploader.VueVideoUploader
+        'video-uploader': vueUploader.default.VueVideoUploader
     },
     data() {
         const config = this.$options.module.config
