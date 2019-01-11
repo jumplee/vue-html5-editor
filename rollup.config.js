@@ -17,10 +17,13 @@ const pkg = require('./package.json')
  * Created by peak on 2017/1/6.
  */
 export default {
-    entry: 'src/index.js',
-    dest: 'dist/vue-html5-editor.js',
-    format: 'umd',
-    moduleName: 'VueHtml5Editor',
+    input: 'src/index.js',
+    output: {
+        file: 'dist/vue-html5-editor.js',
+        format: 'iife',
+        // format: 'cjs',
+        name: 'VueHtml5Editor'
+    },
     plugins: [
         license({
             banner: `Vue-html5-editor ${pkg.version}\n${pkg.repository.url}\nbuild at ${new Date()}`
@@ -52,15 +55,12 @@ export default {
         }),
         commonJs({
             include: [
-                'node_modules/lrz/**',
-                'node_modules/vue-video-uploader/**',
-                'node_modules/vue-image-uploader/**'
+                'node_modules/lrz/**'
             ],
             namedExports: {
                 // left-hand side can be an absolute path, a path
                 // relative to the current directory, or the name
                 // of a module in node_modules
-                'node_modules/vue-image-uploader/dist/vueUploader.js': ['vueUploader']
             }
         }),
         nodeResolve({
