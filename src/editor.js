@@ -1,5 +1,5 @@
 import RangeHandler from './range/handler'
-import './style.css'
+import './style.scss'
 import template from './editor.html'
 import onPaste from './event/onPaste'
 import Command from './range/command'

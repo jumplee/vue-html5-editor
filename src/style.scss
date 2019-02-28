@@ -1,9 +1,6 @@
-:root {
-  --border-color: #ddd;
-  --border-radius: 5px;
-  --color: #333;
-}
-
+$color:#333;
+$border-radius:5px;
+$border-color:#ddd;
 /**
 .vue-html5-editor
     ├──.toolbar
@@ -15,10 +12,10 @@
 .vue-html5-editor {
   font-size: 14px;
   background-color: white;
-  color: var(--color);
-  border: 1px solid var(--border-color);
+  color: $color;
+  border: 1px solid $border-color;
   text-align: left;
-  border-radius: var(--border-radius);
+  border-radius: $border-radius;
   box-sizing: border-box;
   position:relative;
   & * {
@@ -26,7 +23,7 @@
   }
 
   & .search-input, & .search-title{
-    border: 1px solid var(--border-color);
+    border: 1px solid $border-color;
     padding: 0 7px;
     border-radius: 5px;
     outline: 0;
@@ -72,7 +69,7 @@
       list-style: none;
       padding: 0;
       margin: 0;
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 1px solid $border-color;
 
       & > li {
         display: inline-block;
@@ -120,7 +117,7 @@
 
     & > .dashboard {
       background-color: inherit;
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 1px solid $border-color;
       padding: 10px;
       position: absolute;
       top: 35px;
@@ -132,11 +129,11 @@
         padding: 6px 12px;
         color: inherit;
         background-color: transparent;
-        border: 1px solid var(--border-color);
-        border-radius: var(--border-radius);
+        border: 1px solid $border-color;
+        border-radius: $border-radius;
 
         &:hover {
-          border-color: color(var(--border-color) blackness(30%));
+          border-color: color($border-color blackness(30%));
         }
 
         &[disabled], &[readonly] {
@@ -159,13 +156,13 @@
         vertical-align: middle;
         cursor: pointer;
         user-select: none;
-        border: 1px solid var(--border-color);
-        border-radius: var(--border-radius);
+        border: 1px solid $border-color;
+        border-radius: $border-radius;
         margin-right: 4px;
         margin-bottom: 4px;
 
         &:hover {
-          border-color: color(var(--border-color) blackness(30%));
+          border-color: color($border-color blackness(30%));
         }
 
         &[disabled] {

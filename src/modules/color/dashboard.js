@@ -1,5 +1,5 @@
 import template from './dashboard.html'
-import './style.css'
+// import './style.css'
 /**
  * Created by peak on 2017/2/10.
  */
