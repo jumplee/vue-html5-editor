@@ -1,4 +1,4 @@
-const isDebug = false
+const isDebug = true
 
 export function log(info) {
     if (isDebug) {

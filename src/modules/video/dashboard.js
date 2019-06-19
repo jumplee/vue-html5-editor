@@ -10,7 +10,7 @@ import Command from '../../range/command'
 export default {
     template,
     components: {
-        'video-uploader': vueUploader.default.VueVideoUploader
+        'video-uploader': vueUploader.VueVideoUploader
     },
     data() {
         const config = this.$options.module.config

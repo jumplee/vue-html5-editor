@@ -9,7 +9,7 @@ import {
 import {log} from './util/log'
 import plugins from './plugins/index'
 
-const {draft} = plugins
+const {draft , pasteUpload} = plugins
 /**
  * Created by peak on 2017/2/9.
  */
@@ -17,7 +17,7 @@ export default {
     template,
     components: {
         'draft-panel': {
-            template: 'hhh'
+            template: ''
         }
     },
     props: {
@@ -65,6 +65,10 @@ export default {
         },
         // 草稿箱自定义字段，可以让多个编辑器同时使用不同的草稿
         draftStoreKey: {
+            type: String,
+            default: ''
+        },
+        uploadUrl: {
             type: String,
             default: ''
         }
@@ -179,8 +183,8 @@ export default {
             }
         },
         getContent(){
-            const newConent = this.convertToContent(this.$refs.content.innerHTML)
-            return newConent
+            const newContent = this.convertToContent(this.$refs.content.innerHTML)
+            return newContent
         },
         setContent(val){
             const content = this.$refs.content.innerHTML
@@ -345,6 +349,7 @@ export default {
 
         // 执行插件安装
         draft.install(editor)
+        pasteUpload.install(editor)
     },
     // /**
     // * 将不安全的标签去除
@@ -373,5 +378,6 @@ export default {
         })
         // 卸载插件
         draft.uninstall(this)
+        pasteUpload.uninstall(this)
     }
 }

@@ -94,7 +94,6 @@ export default class RangeHandler {
     getParentNode(){
         const range = this.range
         let parentNode = getParentBlockNode(range.startContainer)
-        debugger
         if (parentNode === this.rootElement){
             parentNode = range.startContainer
         }
@@ -340,20 +339,13 @@ export default class RangeHandler {
                 break
             }
             case Command.INSERT_HTML: {
-                if (document.execCommand(Command.INSERT_HTML, false, arg)) {
-                    break
-                }
-                // hack
-                const fragment = document.createDocumentFragment()
                 const div = document.createElement('div')
                 div.innerHTML = arg
-                if (div.hasChildNodes()) {
-                    for (let i = 0; i < div.childNodes.length; i++) {
-                        fragment.appendChild(div.childNodes[i].cloneNode(true))
-                    }
-                }
                 this.range.deleteContents()
-                this.range.insertNode(fragment)
+                this.range.insertNode(div)
+                // 移动到插入标签的外面，避免标签嵌套
+                this.range.setStartAfter(div)
+                this.range.collapse()
                 break
             }
             case Command.BOLD: {

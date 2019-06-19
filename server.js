@@ -47,7 +47,7 @@ app.post('/file/uploading', (req, res, next) => {
       res.end('{"success":false}')
     } else {
       setTimeout(() => {
-        res.end(`{"success":true,"video_path":"${dstPath.replace('./server', '')}","path":"/files/1.png"}`)
+        res.end(`{"success":true,"video_path":"${dstPath.replace('./server', '')}","path":"${dstPath.replace('./server', '')}"}`)
       }, timeout * 1000)
     }
   })

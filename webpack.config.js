@@ -1,13 +1,18 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-module.exports = {
+const devConfig = require('./build/webpack.dev')
+
+const config = {
     entry: './src/index.js',
     output: {
+        library: 'VueHtml5Editor',
+        libraryTarget: 'umd',
         filename: 'vue-html5-editor.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        // 不用 写 var editor = VueHtml5Editor.default
+        libraryExport: 'default'
     },
     module: {
         rules: [
@@ -23,7 +28,7 @@ module.exports = {
                 test: /\.scss$/,
                 use: [
                     // fallback to style-loader in development
-                    process.env.NODE_ENV !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
+                    'style-loader',
                     'css-loader',
                     'sass-loader'
                 ]
@@ -38,23 +43,11 @@ module.exports = {
             //     ]
             // }
         ]
-    },
-    plugins: [
-        new MiniCssExtractPlugin({
-            filename: 'vue-html5-editor.css'
-        })
-    ],
+    }
 
-    optimization: {
-        minimizer: [
-            // new UglifyJsPlugin({
-            //     cache: true,
-            //     parallel: true,
-            //     sourceMap: true // set to true if you want JS source maps
-            // }),
-            new OptimizeCSSAssetsPlugin({})
-        ]
-    },
-    mode: 'production'
 
 }
+if (process.env.NODE_ENV !== 'production'){
+    Object.assign(config,devConfig)
+}
+module.exports = config

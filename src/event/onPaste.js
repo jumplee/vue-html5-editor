@@ -1,15 +1,23 @@
 export default function onPaste(e){
     e.preventDefault()
     // 判断一下是否是粘贴截图图片
-
     let clipboard
     let text = ''
+    let items
+
+
     if (window.clipboardData && window.clipboardData.setData) {
         // IE
         clipboard = window.clipboardData
-        text = clipboard.getData('text')
+        // 有文件传输
+        if (clipboard.items){
+            items = clipboard.items
+        } else {
+            // 文本粘贴
+            text = clipboard.getData('text')
+        }
     } else {
-        clipboard = (e.originalEvent || e).clipboardData
+        clipboard = (e.oriinalEvent || e).clipboardData
         text = clipboard.getData('text/plain')
     }
     // clipboard.

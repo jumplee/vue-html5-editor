@@ -2,7 +2,6 @@ import vueUploader from 'vue-image-uploader'
 import template from './dashboard.html'
 import Command from '../../range/command'
 
-// uploader.upload()
 
 /**
  * Created by peak on 2017/2/10.
@@ -10,7 +9,7 @@ import Command from '../../range/command'
 export default {
     template,
     components: {
-        'image-uploader': vueUploader.default.VueImageUploader
+        'image-uploader': vueUploader.VueImageUploader
     },
     data() {
         const config = this.$options.module.config
