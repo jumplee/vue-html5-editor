@@ -29,7 +29,7 @@ export default {
                 const uid = `temp_img_${uuid()}`
                 editor.execCommand(Command.INSERT_HTML, `
                     <p id="${uid}" style="text-align: center;border:1px solid #eee;padding:20px;">
-                    <img style="width:40px;" src="${loadingPath}" alt="">
+                    <img style="border: none;margin: 0 auto;width:40px;" src="${loadingPath}" alt="">
 </p>
                 `)
 
@@ -40,8 +40,25 @@ export default {
             }
         }
 
+        this.dragleaveListener = function (e) {
+            e.preventDefault()
+        }
+        this.dropListener = function (e) {
+            e.preventDefault()
+        }
+        this.dragenterListener = function (e) {
+            e.preventDefault()
+        }
+        this.dragoverListener = function (e) {
+            e.preventDefault()
+        }
         if (editor.uploadUrl){
             document.addEventListener('paste', this.pasteListener)
+            document.addEventListener('dragleave',this.dragleaveListener)
+            document.addEventListener('drop',this.dropListener)
+            document.addEventListener('dragenter',this.dragenterListener)
+            document.addEventListener('dragover',this.dragoverListener)
+            debugger
         }
     }
 }

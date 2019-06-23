@@ -6,7 +6,7 @@ import i18nEnUs from './i18n/en-us'
 import mixin from './util/mixin'
 import draft from './plugins/draft/component'
 
-polyfill()
+// polyfill()
 /**
  * Vue html5 Editor
  * @param Vue   {Vue}

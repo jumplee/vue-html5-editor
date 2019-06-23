@@ -1,7 +1,7 @@
 import vueUploader from 'vue-image-uploader'
 import template from './dashboard.html'
 import Command from '../../range/command'
-
+console.log(vueUploader)
 
 /**
  * Created by peak on 2017/2/10.
