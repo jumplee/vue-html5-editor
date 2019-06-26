@@ -12,8 +12,9 @@
   ],
   "main": "src/index.js",
   "scripts": {
-    "dev": "rollup -c ./rollup.config.js",
+    "dev": "./node_modules/.bin/cross-env NODE_ENV=dev rollup -c ./rollup.config.js -w",
     "build": "./node_modules/.bin/cross-env NODE_ENV=production rollup -c ./rollup.config.js",
+    "build:es6": "rollup -c ./rollup.config.js",
     "test": "node ./server.js",
     "lint": "eslint --fix -f codeframe src/*"
   },
@@ -30,6 +31,7 @@
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
     "cross-env": "^5.2.0",
+    "cssnano": "^4.1.10",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-friendly-formatter": "^2.0.6",
@@ -54,6 +56,6 @@
     "rollup-plugin-uglify": "^6.0.2"
   },
   "dependencies": {
-    "vue-image-uploader": "../vue-image-uploader"
+    "vue-image-uploader": "../vue-image-uploader/"
   }
 }

@@ -1,0 +1,252 @@
+/**
+.vue-html5-editor
+    ├──.toolbar
+    |    ├── ul  (menu)
+    |    └── .dashboard.html
+    └──.content
+*/
+
+.vue-html5-editor {
+  font-size: 14px;
+  background-color: white;
+  color: #333;
+  border: 1px solid #ddd;
+  text-align: left;
+  border-radius: 5px;
+  box-sizing: border-box;
+  position:relative
+}
+
+.vue-html5-editor * {
+    box-sizing: border-box;
+  }
+
+.vue-html5-editor .search-input, .vue-html5-editor .search-title{
+    border: 1px solid #ddd;
+    padding: 0 7px;
+    border-radius: 5px;
+    outline: 0;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: top;
+  }
+
+.vue-html5-editor .search-input{
+    width: 200px;
+  }
+
+.vue-html5-editor {
+  /* & .vue-html5-link{
+    display: block;
+    margin: 10px 0;
+    color: #333;
+    text-decoration: none;
+    background: #f4f4f4;
+    padding: 5px;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid #f0f0f0;
+    line-height: 28px;
+  }
+
+  & .vue-html5-link-title{
+    color: #157EFB;
+  } */
+}
+
+.vue-html5-editor.full-screen {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    border-radius: 0;
+  }
+
+.vue-html5-editor > .toolbar {
+    position: relative;
+    background-color: inherit
+
+
+  }
+
+.vue-html5-editor > .toolbar > ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      border-bottom: 1px solid #ddd
+    }
+
+.vue-html5-editor > .toolbar > ul > li {
+        display: inline-block;
+        cursor: pointer;
+        text-align: center;
+        padding: 8px 10px
+      }
+
+.vue-html5-editor > .toolbar > ul > li .icon {
+          height: 16px;
+          width: 16px;
+          display: inline-block;
+          vertical-align: middle;
+        }
+
+.vue-html5-editor > .content {
+    overflow: auto;
+    padding: 15px 25px;
+    z-index:-1;
+    outline: none;
+
+
+  }
+
+.vue-html5-editor > .content .video-poster {
+      width: 100%;
+      border: 1px solid #eee;
+      position:relative;
+    }
+
+.vue-html5-editor > .content hr{
+      border: 1px solid #DFDFDF;
+    }
+
+.vue-html5-editor > .content a{
+      color:darkblue;
+    }
+
+.vue-html5-editor > .content a:hover{
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+.vue-html5-editor > .content:focus {
+      outline: 0;
+    }
+
+.vue-html5-editor > .dashboard {
+      background-color: inherit;
+      border-bottom: 1px solid #ddd;
+      padding: 10px;
+      position: absolute;
+      top: 35px;
+      left: 0;
+      right: 0;
+      overflow: auto
+
+    }
+
+.vue-html5-editor > .dashboard input[type='text'], .vue-html5-editor > .dashboard input[type='number'], .vue-html5-editor > .dashboard select {
+        padding: 6px 12px;
+        color: inherit;
+        background-color: transparent;
+        border: 1px solid #ddd;
+        border-radius: 5px
+      }
+
+.vue-html5-editor > .dashboard input[type='text']:hover, .vue-html5-editor > .dashboard input[type='number']:hover, .vue-html5-editor > .dashboard select:hover {
+          border-color: color(#ddd blackness(30%));
+        }
+
+.vue-html5-editor > .dashboard input[type='text'][disabled], .vue-html5-editor > .dashboard input[type='text'][readonly], .vue-html5-editor > .dashboard input[type='number'][disabled], .vue-html5-editor > .dashboard input[type='number'][readonly], .vue-html5-editor > .dashboard select[disabled], .vue-html5-editor > .dashboard select[readonly] {
+          background-color: #eee;
+          opacity: 1;
+        }
+
+.vue-html5-editor > .dashboard input[type='text'][disabled], .vue-html5-editor > .dashboard input[type='number'][disabled], .vue-html5-editor > .dashboard select[disabled] {
+          cursor: not-allowed;
+        }
+
+.vue-html5-editor > .dashboard button {
+        color: inherit;
+        background-color: inherit;
+        padding: 6px 12px;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        -webkit-user-select: none;
+           -moz-user-select: none;
+            -ms-user-select: none;
+                user-select: none;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-right: 4px;
+        margin-bottom: 4px
+      }
+
+.vue-html5-editor > .dashboard button:hover {
+          border-color: color(#ddd blackness(30%));
+        }
+
+.vue-html5-editor > .dashboard button[disabled] {
+          cursor: not-allowed;
+          opacity: .68;
+        }
+
+.vue-html5-editor > .dashboard button:last-child {
+          margin-right: 0;
+        }
+
+.vue-html5-editor > .dashboard input, .vue-html5-editor > .dashboard button, .vue-html5-editor > .dashboard select {
+        line-height: normal;
+      }
+
+.vue-html5-editor > .dashboard label {
+        font-weight: bolder;
+      }
+.vue-html5-editor .plugins{
+    position:absolute;
+    top: 37px;
+    left:0;
+    width:100%;
+}
+
+.vue-html5-editor  .draft__dialog{
+    background: #fff8ba;
+    padding: 10px 15px;
+    border-bottom: 1px solid #fdf184;
+}
+.vue-html5-editor   .draft_btn{
+    color:blue;
+    margin:0 5px;
+    cursor:pointer;
+  }
+.vue-html5-editor   .draft__no{
+    color: #505050;
+  }
+.vue-html5-editor .img-btn-cancel {
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    padding: 0 5px;
+    border-radius: 5px;
+    margin-left: 15px;
+    background: #f5f5f5;
+  }
+.vue-html5-editor .img-holder{
+    /* 禁止编辑，避免光标移动到这里 */
+    user-modify: read-only;
+    -webkit-user-modify: read-only;
+    text-align: center;border:1px solid #eee;padding:20px;
+  }
+@media (max-width: 767px) {
+      .vue-html5-editor .dashboard label, .vue-html5-editor .dashboard input[type='text'], .vue-html5-editor .dashboard input[type='number'], .vue-html5-editor .dashboard button, .vue-html5-editor .dashboard select {
+        display: block;
+        margin-bottom: 5px;
+        width: 100% !important
+      }
+        .vue-html5-editor .dashboard label:last-child, .vue-html5-editor .dashboard input[type='text']:last-child, .vue-html5-editor .dashboard input[type='number']:last-child, .vue-html5-editor .dashboard button:last-child, .vue-html5-editor .dashboard select:last-child {
+          margin-bottom: 0;
+        }
+}
+
+@media (min-width: 768px) {
+      .vue-html5-editor .dashboard label, .vue-html5-editor .dashboard input, .vue-html5-editor .dashboard button, .vue-html5-editor .dashboard select {
+        display: inline-block;
+        margin-right: 4px;
+        max-width: 100%
+      }
+        .vue-html5-editor .dashboard label:last-child, .vue-html5-editor .dashboard input:last-child, .vue-html5-editor .dashboard button:last-child, .vue-html5-editor .dashboard select:last-child {
+          margin-right: 0;
+        }
+}

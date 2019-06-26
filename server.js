@@ -44,7 +44,7 @@ app.post('/file/uploading', (req, res, next) => {
     // 随机生成一个延迟
     const timeout = Math.ceil(Math.random() * 5)
     if (timeout > 4) {
-      res.end('{"success":false}')
+      res.end('{"success":false,"errMsg":"随机错误-转码失败[E233]"}')
     } else {
       setTimeout(() => {
         res.end(`{"success":true,"video_path":"${dstPath.replace('./server', '')}","path":"${dstPath.replace('./server', '')}"}`)

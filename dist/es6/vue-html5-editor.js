@@ -1,61 +1,112 @@
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+}
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  }
+}
+
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
+
 var template = "<div> <button type=\"button\" @click=\"$parent.execCommand('justifyLeft')\"> {{$parent.locale[\"left justify\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('justifyCenter')\"> {{$parent.locale[\"center justify\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('justifyRight')\"> {{$parent.locale[\"right justify\"]}} </button> </div>";
 
 /**
  * Created by peak on 2017/2/10.
  */
+
 var dashboard = {
-    template
+  template: template
 };
 
 /**
  * text align
  * Created by peak on 16/8/18.
  */
-
 var align = {
-    name: 'align',
-    icon: 'fa fa-align-center',
-    i18n: 'align',
-    dashboard
+  name: 'align',
+  icon: 'fa fa-align-center',
+  i18n: 'align',
+  dashboard: dashboard
 };
 
 var template$1 = "<div> <div> <label> <input type=\"radio\" value=\"foreColor\" v-model=\"command\">&nbsp; {{$parent.locale[\"fore color\"]}} </label> <label> <input type=\"radio\" value=\"backColor\" v-model=\"command\">&nbsp; {{$parent.locale[\"background color\"]}} </label> </div> <div> <div v-for=\"color in colors\" :style=\"{'background-color':color}\" class=\"color-card\" @click=\"changeColor(color)\"> </div> <div style=\"clear: both\"></div> </div> </div> ";
 
-// import './style.css'
 /**
  * Created by peak on 2017/2/10.
  */
+
 var dashboard$1 = {
-    template: template$1,
-    data(){
-        return {
-            // foreColor,backColor
-            command: 'foreColor',
-            colors: [
-                '#000000', '#000033', '#000066', '#000099', '#003300', '#003333', '#003366',
-                '#003399', '#006600', '#006633', '#009900', '#330000', '#330033', '#330066',
-                '#333300', '#333366', '#660000', '#660033', '#663300', '#666600', '#666633',
-                '#666666', '#666699', '#990000', '#990033', '#9900CC', '#996600', '#FFCC00',
-                '#FFCCCC', '#FFCC99', '#FFFF00', '#FF9900', '#CCFFCC', '#CCFFFF', '#CCFF99'
-            ]
-        }
-    },
-    methods: {
-        changeColor(color){
-            this.$parent.execCommand(this.command, color);
-        }
+  template: template$1,
+  data: function data() {
+    return {
+      // foreColor,backColor
+      command: 'foreColor',
+      colors: ['#000000', '#000033', '#000066', '#000099', '#003300', '#003333', '#003366', '#003399', '#006600', '#006633', '#009900', '#330000', '#330033', '#330066', '#333300', '#333366', '#660000', '#660033', '#663300', '#666600', '#666633', '#666666', '#666699', '#990000', '#990033', '#9900CC', '#996600', '#FFCC00', '#FFCCCC', '#FFCC99', '#FFFF00', '#FF9900', '#CCFFCC', '#CCFFFF', '#CCFF99']
+    };
+  },
+  methods: {
+    changeColor: function changeColor(color) {
+      this.$parent.execCommand(this.command, color);
     }
+  }
 };
 
 /**
  * fore color and back color
  * Created by peak on 16/8/18.
  */
+
 var color = {
-    name: 'color',
-    icon: 'fa fa-paint-brush',
-    i18n: 'color',
-    dashboard: dashboard$1
+  name: 'color',
+  icon: 'fa fa-paint-brush',
+  i18n: 'color',
+  dashboard: dashboard$1
 };
 
 /**
@@ -63,12 +114,12 @@ var color = {
  * Created by peak on 16/8/18.
  */
 var eraser = {
-    name: 'eraser',
-    icon: 'fa fa-eraser',
-    i18n: 'eraser',
-    handler(editor) {
-        editor.execCommand('removeFormat');
-    }
+  name: 'eraser',
+  icon: 'fa fa-eraser',
+  i18n: 'eraser',
+  handler: function handler(editor) {
+    editor.execCommand('removeFormat');
+  }
 };
 
 var template$2 = "<div class=\"dashboard-font\" style=\"line-height: 36px;\"> <div> <label>{{$parent.locale[\"heading\"]}}:</label> <button v-for=\"h in 6\" type=\"button\" @click=\"setHeading(h)\">H{{h}}</button> </div> <!-- <div>\n        <label>\n            {{$parent.locale[\"font name\"]}}:\n        </label>\n        <button v-for=\"name in nameList\" type=\"button\" @click=\"setFontName(name)\">{{name}}</button>\n    </div> --> <div> <label> {{$parent.locale[\"font size\"]}}: </label> <button v-for=\"size in fontSizeList\" type=\"button\" @click=\"setFontSize(size)\">{{size}}</button> </div> <div> <label> {{$parent.locale[\"line height\"]}}: </label> <button v-for=\"lh in lineHeightList\" type=\"button\" @click=\"setLineHeight(lh)\"> {{lh}} </button> </div> </div>";
@@ -77,99 +128,83 @@ var template$2 = "<div class=\"dashboard-font\" style=\"line-height: 36px;\"> <d
  * Created by peak on 2017/2/14.
  */
 var Command = {
-    JUSTIFY_LEFT: 'justifyLeft',
-    JUSTIFY_CENTER: 'justifyCenter',
-    JUSTIFY_RIGHT: 'justifyRight',
-    FORE_COLOR: 'foreColor',
-    BACK_COLOR: 'backColor',
-    REMOVE_FORMAT: 'removeFormat',
-    FONT_NAME: 'fontName',
-    FONT_SIZE: 'fontSize',
-    FORMAT_BLOCK: 'formatBlock',
-    LINE_HEIGHT: 'lineHeight',
-    INSERT_HORIZONTAL_RULE: 'insertHorizontalRule',
-    INSERT_IMAGE: 'insertImage',
-    CREATE_LINK: 'createLink',
-    INSERT_ORDERED_LIST: 'insertOrderedList',
-    INSERT_UNORDERED_LIST: 'insertUnorderedList',
-    INSERT_HTML: 'insertHTML',
-    BOLD: 'bold',
-    ITALIC: 'italic',
-    UNDERLINE: 'underline',
-    STRIKE_THROUGH: 'strikeThrough',
-    SUBSCRIPT: 'subscript',
-    SUPERSCRIPT: 'superscript',
-    UNDO: 'undo',
-    UNLINK: 'unlink',
-    INDENT: 'indent'
+  JUSTIFY_LEFT: 'justifyLeft',
+  JUSTIFY_CENTER: 'justifyCenter',
+  JUSTIFY_RIGHT: 'justifyRight',
+  FORE_COLOR: 'foreColor',
+  BACK_COLOR: 'backColor',
+  REMOVE_FORMAT: 'removeFormat',
+  FONT_NAME: 'fontName',
+  FONT_SIZE: 'fontSize',
+  FORMAT_BLOCK: 'formatBlock',
+  LINE_HEIGHT: 'lineHeight',
+  INSERT_HORIZONTAL_RULE: 'insertHorizontalRule',
+  INSERT_IMAGE: 'insertImage',
+  CREATE_LINK: 'createLink',
+  INSERT_ORDERED_LIST: 'insertOrderedList',
+  INSERT_UNORDERED_LIST: 'insertUnorderedList',
+  INSERT_HTML: 'insertHTML',
+  BOLD: 'bold',
+  ITALIC: 'italic',
+  UNDERLINE: 'underline',
+  STRIKE_THROUGH: 'strikeThrough',
+  SUBSCRIPT: 'subscript',
+  SUPERSCRIPT: 'superscript',
+  UNDO: 'undo',
+  UNLINK: 'unlink',
+  INDENT: 'indent'
 };
 
 /**
  * Created by peak on 2017/2/10.
  */
+
 var dashboard$2 = {
-    template: template$2,
-    data(){
-        return {
-            nameList: [
-                'Microsoft YaHei',
-                'Helvetica Neue',
-                'Helvetica',
-                'Arial',
-                'sans-serif',
-                'Verdana',
-                'Georgia',
-                'Times New Roman',
-                'Trebuchet MS',
-                'Microsoft JhengHei',
-                'Courier New',
-                'Impact',
-                'Comic Sans MS',
-                'Consolas'
-            ],
-            lineHeightList: [
-                '1.0', '1.2', '1.5', '1.8', '2.0', '2.5', '3.0'
-            ],
-            fontSizeList: [
-                '12px', '14px', '16px', '18px', '20px', '22px', '24px'
-            ]
-        }
+  template: template$2,
+  data: function data() {
+    return {
+      nameList: ['Microsoft YaHei', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif', 'Verdana', 'Georgia', 'Times New Roman', 'Trebuchet MS', 'Microsoft JhengHei', 'Courier New', 'Impact', 'Comic Sans MS', 'Consolas'],
+      lineHeightList: ['1.0', '1.2', '1.5', '1.8', '2.0', '2.5', '3.0'],
+      fontSizeList: ['12px', '14px', '16px', '18px', '20px', '22px', '24px']
+    };
+  },
+  methods: {
+    setFontName: function setFontName(name) {
+      this.$parent.execCommand('fontName', name);
     },
-    methods: {
-        setFontName(name){
-            this.$parent.execCommand('fontName', name);
-        },
-        setFontSize(size){
-            this.$parent.execCommand('fontSize', size);
-        },
-        setHeading(heading){
-            this.$parent.execCommand('formatBlock', `h${heading}`);
-        },
-        setLineHeight(lh){
-            this.$parent.execCommand(Command.LINE_HEIGHT, lh);
-        }
+    setFontSize: function setFontSize(size) {
+      this.$parent.execCommand('fontSize', size);
     },
-    created(){
-        const config = this.$options.module.config;
-        // font name
-        if (!config) {
-            return
-        }
-        if (Array.isArray(config.fontNames)) {
-            this.nameList = config.fontNames;
-        }
+    setHeading: function setHeading(heading) {
+      this.$parent.execCommand('formatBlock', "h".concat(heading));
+    },
+    setLineHeight: function setLineHeight(lh) {
+      this.$parent.execCommand(Command.LINE_HEIGHT, lh);
     }
+  },
+  created: function created() {
+    var config = this.$options.module.config; // font name
+
+    if (!config) {
+      return;
+    }
+
+    if (Array.isArray(config.fontNames)) {
+      this.nameList = config.fontNames;
+    }
+  }
 };
 
 /**
  * font name and font size
  * Created by peak on 16/8/18.
  */
+
 var font = {
-    name: 'font',
-    icon: 'fa fa-font',
-    i18n: 'font',
-    dashboard: dashboard$2
+  name: 'font',
+  icon: 'fa fa-font',
+  i18n: 'font',
+  dashboard: dashboard$2
 };
 
 /**
@@ -177,12 +212,12 @@ var font = {
  * Created by peak on 16/8/18.
  */
 var fullScreen = {
-    name: 'full-screen',
-    icon: 'fa fa-arrows-alt',
-    i18n: 'full screen',
-    handler(editor) {
-        editor.toggleFullScreen();
-    }
+  name: 'full-screen',
+  icon: 'fa fa-arrows-alt',
+  i18n: 'full screen',
+  handler: function handler(editor) {
+    editor.toggleFullScreen();
+  }
 };
 
 /**
@@ -190,18 +225,18 @@ var fullScreen = {
  * Created by peak on 16/8/20.
  */
 var hr = {
-    name: 'hr',
-    icon: 'fa fa-minus',
-    i18n: 'hr',
-    handler(editor) {
-        editor.execCommand('insertHorizontalRule');
-    }
-    // init (editor) {
-    //
-    // },
-    // destroyed(editor){
-    //
-    // },
+  name: 'hr',
+  icon: 'fa fa-minus',
+  i18n: 'hr',
+  handler: function handler(editor) {
+    editor.execCommand('insertHorizontalRule');
+  } // init (editor) {
+  //
+  // },
+  // destroyed(editor){
+  //
+  // },
+
 };
 
 function unwrapExports (x) {
@@ -212,11 +247,9 @@ function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
 
-var vueUploader = createCommonjsModule(function (module, exports) {
-(function webpackUniversalModuleDefinition(root, factory) {
-	module.exports = factory();
-})(window, function() {
-return /******/ (function(modules) { // webpackBootstrap
+var vueUploader = createCommonjsModule(function (module) {
+module.exports =
+/******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -308,17 +341,27 @@ return /******/ (function(modules) { // webpackBootstrap
 /*!*******************************************************************!*\
   !*** ./node_modules/babel-loader/lib!./src/imageUploader/main.js ***!
   \*******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _uploader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../uploader */ "./src/uploader.js");
-/* harmony import */ var _uploader__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_uploader__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _baseViewCtrl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../baseViewCtrl */ "./src/baseViewCtrl.js");
-/* harmony import */ var _baseViewCtrl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_baseViewCtrl__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _props__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../props */ "./src/props.js");
-/* harmony import */ var _props__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_props__WEBPACK_IMPORTED_MODULE_2__);
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _uploader = __webpack_require__(/*! ../uploader */ "./src/uploader.js");
+
+var _uploader2 = _interopRequireDefault(_uploader);
+
+var _baseViewCtrl = __webpack_require__(/*! ../baseViewCtrl */ "./src/baseViewCtrl.js");
+
+var _baseViewCtrl2 = _interopRequireDefault(_baseViewCtrl);
+
+var _props = __webpack_require__(/*! ../props */ "./src/props.js");
+
+var _props2 = _interopRequireDefault(_props);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  *  
@@ -326,17 +369,17 @@ __webpack_require__.r(__webpack_exports__);
  * 
  */
 
-/* harmony default export */ __webpack_exports__["default"] = (Object.assign({}, _baseViewCtrl__WEBPACK_IMPORTED_MODULE_1___default.a, {
-  props: _props__WEBPACK_IMPORTED_MODULE_2___default.a,
+exports.default = Object.assign({}, _baseViewCtrl2.default, {
+  props: _props2.default,
 
-  created() {
+  created: function created() {
     var self = this;
-    var uploader = new _uploader__WEBPACK_IMPORTED_MODULE_0___default.a(Object.assign({}, {
+    var uploader = new _uploader2.default(Object.assign({}, {
       uploadUrl: self.url,
       accept: self.accept,
       showProgress: self.showProgress,
       thumb: true,
-      onAcceptError: function (e) {
+      onAcceptError: function onAcceptError(e) {
         alert(e.ext + '类型文件不符合要求');
       }
     }, self.uploadConfig));
@@ -345,12 +388,12 @@ __webpack_require__.r(__webpack_exports__);
       self.files = self.files.concat();
       self.uploadFinish = true;
     });
-    uploader.on('progress', file => {
+    uploader.on('progress', function (file) {
       // let newFile=Object.assign({},file)
       self.files.splice(file.index, 1, file);
     });
   }
-}));
+});
 
 /***/ }),
 
@@ -358,22 +401,32 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************************************************!*\
   !*** ./node_modules/babel-loader/lib!./src/videoUploader/main.js ***!
   \*******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _uploader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../uploader */ "./src/uploader.js");
-/* harmony import */ var _uploader__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_uploader__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _baseViewCtrl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../baseViewCtrl */ "./src/baseViewCtrl.js");
-/* harmony import */ var _baseViewCtrl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_baseViewCtrl__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _props__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../props */ "./src/props.js");
-/* harmony import */ var _props__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_props__WEBPACK_IMPORTED_MODULE_2__);
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-const newProps = Object.assign({}, _props__WEBPACK_IMPORTED_MODULE_2___default.a, {
+var _uploader = __webpack_require__(/*! ../uploader */ "./src/uploader.js");
+
+var _uploader2 = _interopRequireDefault(_uploader);
+
+var _baseViewCtrl = __webpack_require__(/*! ../baseViewCtrl */ "./src/baseViewCtrl.js");
+
+var _baseViewCtrl2 = _interopRequireDefault(_baseViewCtrl);
+
+var _props = __webpack_require__(/*! ../props */ "./src/props.js");
+
+var _props2 = _interopRequireDefault(_props);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var newProps = Object.assign({}, _props2.default, {
   accept: {
     type: Array,
-    default: function () {
+    default: function _default() {
       return ['flv', 'mkv', 'avi', 'rm', 'rmvb', 'mpeg', 'mpg', 'ogg', 'ogv', 'mov', 'wmv', 'mp4', 'webm', 'mp3', 'wav'];
     }
   },
@@ -381,7 +434,7 @@ const newProps = Object.assign({}, _props__WEBPACK_IMPORTED_MODULE_2___default.a
     default: '*'
   },
   uploadConfig: {
-    default: function () {
+    default: function _default() {
       return {
         // 三十分钟等待
         timeout: 30 * 60
@@ -396,9 +449,9 @@ const newProps = Object.assign({}, _props__WEBPACK_IMPORTED_MODULE_2___default.a
  * 
  */
 
-/* harmony default export */ __webpack_exports__["default"] = (Object.assign({}, _baseViewCtrl__WEBPACK_IMPORTED_MODULE_1___default.a, {
+exports.default = Object.assign({}, _baseViewCtrl2.default, {
   props: newProps,
-  data() {
+  data: function data() {
     return {
       files: [],
       uploadSuccessNum: 0,
@@ -408,13 +461,13 @@ const newProps = Object.assign({}, _props__WEBPACK_IMPORTED_MODULE_2___default.a
       showPanelMask: false
     };
   },
-  created() {
+  created: function created() {
     var self = this;
-    var uploader = new _uploader__WEBPACK_IMPORTED_MODULE_0___default.a(Object.assign({}, {
+    var uploader = new _uploader2.default(Object.assign({}, {
       uploadUrl: self.url,
       accept: self.accept,
       showProgress: self.showProgress,
-      onAcceptError: function (e) {
+      onAcceptError: function onAcceptError(e) {
         alert(e.ext + '类型文件不符合要求');
       }
     }, self.uploadConfig));
@@ -423,12 +476,12 @@ const newProps = Object.assign({}, _props__WEBPACK_IMPORTED_MODULE_2___default.a
       self.files = self.files.concat();
       self.uploadFinish = true;
     });
-    uploader.on('progress', file => {
+    uploader.on('progress', function (file) {
       // let newFile=Object.assign({},file)
       self.files.splice(file.index, 1, file);
     });
   }
-}));
+});
 
 /***/ }),
 
@@ -729,7 +782,7 @@ var render = function() {
                 staticClass: "close",
                 on: {
                   click: function($event) {
-                    _vm.close(true);
+                    return _vm.close(true)
                   }
                 }
               },
@@ -783,7 +836,7 @@ var render = function() {
                             staticStyle: { float: "right" },
                             on: {
                               click: function($event) {
-                                _vm.del(file);
+                                return _vm.del(file)
                               }
                             }
                           },
@@ -874,7 +927,7 @@ var render = function() {
                         staticStyle: { "margin-left": "15px" },
                         on: {
                           click: function($event) {
-                            _vm.up();
+                            return _vm.up()
                           }
                         }
                       },
@@ -896,7 +949,7 @@ var render = function() {
                         staticStyle: { "margin-left": "15px" },
                         on: {
                           click: function($event) {
-                            _vm.up();
+                            return _vm.up()
                           }
                         }
                       },
@@ -915,7 +968,7 @@ var render = function() {
                   staticClass: "btn save-btn",
                   on: {
                     click: function($event) {
-                      _vm.close();
+                      return _vm.close()
                     }
                   }
                 },
@@ -1000,7 +1053,7 @@ var render = function() {
                 staticClass: "close",
                 on: {
                   click: function($event) {
-                    _vm.close(true);
+                    return _vm.close(true)
                   }
                 }
               },
@@ -1054,7 +1107,7 @@ var render = function() {
                             staticStyle: { float: "right" },
                             on: {
                               click: function($event) {
-                                _vm.del(file);
+                                return _vm.del(file)
                               }
                             }
                           },
@@ -1140,7 +1193,7 @@ var render = function() {
                         staticStyle: { "margin-left": "15px" },
                         on: {
                           click: function($event) {
-                            _vm.up();
+                            return _vm.up()
                           }
                         }
                       },
@@ -1162,7 +1215,7 @@ var render = function() {
                         staticStyle: { "margin-left": "15px" },
                         on: {
                           click: function($event) {
-                            _vm.up();
+                            return _vm.up()
                           }
                         }
                       },
@@ -1181,7 +1234,7 @@ var render = function() {
                   staticClass: "btn save-btn",
                   on: {
                     click: function($event) {
-                      _vm.close();
+                      return _vm.close()
                     }
                   }
                 },
@@ -1775,11 +1828,13 @@ module.exports = {
 /*!****************************************!*\
   !*** ./src/imageUploader/uploader.vue ***!
   \****************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_loader_main_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !babel-loader!./main.js */ "./node_modules/babel-loader/lib/index.js!./src/imageUploader/main.js");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_5dc37ded_hasScoped_true_optionsId_0_buble_transforms_index_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-5dc37ded","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./index.html */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-5dc37ded\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./src/imageUploader/index.html");
+/* harmony import */ var _babel_loader_main_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_loader_main_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _babel_loader_main_js__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _babel_loader_main_js__WEBPACK_IMPORTED_MODULE_0__[key]; }); }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_5dc37ded_hasScoped_true_optionsId_0_buble_transforms_index_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-5dc37ded","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./index.html */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-5dc37ded\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./src/imageUploader/index.html");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/component-normalizer */ "./node_modules/vue-loader/lib/runtime/component-normalizer.js");
 function injectStyle (context) {
   __webpack_require__(/*! !vue-style-loader!css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index?{"optionsId":"0","vue":true,"id":"data-v-5dc37ded","scoped":true,"sourceMap":true}!sass-loader!../uploader.scss */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-5dc37ded\",\"scoped\":true,\"sourceMap\":true}!./node_modules/sass-loader/lib/loader.js!./src/uploader.scss");
@@ -1798,7 +1853,7 @@ var __vue_scopeId__ = "data-v-5dc37ded";
 var __vue_module_identifier__ = null;
 
 var Component = Object(_node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _babel_loader_main_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+  _babel_loader_main_js__WEBPACK_IMPORTED_MODULE_0___default.a,
   _node_modules_vue_loader_lib_template_compiler_index_id_data_v_5dc37ded_hasScoped_true_optionsId_0_buble_transforms_index_html__WEBPACK_IMPORTED_MODULE_1__["render"],
   _node_modules_vue_loader_lib_template_compiler_index_id_data_v_5dc37ded_hasScoped_true_optionsId_0_buble_transforms_index_html__WEBPACK_IMPORTED_MODULE_1__["staticRenderFns"],
   __vue_template_functional__,
@@ -2292,11 +2347,13 @@ module.exports = Uploader;
 /*!****************************************!*\
   !*** ./src/videoUploader/uploader.vue ***!
   \****************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_loader_main_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !babel-loader!./main.js */ "./node_modules/babel-loader/lib/index.js!./src/videoUploader/main.js");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_05e646cd_hasScoped_true_optionsId_0_buble_transforms_index_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-05e646cd","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./index.html */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-05e646cd\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./src/videoUploader/index.html");
+/* harmony import */ var _babel_loader_main_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_loader_main_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _babel_loader_main_js__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _babel_loader_main_js__WEBPACK_IMPORTED_MODULE_0__[key]; }); }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_template_compiler_index_id_data_v_05e646cd_hasScoped_true_optionsId_0_buble_transforms_index_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/vue-loader/lib/template-compiler/index?{"id":"data-v-05e646cd","hasScoped":true,"optionsId":"0","buble":{"transforms":{}}}!./index.html */ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-05e646cd\",\"hasScoped\":true,\"optionsId\":\"0\",\"buble\":{\"transforms\":{}}}!./src/videoUploader/index.html");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/component-normalizer */ "./node_modules/vue-loader/lib/runtime/component-normalizer.js");
 function injectStyle (context) {
   __webpack_require__(/*! !vue-style-loader!css-loader?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index?{"optionsId":"0","vue":true,"id":"data-v-05e646cd","scoped":true,"sourceMap":true}!sass-loader!../uploader.scss */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js?sourceMap!./node_modules/vue-loader/lib/style-compiler/index.js?{\"optionsId\":\"0\",\"vue\":true,\"id\":\"data-v-05e646cd\",\"scoped\":true,\"sourceMap\":true}!./node_modules/sass-loader/lib/loader.js!./src/uploader.scss");
@@ -2315,7 +2372,7 @@ var __vue_scopeId__ = "data-v-05e646cd";
 var __vue_module_identifier__ = null;
 
 var Component = Object(_node_modules_vue_loader_lib_runtime_component_normalizer__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _babel_loader_main_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+  _babel_loader_main_js__WEBPACK_IMPORTED_MODULE_0___default.a,
   _node_modules_vue_loader_lib_template_compiler_index_id_data_v_05e646cd_hasScoped_true_optionsId_0_buble_transforms_index_html__WEBPACK_IMPORTED_MODULE_1__["render"],
   _node_modules_vue_loader_lib_template_compiler_index_id_data_v_05e646cd_hasScoped_true_optionsId_0_buble_transforms_index_html__WEBPACK_IMPORTED_MODULE_1__["staticRenderFns"],
   __vue_template_functional__,
@@ -2331,7 +2388,6 @@ Component.options.__file = "src/videoUploader/uploader.vue";
 /***/ })
 
 /******/ });
-});
 
 });
 
@@ -2340,66 +2396,68 @@ var vueUploader$1 = unwrapExports(vueUploader);
 var template$3 = "<div> <image-uploader :z-index=\"9000\" :show-progress=\"true\" :show=\"true\" :url=\"serverUrl\" @finish=\"onFinish\"></image-uploader> </div>";
 
 console.log(vueUploader$1);
-
 /**
  * Created by peak on 2017/2/10.
  */
-var dashboard$3 = {
-    template: template$3,
-    components: {
-        'image-uploader': vueUploader$1.VueImageUploader
-    },
-    data() {
-        const config = this.$options.module.config;
-        return {
-            imageUrl: '',
-            showDialog: false,
-            serverUrl: config.url
-        }
-    },
-    methods: {
-        insertImageUrl() {
-            if (!this.imageUrl) {
-                return
-            }
-            this.insertImg(this.imageUrl);
-            this.imageUrl = null;
-        },
-        onFinish(files) {
-            const self = this;
-            const config = self.$options.module.config;
-            let returnUrl = 'path';
-            if (config.returnUrl){
-                returnUrl = config.returnUrl;
-            }
-            self.$parent.dashboard = null;
-            const urlAr = [];
-            files.forEach((item) => {
-                urlAr.push(item[returnUrl]);
-            });
 
-            if (urlAr.length > 0){
-                this.insertImg(urlAr);
-            }
-        },
-        insertImg(url) {
-            this.$parent.execCommand(Command.INSERT_IMAGE, url);
-        }
+var dashboard$3 = {
+  template: template$3,
+  components: {
+    'image-uploader': vueUploader$1.VueImageUploader
+  },
+  data: function data() {
+    var config = this.$options.module.config;
+    return {
+      imageUrl: '',
+      showDialog: false,
+      serverUrl: config.url
+    };
+  },
+  methods: {
+    insertImageUrl: function insertImageUrl() {
+      if (!this.imageUrl) {
+        return;
+      }
+
+      this.insertImg(this.imageUrl);
+      this.imageUrl = null;
+    },
+    onFinish: function onFinish(files) {
+      var self = this;
+      var config = self.$options.module.config;
+      var returnUrl = 'path';
+
+      if (config.returnUrl) {
+        returnUrl = config.returnUrl;
+      }
+
+      self.$parent.dashboard = null;
+      var urlAr = [];
+      files.forEach(function (item) {
+        urlAr.push(item[returnUrl]);
+      });
+
+      if (urlAr.length > 0) {
+        this.insertImg(urlAr);
+      }
+    },
+    insertImg: function insertImg(url) {
+      this.$parent.execCommand(Command.INSERT_IMAGE, url);
     }
+  }
 };
 
 /**
  * insert image
  * Created by peak on 16/8/18.
  */
-var image = {
-    name: 'image',
-    icon: 'fa fa-file-image-o',
-    i18n: 'image',
-    config: {
 
-    },
-    dashboard: dashboard$3
+var image = {
+  name: 'image',
+  icon: 'fa fa-file-image-o',
+  i18n: 'image',
+  config: {},
+  dashboard: dashboard$3
 };
 
 var template$4 = "<div> <h3 style=\"text-align: center\">Vue-html5-editor&nbsp;{{version}}</h3> <p style=\"text-align: center\"> repository: <a href=\"https://github.com/PeakTai/vue-html5-editor\" target=\"_blank\"> https://github.com/PeakTai/vue-html5-editor </a> </p> </div> ";
@@ -2407,84 +2465,69 @@ var template$4 = "<div> <h3 style=\"text-align: center\">Vue-html5-editor&nbsp;{
 /**
  * Created by peak on 2017/2/10.
  */
+
 var dashboard$4 = {
-    template: template$4,
-    data(){
-        return {
-            version: VERSION
-        }
-    }
+  template: template$4,
+  data: function data() {
+    return {
+      version: VERSION
+    };
+  }
 };
 
 /**
  * editor info
  * Created by peak on 16/8/18.
  */
-
 var info = {
-    name: 'info',
-    icon: 'fa fa-info',
-    i18n: 'info',
-    // handler () {
-    //
-    // },
-    // init (editor) {
-    //
-    // },
-    // destroyed(editor){
-    //
-    // },
-    dashboard: dashboard$4
+  name: 'info',
+  icon: 'fa fa-info',
+  i18n: 'info',
+  // handler () {
+  //
+  // },
+  // init (editor) {
+  //
+  // },
+  // destroyed(editor){
+  //
+  // },
+  dashboard: dashboard$4
 };
 
 var template$5 = "<form @submit.prevent=\"createLink\"> <input type=\"text\" class=\"search-input\" :placeholder=\"$parent.locale['please enter a url']\" v-model=\"url\" maxlength=\"1024\"> <input type=\"text\" class=\"search-title\" v-model=\"title\" placeholder=\"输入标题\"> <button type=\"submit\">{{$parent.locale[\"create link\"]}}</button> </form>";
 
 var dashboard$5 = {
-    template: template$5,
-    data(){
-        return {
-            url: null,
-            title: ''
-        }
-    },
-    methods: {
-        createLink(){
-            if (!this.url || !this.title) {
-                return
-            }
+  template: template$5,
+  data: function data() {
+    return {
+      url: null,
+      title: ''
+    };
+  },
+  methods: {
+    createLink: function createLink() {
+      if (!this.url || !this.title) {
+        return;
+      }
 
-            const str =
-            ' <div>&nbsp;</div>' +
-            '<a href="'+this.url+'" style="display: block;margin: 10px 0;color: #333;' +
-            'background: #f4f4f4;' +
-            'text-decoration: none!important;' +
-            'text-decoration-color: #f4f4f4;' +
-            'padding: 5px;' +
-            'overflow: hidden;' +
-            'border-radius: 8px;' +
-            'border: 1px solid #f0f0f0;' +
-            'line-height: 28px;">' +
-            '<div style=" color: #157EFB;"><i class="icon-link2"></i>网页链接:</div>'+
-            this.title+'</a>'  +
-            '<div>&nbsp;</div>';
-
-            this.$parent.execCommand(Command.CREATE_LINK, str);
-            this.url = null;
-            this.title = null;
-        }
+      var str = ' <div>&nbsp;</div>' + '<a href="' + this.url + '" style="display: block;margin: 10px 0;color: #333;' + 'background: #f4f4f4;' + 'text-decoration: none!important;' + 'text-decoration-color: #f4f4f4;' + 'padding: 5px;' + 'overflow: hidden;' + 'border-radius: 8px;' + 'border: 1px solid #f0f0f0;' + 'line-height: 28px;">' + '<div style=" color: #157EFB;"><i class="icon-link2"></i>网页链接:</div>' + this.title + '</a>' + '<div>&nbsp;</div>';
+      this.$parent.execCommand(Command.CREATE_LINK, str);
+      this.url = null;
+      this.title = null;
     }
+  }
 };
 
 /**
  * create link
  * Created by peak on 16/8/18.
  */
-
 var link = {
-    name: 'link',
-    icon: 'fa fa-chain',
-    i18n: 'link',
-    dashboard: dashboard$5
+  name: 'link',
+  icon: 'fa fa-chain',
+  i18n: 'link',
+  dashboard: dashboard$5
 };
 
 var template$6 = "<div> <button type=\"button\" @click=\"$parent.execCommand('insertOrderedList')\"> {{$parent.locale[\"ordered list\"]}} </button> <button type=\"button\" @click=\"$parent.execCommand('insertUnorderedList')\"> {{$parent.locale[\"unordered list\"]}} </button> </div>";
@@ -2492,20 +2535,20 @@ var template$6 = "<div> <button type=\"button\" @click=\"$parent.execCommand('in
 /**
  * Created by peak on 2017/2/10.
  */
+
 var dashboard$6 = {
-    template: template$6
+  template: template$6
 };
 
 /**
  * list,ul,ol
  * Created by peak on 16/8/18.
  */
-
 var list = {
-    name: 'list',
-    icon: 'fa fa-list',
-    i18n: 'list',
-    dashboard: dashboard$6
+  name: 'list',
+  icon: 'fa fa-list',
+  i18n: 'list',
+  dashboard: dashboard$6
 };
 
 var template$7 = "<form @submit.prevent=\"insertTable\"> <label> {{$parent.locale[\"row count\"]}} <input type=\"number\" style=\"width: 60px\" maxlength=\"2\" min=\"2\" max=\"10\" v-model=\"rows\"> </label> <label> {{$parent.locale[\"column count\"]}} <input type=\"number\" style=\"width: 60px\" maxlength=\"2\" min=\"2\" max=\"10\" v-model=\"cols\"> </label> <button type=\"submit\">{{$parent.locale.save}}</button> </form>";
@@ -2513,69 +2556,76 @@ var template$7 = "<form @submit.prevent=\"insertTable\"> <label> {{$parent.local
 /**
  * Created by peak on 2017/2/10.
  */
+
 var dashboard$7 = {
-    template: template$7,
-    data(){
-        return {
-            rows: 2,
-            cols: 2,
-            hasHead: false,
-            striped: false,
-            hover: false
+  template: template$7,
+  data: function data() {
+    return {
+      rows: 2,
+      cols: 2,
+      hasHead: false,
+      striped: false,
+      hover: false
+    };
+  },
+  methods: {
+    insertTable: function insertTable() {
+      if (this.rows < 2 || this.rows > 10) {
+        return;
+      }
+
+      if (this.cols < 2 || this.cols > 10) {
+        return;
+      }
+
+      var table = '<table style="border-spacing: 0px; border-collapse: collapse; width: 100%; max-width: 100%; margin-bottom: 0px; border: 1px solid rgb(221, 221, 221); color: rgb(51, 51, 51); font-size: 14px; line-height: 20px; background-color: transparent;"><tbody>';
+
+      for (var i = 0; i < this.rows; i++) {
+        table += '<tr>';
+
+        for (var j = 0; j < this.cols; j++) {
+          table += '<td style="padding: 8px; line-height: 1.42857; vertical-align: top; border: 1px solid rgb(221, 221, 221);">&nbsp;</td>';
         }
-    },
-    methods: {
-        insertTable(){
-            if (this.rows < 2 || this.rows > 10) {
-                return
-            }
-            if (this.cols < 2 || this.cols > 10) {
-                return
-            }
-            let table = '<table style="border-spacing: 0px; border-collapse: collapse; width: 100%; max-width: 100%; margin-bottom: 0px; border: 1px solid rgb(221, 221, 221); color: rgb(51, 51, 51); font-size: 14px; line-height: 20px; background-color: transparent;"><tbody>';
-            for (let i = 0; i < this.rows; i++) {
-                table += '<tr>';
-                for (let j = 0; j < this.cols; j++) {
-                    table += '<td style="padding: 8px; line-height: 1.42857; vertical-align: top; border: 1px solid rgb(221, 221, 221);">&nbsp;</td>';
-                }
-                table += '</tr>';
-            }
-            table += '</tbody></table>';
-            this.$parent.execCommand('insertHTML', table);
-        }
+
+        table += '</tr>';
+      }
+
+      table += '</tbody></table>';
+      this.$parent.execCommand('insertHTML', table);
     }
+  }
 };
 
 /**
  * insert table
  * Created by peak on 16/8/18.
  */
+
 var table = {
-    // can not named table
-    // dashboard.html will add to editor as a child component and named as module name
-    // Do not use built-in or reserved HTML elements as component id
-    name: 'tabulation',
-    icon: 'fa fa-table',
-    i18n: 'table',
-    dashboard: dashboard$7
+  // can not named table
+  // dashboard.html will add to editor as a child component and named as module name
+  // Do not use built-in or reserved HTML elements as component id
+  name: 'tabulation',
+  icon: 'fa fa-table',
+  i18n: 'table',
+  dashboard: dashboard$7
 };
 
 var template$8 = "<div> <button type=\"button\" @click=\"$parent.execCommand('bold')\">{{$parent.locale[\"bold\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('italic')\">{{$parent.locale[\"italic\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('underline')\">{{$parent.locale[\"underline\"]}}</button> <button type=\"button\" @click=\"$parent.execCommand('strikeThrough')\">{{$parent.locale[\"strike through\"]}} </button> <!-- <button type=\"button\" @click=\"$parent.execCommand('subscript')\">{{$parent.locale[\"subscript\"]}}</button>\n    <button type=\"button\" @click=\"$parent.execCommand('superscript')\">{{$parent.locale[\"superscript\"]}}</button> --> </div> ";
 
 var dashboard$8 = {
-    template: template$8
+  template: template$8
 };
 
 /**
  * text,set the text bold or italic or underline or with strike through or subscript or superscript
  * Created by peak on 16/8/18.
  */
-
 var text = {
-    name: 'text',
-    icon: 'fa fa-pencil',
-    i18n: 'text',
-    dashboard: dashboard$8
+  name: 'text',
+  icon: 'fa fa-pencil',
+  i18n: 'text',
+  dashboard: dashboard$8
 };
 
 /**
@@ -2583,12 +2633,12 @@ var text = {
  * Created by peak on 16/8/20.
  */
 var undo = {
-    name: 'undo',
-    icon: 'fa-undo fa',
-    i18n: 'undo',
-    handler(editor) {
-        editor.execCommand('undo');
-    }
+  name: 'undo',
+  icon: 'fa-undo fa',
+  i18n: 'undo',
+  handler: function handler(editor) {
+    editor.execCommand('undo');
+  }
 };
 
 /**
@@ -2596,78 +2646,78 @@ var undo = {
  * Created by peak on 16/8/18.
  */
 var unlink = {
-    name: 'unlink',
-    icon: 'fa fa-chain-broken',
-    i18n: 'unlink',
-    handler(editor) {
-        editor.execCommand('unlink');
-    }
+  name: 'unlink',
+  icon: 'fa fa-chain-broken',
+  i18n: 'unlink',
+  handler: function handler(editor) {
+    editor.execCommand('unlink');
+  }
 };
 
 var template$9 = "<div> <video-uploader :upload-config=\"uploadConfig\" :z-index=\"9000\" :show-progress=\"true\" :show=\"true\" :url=\"serverUrl\" @finish=\"onFinish\"></video-uploader> </div>";
 
-// uploader.upload()
-
 /**
  * Created by peak on 2017/2/10.
  */
-var dashboard$9 = {
-    template: template$9,
-    components: {
-        'video-uploader': vueUploader$1.VueVideoUploader
-    },
-    data() {
-        const config = this.$options.module.config;
-        return {
-            imageUrl: '',
-            showDialog: false,
-            serverUrl: config.url,
-            uploadConfig: config.uploadConfig
-        }
-    },
-    methods: {
-        insertImageUrl() {
-            if (!this.imageUrl) {
-                return
-            }
-            this.insertImg(this.imageUrl);
-            this.imageUrl = null;
-        },
-        onFinish(files) {
-            const self = this;
-            const config = self.$options.module.config;
-            let returnUrl = 'path';
-            if (config.returnUrl){
-                returnUrl = config.returnUrl;
-            }
-            const urlAr = [];
-            files.forEach((item) => {
-                urlAr.push({
-                    url: item[returnUrl],
-                    videoUrl: item.video_path
-                });
-            });
 
-            self.$parent.dashboard = null;
-            this.insertImg(urlAr);
-        },
-        insertImg(urlAr) {
-            this.$parent.execCommand(Command.INSERT_VIDEO, urlAr);
-        }
+var dashboard$9 = {
+  template: template$9,
+  components: {
+    'video-uploader': vueUploader$1.VueVideoUploader
+  },
+  data: function data() {
+    var config = this.$options.module.config;
+    return {
+      imageUrl: '',
+      showDialog: false,
+      serverUrl: config.url,
+      uploadConfig: config.uploadConfig
+    };
+  },
+  methods: {
+    insertImageUrl: function insertImageUrl() {
+      if (!this.imageUrl) {
+        return;
+      }
+
+      this.insertImg(this.imageUrl);
+      this.imageUrl = null;
+    },
+    onFinish: function onFinish(files) {
+      var self = this;
+      var config = self.$options.module.config;
+      var returnUrl = 'path';
+
+      if (config.returnUrl) {
+        returnUrl = config.returnUrl;
+      }
+
+      var urlAr = [];
+      files.forEach(function (item) {
+        urlAr.push({
+          url: item[returnUrl],
+          videoUrl: item.video_path
+        });
+      });
+      self.$parent.dashboard = null;
+      this.insertImg(urlAr);
+    },
+    insertImg: function insertImg(urlAr) {
+      this.$parent.execCommand(Command.INSERT_VIDEO, urlAr);
     }
+  }
 };
 
 /**
  * insert video
  */
-var video = {
-    name: 'video',
-    icon: 'fa fa-file-video-o',
-    i18n: 'video',
-    config: {
 
-    },
-    dashboard: dashboard$9
+var video = {
+  name: 'video',
+  icon: 'fa fa-file-video-o',
+  i18n: 'video',
+  config: {},
+  dashboard: dashboard$9
 };
 
 /**
@@ -2675,12 +2725,12 @@ var video = {
  * 缩进功能
  */
 var indent = {
-    name: 'indent',
-    icon: 'fa-indent fa',
-    i18n: 'indent',
-    handler(editor) {
-        editor.execCommand('indent');
-    }
+  name: 'indent',
+  icon: 'fa-indent fa',
+  i18n: 'indent',
+  handler: function handler(editor) {
+    editor.execCommand('indent');
+  }
 };
 
 /**
@@ -2688,12 +2738,12 @@ var indent = {
  * 居中功能
  */
 var center = {
-    name: 'justifyCenter',
-    icon: 'fa-align-center fa',
-    i18n: 'center justify',
-    handler(editor) {
-        editor.execCommand('justifyCenter');
-    }
+  name: 'justifyCenter',
+  icon: 'fa-align-center fa',
+  i18n: 'center justify',
+  handler: function handler(editor) {
+    editor.execCommand('justifyCenter');
+  }
 };
 
 /**
@@ -2701,12 +2751,12 @@ var center = {
  * 居中功能
  */
 var right = {
-    name: 'justifyRight',
-    icon: 'fa-align-right fa',
-    i18n: 'right justify',
-    handler(editor) {
-        editor.execCommand('justifyRight');
-    }
+  name: 'justifyRight',
+  icon: 'fa-align-right fa',
+  i18n: 'right justify',
+  handler: function handler(editor) {
+    editor.execCommand('justifyRight');
+  }
 };
 
 /**
@@ -2714,78 +2764,66 @@ var right = {
  * 居中功能
  */
 var left = {
-    name: 'justifyLeft',
-    icon: 'fa-align-left fa',
-    i18n: 'left justify',
-    handler(editor) {
-        editor.execCommand('justifyLeft');
-    }
+  name: 'justifyLeft',
+  icon: 'fa-align-left fa',
+  i18n: 'left justify',
+  handler: function handler(editor) {
+    editor.execCommand('justifyLeft');
+  }
 };
 
 /**
  * build-in moduls
  * Created by peak on 2016/11/1.
  */
-var buildInModules = [
-    text,
-    color,
-    font,
-    align,
-    list,
-    link,
-    unlink,
-    table,
-    image,
-    indent,
-    hr,
-    eraser,
-    undo,
-    fullScreen,
-    info,
-    video,
-    center,
-    right,
-    left
-];
+
+var buildInModules = [text, color, font, align, list, link, unlink, table, image, indent, hr, eraser, undo, fullScreen, info, video, center, right, left];
 
 /**
  * Created by peak on 2017/2/15.
  */
+
 /**
  * add every elements of extArr to sourceArr.
  * @param sourceArr
  * @param extArr
  */
-const mergeArray = (sourceArr, extArr) => {
-    // note: Array.prototype.push.apply(arr1,arr2) is unreliable
-    extArr.forEach((el) => {
-        sourceArr.push(el);
-    });
+var mergeArray = function mergeArray(sourceArr, extArr) {
+  // note: Array.prototype.push.apply(arr1,arr2) is unreliable
+  extArr.forEach(function (el) {
+    sourceArr.push(el);
+  });
 };
-
 /**
  * find all the descendant text nodes of a element
  * 获得所有文本节点
  * @param ancestor
  */
-const getDescendantTextNodes = (ancestor) => {
-    if (ancestor.nodeType === Node.TEXT_NODE) {
-        return [ancestor]
+
+var getDescendantTextNodes = function getDescendantTextNodes(ancestor) {
+  if (ancestor.nodeType === Node.TEXT_NODE) {
+    return [ancestor];
+  }
+
+  var textNodes = [];
+
+  if (!ancestor.hasChildNodes()) {
+    return textNodes;
+  }
+
+  var childNodes = ancestor.childNodes;
+
+  for (var i = 0; i < childNodes.length; i++) {
+    var node = childNodes[i];
+
+    if (node.nodeType === Node.TEXT_NODE) {
+      textNodes.push(node);
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      mergeArray(textNodes, getDescendantTextNodes(node));
     }
-    const textNodes = [];
-    if (!ancestor.hasChildNodes()) {
-        return textNodes
-    }
-    const childNodes = ancestor.childNodes;
-    for (let i = 0; i < childNodes.length; i++) {
-        const node = childNodes[i];
-        if (node.nodeType === Node.TEXT_NODE) {
-            textNodes.push(node);
-        } else if (node.nodeType === Node.ELEMENT_NODE) {
-            mergeArray(textNodes, getDescendantTextNodes(node));
-        }
-    }
-    return textNodes
+  }
+
+  return textNodes;
 };
 /**
  * find all the descendant text nodes of an ancestor element that before the specify end element,
@@ -2793,33 +2831,37 @@ const getDescendantTextNodes = (ancestor) => {
  * @param ancestor
  * @param endEl
  */
-const getBeforeEndDescendantTextNodes = (ancestor, endEl) => {
-    const textNodes = [];
-    let endIndex = 0;
-    for (let i = 0; i < ancestor.childNodes.length; i++) {
-        if (ancestor.childNodes[i].contains(endEl)) {
-            endIndex = i;
-            break
-        }
-    }
 
-    for (let i = 0; i <= endIndex; i++) {
-        const node = ancestor.childNodes[i];
-        if (node === endEl) {
-            mergeArray(textNodes, getDescendantTextNodes(node));
-        } else if (i === endIndex) {
-            if (node.nodeType === Node.TEXT_NODE) {
-                textNodes.push(node);
-            } else if (node.nodeType === Node.ELEMENT_NODE) {
-                mergeArray(textNodes, getBeforeEndDescendantTextNodes(node, endEl));
-            }
-        } else if (node.nodeType === Node.TEXT_NODE) {
-            textNodes.push(node);
-        } else if (node.nodeType === Node.ELEMENT_NODE) {
-            mergeArray(textNodes, getDescendantTextNodes(node));
-        }
+var getBeforeEndDescendantTextNodes = function getBeforeEndDescendantTextNodes(ancestor, endEl) {
+  var textNodes = [];
+  var endIndex = 0;
+
+  for (var i = 0; i < ancestor.childNodes.length; i++) {
+    if (ancestor.childNodes[i].contains(endEl)) {
+      endIndex = i;
+      break;
     }
-    return textNodes
+  }
+
+  for (var _i = 0; _i <= endIndex; _i++) {
+    var node = ancestor.childNodes[_i];
+
+    if (node === endEl) {
+      mergeArray(textNodes, getDescendantTextNodes(node));
+    } else if (_i === endIndex) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        textNodes.push(node);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        mergeArray(textNodes, getBeforeEndDescendantTextNodes(node, endEl));
+      }
+    } else if (node.nodeType === Node.TEXT_NODE) {
+      textNodes.push(node);
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      mergeArray(textNodes, getDescendantTextNodes(node));
+    }
+  }
+
+  return textNodes;
 };
 /**
  * find all the descendant text nodes of an ancestor element that after the specify start element,
@@ -2827,1259 +2869,1500 @@ const getBeforeEndDescendantTextNodes = (ancestor, endEl) => {
  * @param ancestor
  * @param startEl
  */
-const getAfterStartDescendantTextNodes = (ancestor, startEl) => {
-    const textNodes = [];
-    let startIndex = 0;
-    for (let i = 0; i < ancestor.childNodes.length; i++) {
-        if (ancestor.childNodes[i].contains(startEl)) {
-            startIndex = i;
-            break
-        }
-    }
 
-    for (let i = startIndex; i < ancestor.childNodes.length; i++) {
-        const node = ancestor.childNodes[i];
-        if (node === startEl) {
-            mergeArray(textNodes, getDescendantTextNodes(node));
-        } else if (i === startIndex) {
-            if (node.nodeType === Node.TEXT_NODE) {
-                textNodes.push(node);
-            } else if (node.nodeType === Node.ELEMENT_NODE) {
-                mergeArray(textNodes,
-                    getAfterStartDescendantTextNodes(node, startEl));
-            }
-        } else if (node.nodeType === Node.TEXT_NODE) {
-            textNodes.push(node);
-        } else if (node.nodeType === Node.ELEMENT_NODE) {
-            mergeArray(textNodes,
-                getDescendantTextNodes(node));
-        }
+var getAfterStartDescendantTextNodes = function getAfterStartDescendantTextNodes(ancestor, startEl) {
+  var textNodes = [];
+  var startIndex = 0;
+
+  for (var i = 0; i < ancestor.childNodes.length; i++) {
+    if (ancestor.childNodes[i].contains(startEl)) {
+      startIndex = i;
+      break;
     }
-    return textNodes
+  }
+
+  for (var _i2 = startIndex; _i2 < ancestor.childNodes.length; _i2++) {
+    var node = ancestor.childNodes[_i2];
+
+    if (node === startEl) {
+      mergeArray(textNodes, getDescendantTextNodes(node));
+    } else if (_i2 === startIndex) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        textNodes.push(node);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        mergeArray(textNodes, getAfterStartDescendantTextNodes(node, startEl));
+      }
+    } else if (node.nodeType === Node.TEXT_NODE) {
+      textNodes.push(node);
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      mergeArray(textNodes, getDescendantTextNodes(node));
+    }
+  }
+
+  return textNodes;
 };
-
-
 /**
  * get the closest parent block node of a text node.
  * @param node
  * @return {Node}
  */
-const getParentBlockNode = (node) => {
-    const blockNodeNames = ['DIV', 'P', 'SECTION', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6',
-        'OL', 'UL', 'LI', 'TR', 'TD', 'TH', 'TBODY', 'THEAD', 'TABLE', 'ARTICLE', 'HEADER', 'FOOTER'];
-    let container = node;
-    while (container) {
-        if (blockNodeNames.includes(container.nodeName)) {
-            break
-        }
-        container = container.parentNode;
+
+var getParentBlockNode = function getParentBlockNode(node) {
+  var blockNodeNames = ['DIV', 'P', 'SECTION', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'OL', 'UL', 'LI', 'TR', 'TD', 'TH', 'TBODY', 'THEAD', 'TABLE', 'ARTICLE', 'HEADER', 'FOOTER'];
+  var container = node;
+
+  while (container) {
+    if (blockNodeNames.includes(container.nodeName)) {
+      break;
     }
-    return container
-};
 
-const isInlineElement = (node) => {
-    const inlineNodeNames = ['A', 'ABBR', 'ACRONYM', 'B', 'CITE', 'CODE', 'EM', 'I',
-        'FONT', 'IMG', 'S', 'SMALL', 'SPAN', 'STRIKE', 'STRONG', 'U', 'SUB', 'SUP'];
-    return inlineNodeNames.includes(node.nodeName)
-};
-function getSelection(){
-    return window.getSelection ? window.getSelection() : document.getSelection()
-}
+    container = container.parentNode;
+  }
 
-// for IE 11
+  return container;
+};
+var isInlineElement = function isInlineElement(node) {
+  var inlineNodeNames = ['A', 'ABBR', 'ACRONYM', 'B', 'CITE', 'CODE', 'EM', 'I', 'FONT', 'IMG', 'S', 'SMALL', 'SPAN', 'STRIKE', 'STRONG', 'U', 'SUB', 'SUP'];
+  return inlineNodeNames.includes(node.nodeName);
+};
+function getSelection() {
+  return window.getSelection ? window.getSelection() : document.getSelection();
+} // 封装 document.queryCommandValue
+
 if (!Text.prototype.contains) {
-    Text.prototype.contains = function contains(otherNode) {
-        return this === otherNode
-    };
+  Text.prototype.contains = function contains(otherNode) {
+    return this === otherNode;
+  };
 }
-
-
 /**
  * Created by peak on 2017/2/14.
  */
-class RangeHandler {
-    /**
-     * build range handler
-     * @param {Range} range
-     */
-    constructor(range,editor) {
-        if (!range || !(range instanceof Range)) {
-            throw new TypeError('cant\'t resolve range')
-        }
-        this.range = range;
-        this.editor = editor;
-        this.rootElement = editor.$refs.content;
+
+
+var RangeHandler =
+/*#__PURE__*/
+function () {
+  /**
+   * build range handler
+   * @param {Range} range
+   */
+  function RangeHandler(range, editor) {
+    _classCallCheck(this, RangeHandler);
+
+    if (!range || !(range instanceof Range)) {
+      throw new TypeError('cant\'t resolve range');
     }
 
+    this.range = range;
+    this.editor = editor;
+    this.rootElement = editor.$refs.content;
+  }
+  /**
+   * find all the text nodes in range
+   */
 
-    /**
-     * find all the text nodes in range
-     */
-    getAllTextNodesInRange() {
-        const startContainer = this.range.startContainer;
-        const endContainer = this.range.endContainer;
-        const rootEl = this.range.commonAncestorContainer;
-        const textNodes = [];
 
-        if (startContainer === endContainer) {
-            if (startContainer.nodeType === Node.TEXT_NODE) {
-                return [startContainer]
-            }
-            const childNodes = startContainer.childNodes;
-            for (let i = this.range.startOffset; i < this.range.endOffset; i++) {
-                mergeArray(textNodes, getDescendantTextNodes(childNodes[i]));
-            }
-            return textNodes
+  _createClass(RangeHandler, [{
+    key: "getAllTextNodesInRange",
+    value: function getAllTextNodesInRange() {
+      var startContainer = this.range.startContainer;
+      var endContainer = this.range.endContainer;
+      var rootEl = this.range.commonAncestorContainer;
+      var textNodes = [];
+
+      if (startContainer === endContainer) {
+        if (startContainer.nodeType === Node.TEXT_NODE) {
+          return [startContainer];
         }
 
-        let startIndex = 0;
-        let endIndex = 0;
-        for (let i = 0; i < rootEl.childNodes.length; i++) {
-            const node = rootEl.childNodes[i];
-            if (node.contains(startContainer)) {
-                startIndex = i;
-            }
-            if (node.contains(endContainer)) {
-                endIndex = i;
-            }
+        var childNodes = startContainer.childNodes;
+
+        for (var i = this.range.startOffset; i < this.range.endOffset; i++) {
+          mergeArray(textNodes, getDescendantTextNodes(childNodes[i]));
         }
 
-        for (let i = startIndex; i <= endIndex; i++) {
-            const node = rootEl.childNodes[i];
-            if (i === startIndex) {
-                if (node.nodeType === Node.TEXT_NODE) {
-                    textNodes.push(node);
-                } else if (node.nodeType === Node.ELEMENT_NODE) {
-                    mergeArray(textNodes, getAfterStartDescendantTextNodes(node, startContainer));
-                }
-            } else if (i === endIndex) {
-                if (node.nodeType === Node.TEXT_NODE) {
-                    textNodes.push(node);
-                } else if (node.nodeType === Node.ELEMENT_NODE) {
-                    mergeArray(textNodes, getBeforeEndDescendantTextNodes(node, endContainer));
-                }
-            } else if (node.nodeType === Node.TEXT_NODE) {
-                textNodes.push(node);
-            } else if (node.nodeType === Node.ELEMENT_NODE) {
-                mergeArray(textNodes, getDescendantTextNodes(node));
-            }
+        return textNodes;
+      }
+
+      var startIndex = 0;
+      var endIndex = 0;
+
+      for (var _i = 0; _i < rootEl.childNodes.length; _i++) {
+        var node = rootEl.childNodes[_i];
+
+        if (node.contains(startContainer)) {
+          startIndex = _i;
         }
-        return textNodes
+
+        if (node.contains(endContainer)) {
+          endIndex = _i;
+        }
+      }
+
+      for (var _i2 = startIndex; _i2 <= endIndex; _i2++) {
+        var _node = rootEl.childNodes[_i2];
+
+        if (_i2 === startIndex) {
+          if (_node.nodeType === Node.TEXT_NODE) {
+            textNodes.push(_node);
+          } else if (_node.nodeType === Node.ELEMENT_NODE) {
+            mergeArray(textNodes, getAfterStartDescendantTextNodes(_node, startContainer));
+          }
+        } else if (_i2 === endIndex) {
+          if (_node.nodeType === Node.TEXT_NODE) {
+            textNodes.push(_node);
+          } else if (_node.nodeType === Node.ELEMENT_NODE) {
+            mergeArray(textNodes, getBeforeEndDescendantTextNodes(_node, endContainer));
+          }
+        } else if (_node.nodeType === Node.TEXT_NODE) {
+          textNodes.push(_node);
+        } else if (_node.nodeType === Node.ELEMENT_NODE) {
+          mergeArray(textNodes, getDescendantTextNodes(_node));
+        }
+      }
+
+      return textNodes;
     }
+  }, {
+    key: "getParentNode",
+    value: function getParentNode() {
+      var range = this.range;
+      var parentNode = getParentBlockNode(range.startContainer);
 
+      if (parentNode === this.rootElement) {
+        parentNode = range.startContainer;
+      }
 
-    getParentNode(){
-        const range = this.range;
-        let parentNode = getParentBlockNode(range.startContainer);
-        if (parentNode === this.rootElement){
-            parentNode = range.startContainer;
-        }
-        return parentNode
+      return parentNode;
     }
     /**
      * execute edit command
      * @param {String} command
      * @param arg
      */
-    execCommand(command, arg) {
-        switch (command) {
 
-            case Command.JUSTIFY_LEFT: {
-                const parentNode = this.getParentNode();
-                parentNode.style.textAlign = '';
-                break
+  }, {
+    key: "execCommand",
+    value: function execCommand(command, arg) {
+      var _this = this;
+
+      switch (command) {
+        case Command.JUSTIFY_LEFT:
+          {
+            var parentNode = this.getParentNode();
+            parentNode.style.textAlign = '';
+            break;
+          }
+
+        case Command.JUSTIFY_RIGHT:
+          {
+            var _parentNode = this.getParentNode();
+
+            _parentNode.style.textAlign = 'right';
+            break;
+          }
+
+        case Command.JUSTIFY_CENTER:
+          {
+            var _parentNode2 = this.getParentNode();
+
+            _parentNode2.style.textAlign = 'center';
+            break;
+          }
+
+        case Command.FORE_COLOR:
+          {
+            document.execCommand(Command.FORE_COLOR, false, arg);
+            break;
+          }
+
+        case Command.BACK_COLOR:
+          {
+            document.execCommand(Command.BACK_COLOR, false, arg);
+            break;
+          }
+
+        case Command.REMOVE_FORMAT:
+          {
+            document.execCommand(Command.REMOVE_FORMAT, false, arg);
+            break;
+          }
+
+        case Command.FONT_NAME:
+          {
+            document.execCommand(Command.FONT_NAME, false, arg);
+            break;
+          }
+
+        case Command.INDENT:
+          {
+            var range = this.range;
+
+            var _parentNode3 = getParentBlockNode(range.startContainer);
+
+            if (_parentNode3 === this.rootElement) {
+              _parentNode3 = range.startContainer;
+            } // h1等标签不能缩进
+
+
+            if (_parentNode3.tagName === 'DIV' || _parentNode3.tagName === 'P') {
+              if (_parentNode3.style.textIndent) {
+                _parentNode3.style.textIndent = '';
+              } else {
+                _parentNode3.style.textIndent = '2em';
+              }
             }
 
-            case Command.JUSTIFY_RIGHT: {
-                const parentNode = this.getParentNode();
-                parentNode.style.textAlign = 'right';
-                break
+            break;
+          }
+
+        case Command.FONT_SIZE:
+          {
+            // 重新实现，改为直接修改样式
+            var textNodes = this.getAllTextNodesInRange();
+
+            if (!textNodes.length) {
+              break;
             }
 
-            case Command.JUSTIFY_CENTER: {
-                const parentNode = this.getParentNode();
-                parentNode.style.textAlign = 'center';
-                break
-            }
+            if (textNodes.length === 1 && textNodes[0] === this.range.startContainer && textNodes[0] === this.range.endContainer) {
+              var textNode = textNodes[0];
 
-            case Command.FORE_COLOR: {
-                document.execCommand(Command.FORE_COLOR, false, arg);
-                break
-            }
-            case Command.BACK_COLOR: {
-                document.execCommand(Command.BACK_COLOR, false, arg);
-                break
-            }
-            case Command.REMOVE_FORMAT: {
-                document.execCommand(Command.REMOVE_FORMAT, false, arg);
-                break
-            }
-            case Command.FONT_NAME: {
-                document.execCommand(Command.FONT_NAME, false, arg);
-                break
-            }
-            case Command.INDENT: {
-                const range = this.range;
-                let parentNode = getParentBlockNode(range.startContainer);
-                if (parentNode === this.rootElement){
-                    parentNode = range.startContainer;
-                }
-                // h1等标签不能缩进
-                if (parentNode.tagName === 'DIV' || parentNode.tagName === 'P'){
-                    if (parentNode.style.textIndent){
-                        parentNode.style.textIndent = '';
-                    } else {
-                        parentNode.style.textIndent = '2em';
-                    }
+              if (this.range.startOffset === 0 && this.range.endOffset === textNode.textContent.length) {
+                if (textNode.parentNode.childNodes.length === 1 && isInlineElement(textNode.parentNode)) {
+                  textNode.parentNode.style.fontSize = arg;
+                  break;
                 }
 
-                break
+                var _span = document.createElement('span');
+
+                _span.style.fontSize = arg;
+                textNode.parentNode.insertBefore(_span, textNode);
+
+                _span.appendChild(textNode);
+
+                break;
+              }
+
+              var span = document.createElement('span');
+              span.innerText = textNode.textContent.substring(this.range.startOffset, this.range.endOffset);
+              span.style.fontSize = arg;
+              var frontPart = document.createTextNode(textNode.textContent.substring(0, this.range.startOffset));
+              textNode.parentNode.insertBefore(frontPart, textNode);
+              textNode.parentNode.insertBefore(span, textNode);
+              textNode.textContent = textNode.textContent.substring(this.range.endOffset);
+              this.range.setStart(span, 0);
+              this.range.setEnd(span, 1);
+              break;
             }
-            case Command.FONT_SIZE: {
-                // 重新实现，改为直接修改样式
-                const textNodes = this.getAllTextNodesInRange();
-                if (!textNodes.length) {
-                    break
-                }
-                if (textNodes.length === 1 && textNodes[0] === this.range.startContainer
-                    && textNodes[0] === this.range.endContainer) {
-                    const textNode = textNodes[0];
-                    if (this.range.startOffset === 0
-                        && this.range.endOffset === textNode.textContent.length) {
-                        if (textNode.parentNode.childNodes.length === 1
-                            && isInlineElement(textNode.parentNode)) {
-                            textNode.parentNode.style.fontSize = arg;
-                            break
-                        }
-                        const span = document.createElement('span');
-                        span.style.fontSize = arg;
-                        textNode.parentNode.insertBefore(span, textNode);
-                        span.appendChild(textNode);
-                        break
-                    }
-                    const span = document.createElement('span');
-                    span.innerText = textNode.textContent.substring(
-                        this.range.startOffset, this.range.endOffset);
-                    span.style.fontSize = arg;
-                    const frontPart = document.createTextNode(
-                        textNode.textContent.substring(0, this.range.startOffset));
-                    textNode.parentNode.insertBefore(frontPart, textNode);
-                    textNode.parentNode.insertBefore(span, textNode);
-                    textNode.textContent = textNode.textContent.substring(this.range.endOffset);
-                    this.range.setStart(span, 0);
-                    this.range.setEnd(span, 1);
-                    break
+
+            textNodes.forEach(function (textNode) {
+              if (textNode === _this.range.startContainer) {
+                if (_this.range.startOffset === 0) {
+                  if (textNode.parentNode.childNodes.length === 1 && isInlineElement(textNode.parentNode)) {
+                    textNode.parentNode.style.fontSize = arg;
+                  } else {
+                    var _span3 = document.createElement('span');
+
+                    _span3.style.fontSize = arg;
+                    textNode.parentNode.insertBefore(_span3, textNode);
+
+                    _span3.appendChild(textNode);
+                  }
+
+                  return;
                 }
 
-                textNodes.forEach((textNode) => {
-                    if (textNode === this.range.startContainer) {
-                        if (this.range.startOffset === 0) {
-                            if (textNode.parentNode.childNodes.length === 1
-                                && isInlineElement(textNode.parentNode)) {
-                                textNode.parentNode.style.fontSize = arg;
-                            } else {
-                                const span = document.createElement('span');
-                                span.style.fontSize = arg;
-                                textNode.parentNode.insertBefore(span, textNode);
-                                span.appendChild(textNode);
-                            }
-                            return
-                        }
-                        const span = document.createElement('span');
-                        textNode.textContent = textNode.textContent.substring(
-                            0, this.range.startOffset);
-                        span.style.fontSize = arg;
-                        textNode.parentNode.insertBefore(span, textNode);
-                        this.range.setStart(textNode, 0);
-                        return
-                    }
-                    if (textNode === this.range.endContainer) {
-                        if (this.range.endOffset === textNode.textContent.length) {
-                            if (textNode.parentNode.childNodes.length === 1
-                                && isInlineElement(textNode.parentNode)) {
-                                textNode.parentNode.style.fontSize = arg;
-                            } else {
-                                const span = document.createElement('span');
-                                span.style.fontSize = arg;
-                                textNode.parentNode.insertBefore(span, textNode);
-                                span.appendChild(textNode);
-                            }
-                            return
-                        }
-                        const span = document.createElement('span');
-                        textNode.textContent = textNode.textContent.substring(this.range.endOffset);
-                        span.style.fontSize = arg;
-                        textNode.parentNode.insertBefore(span, textNode);
-                        span.appendChild(textNode);
-                        this.range.setStart(textNode, textNode.textContent.length);
-                        return
-                    }
-                    if (textNode.parentNode.childNodes.length === 1
-                        && isInlineElement(textNode.parentNode)) {
-                        textNode.parentNode.style.fontSize = arg;
-                        return
-                    }
+                var _span2 = document.createElement('span');
 
-                    const span = document.createElement('span');
-                    span.style.fontSize = arg;
-                    textNode.parentNode.insertBefore(span, textNode);
-                    span.appendChild(textNode);
-                });
-                break
-            }
-            case Command.FORMAT_BLOCK: {
-                if (document.execCommand(Command.FORMAT_BLOCK, false, arg)) {
-                    break
+                textNode.textContent = textNode.textContent.substring(0, _this.range.startOffset);
+                _span2.style.fontSize = arg;
+                textNode.parentNode.insertBefore(_span2, textNode);
+
+                _this.range.setStart(textNode, 0);
+
+                return;
+              }
+
+              if (textNode === _this.range.endContainer) {
+                if (_this.range.endOffset === textNode.textContent.length) {
+                  if (textNode.parentNode.childNodes.length === 1 && isInlineElement(textNode.parentNode)) {
+                    textNode.parentNode.style.fontSize = arg;
+                  } else {
+                    var _span5 = document.createElement('span');
+
+                    _span5.style.fontSize = arg;
+                    textNode.parentNode.insertBefore(_span5, textNode);
+
+                    _span5.appendChild(textNode);
+                  }
+
+                  return;
                 }
-                // hack
-                const element = document.createElement(arg);
-                this.range.surroundContents(element);
-                break
+
+                var _span4 = document.createElement('span');
+
+                textNode.textContent = textNode.textContent.substring(_this.range.endOffset);
+                _span4.style.fontSize = arg;
+                textNode.parentNode.insertBefore(_span4, textNode);
+
+                _span4.appendChild(textNode);
+
+                _this.range.setStart(textNode, textNode.textContent.length);
+
+                return;
+              }
+
+              if (textNode.parentNode.childNodes.length === 1 && isInlineElement(textNode.parentNode)) {
+                textNode.parentNode.style.fontSize = arg;
+                return;
+              }
+
+              var span = document.createElement('span');
+              span.style.fontSize = arg;
+              textNode.parentNode.insertBefore(span, textNode);
+              span.appendChild(textNode);
+            });
+            break;
+          }
+
+        case Command.FORMAT_BLOCK:
+          {
+            if (document.execCommand(Command.FORMAT_BLOCK, false, arg)) {
+              break;
+            } // hack
+
+
+            var element = document.createElement(arg);
+            this.range.surroundContents(element);
+            break;
+          }
+
+        case Command.LINE_HEIGHT:
+          {
+            var _textNodes = this.getAllTextNodesInRange();
+
+            _textNodes.forEach(function (textNode) {
+              var parentBlock = getParentBlockNode(textNode);
+
+              if (parentBlock) {
+                parentBlock.style.lineHeight = arg;
+              }
+            });
+
+            break;
+          }
+
+        case Command.INSERT_HORIZONTAL_RULE:
+          {
+            document.execCommand(Command.INSERT_HORIZONTAL_RULE, false);
+            break;
+          }
+
+        case Command.INSERT_IMAGE:
+          {
+            // const id = `img-random${Math.random()}`
+            var img;
+            var editor = this.editor;
+            var content = this.rootElement;
+            var _range = this.range;
+            var selection = getSelection();
+            var fragment = document.createDocumentFragment();
+
+            if (typeof arg === 'string') {
+              img = document.createElement('img');
+              img.src = arg;
+              img.className = 'vue-editor-image';
+              var div = document.createElement('p');
+              div.appendChild(img);
+              fragment.appendChild(div);
             }
-            case Command.LINE_HEIGHT: {
-                const textNodes = this.getAllTextNodesInRange();
-                textNodes.forEach((textNode) => {
-                    const parentBlock = getParentBlockNode(textNode);
-                    if (parentBlock) {
-                        parentBlock.style.lineHeight = arg;
-                    }
-                });
-                break
+
+            if (_typeof(arg) === 'object') {
+              arg.forEach(function (item) {
+                img = document.createElement('img');
+                img.src = item;
+                img.className = 'vue-editor-image';
+                var div = document.createElement('p');
+                div.appendChild(img);
+                fragment.appendChild(div);
+              });
             }
-            case Command.INSERT_HORIZONTAL_RULE: {
-                document.execCommand(Command.INSERT_HORIZONTAL_RULE, false);
-                break
+
+            _range.insertNode(fragment); // 将光标聚焦
+
+
+            _range.collapse();
+
+            break;
+          }
+
+        case Command.INSERT_VIDEO:
+          {
+            var video = '';
+            arg.forEach(function (item) {
+              video += "<img data-url=\"".concat(item.videoUrl, "\" class=\"video-poster\" src=\"").concat(item.url, "\">");
+            });
+            document.execCommand('insertHTML', false, video);
+            break;
+          }
+
+        case Command.CREATE_LINK:
+          {
+            // 将光标聚焦
+            this.range.collapse(); // 用exeCommand text-decoration 无法加上
+
+            var _fragment = document.createDocumentFragment();
+
+            var _div = document.createElement('div');
+
+            _div.innerHTML = arg;
+
+            if (_div.hasChildNodes()) {
+              for (var i = 0; i < _div.childNodes.length; i++) {
+                _fragment.appendChild(_div.childNodes[i].cloneNode(true));
+              }
             }
-            case Command.INSERT_IMAGE: {
-                // const id = `img-random${Math.random()}`
-                let img;
-                const editor = this.editor;
-                const content = this.rootElement;
-                const range = this.range;
-                const selection = getSelection();
-                const fragment = document.createDocumentFragment();
-                if (typeof arg === 'string'){
-                    img = document.createElement('img');
-                    img.src = arg;
-                    img.className = 'vue-editor-image';
-                    const div = document.createElement('p');
-                    div.appendChild(img);
-                    fragment.appendChild(div);
-                }
-                if (typeof arg === 'object'){
-                    arg.forEach((item) => {
-                        img = document.createElement('img');
-                        img.src = item;
-                        img.className = 'vue-editor-image';
-                        const div = document.createElement('p');
-                        div.appendChild(img);
-                        fragment.appendChild(div);
-                    });
-                }
-                range.insertNode(fragment);
-                // 将光标聚焦
-                range.collapse();
-                break
-            }
-            case Command.INSERT_VIDEO: {
-                let video = '';
-                arg.forEach((item) => {
-                    video += `<img data-url="${item.videoUrl}" class="video-poster" src="${item.url}">`;
-                });
-                document.execCommand('insertHTML', false, video);
-                break
-            }
-            case Command.CREATE_LINK: {
-                // 将光标聚焦
-                this.range.collapse();
-                // 用exeCommand text-decoration 无法加上
-                const fragment = document.createDocumentFragment();
-                const div = document.createElement('div');
-                div.innerHTML = arg;
-                if (div.hasChildNodes()) {
-                    for (let i = 0; i < div.childNodes.length; i++) {
-                        fragment.appendChild(div.childNodes[i].cloneNode(true));
-                    }
-                }
-                this.range.deleteContents();
-                this.range.insertNode(fragment);
-                // 将光标聚焦
-                this.range.collapse();
-                break
-            }
-            case Command.INSERT_ORDERED_LIST: {
-                document.execCommand(Command.INSERT_ORDERED_LIST, false, arg);
-                break
-            }
-            case Command.INSERT_UNORDERED_LIST: {
-                document.execCommand(Command.INSERT_UNORDERED_LIST, false, arg);
-                break
-            }
-            case Command.INSERT_HTML: {
-                const div = document.createElement('div');
-                div.innerHTML = arg;
-                this.range.deleteContents();
-                this.range.insertNode(div);
-                // 移动到插入标签的外面，避免标签嵌套
-                this.range.setStartAfter(div);
-                this.range.collapse();
-                break
-            }
-            case Command.BOLD: {
-                document.execCommand(Command.BOLD, false, arg);
-                break
-            }
-            case Command.ITALIC: {
-                document.execCommand(Command.ITALIC, false);
-                break
-            }
-            case Command.UNDERLINE: {
-                document.execCommand(Command.UNDERLINE, false);
-                break
-            }
-            case Command.STRIKE_THROUGH: {
-                document.execCommand(Command.STRIKE_THROUGH, false);
-                break
-            }
-            case Command.SUBSCRIPT: {
-                document.execCommand(Command.SUBSCRIPT, false);
-                break
-            }
-            case Command.SUPERSCRIPT: {
-                document.execCommand(Command.SUPERSCRIPT, false);
-                break
-            }
-            case Command.UNDO: {
-                document.execCommand(Command.UNDO, false);
-                break
-            }
-            case Command.UNLINK: {
-                document.execCommand(Command.UNLINK, false);
-                break
-            }
-            default: {
-                document.execCommand(command, false, arg);
-                break
-            }
-        }
+
+            this.range.deleteContents();
+            this.range.insertNode(_fragment); // 将光标聚焦
+
+            this.range.collapse();
+            break;
+          }
+
+        case Command.INSERT_ORDERED_LIST:
+          {
+            document.execCommand(Command.INSERT_ORDERED_LIST, false, arg);
+            break;
+          }
+
+        case Command.INSERT_UNORDERED_LIST:
+          {
+            document.execCommand(Command.INSERT_UNORDERED_LIST, false, arg);
+            break;
+          }
+
+        case Command.INSERT_HTML:
+          {
+            var _div2 = document.createElement('div');
+
+            _div2.innerHTML = arg;
+            this.range.deleteContents();
+            this.range.insertNode(_div2); // 移动到插入标签的外面，避免标签嵌套
+
+            this.range.setStartAfter(_div2);
+            this.range.collapse();
+            break;
+          }
+
+        case Command.BOLD:
+          {
+            document.execCommand(Command.BOLD, false, arg);
+            break;
+          }
+
+        case Command.ITALIC:
+          {
+            document.execCommand(Command.ITALIC, false);
+            break;
+          }
+
+        case Command.UNDERLINE:
+          {
+            document.execCommand(Command.UNDERLINE, false);
+            break;
+          }
+
+        case Command.STRIKE_THROUGH:
+          {
+            document.execCommand(Command.STRIKE_THROUGH, false);
+            break;
+          }
+
+        case Command.SUBSCRIPT:
+          {
+            document.execCommand(Command.SUBSCRIPT, false);
+            break;
+          }
+
+        case Command.SUPERSCRIPT:
+          {
+            document.execCommand(Command.SUPERSCRIPT, false);
+            break;
+          }
+
+        case Command.UNDO:
+          {
+            document.execCommand(Command.UNDO, false);
+            break;
+          }
+
+        case Command.UNLINK:
+          {
+            document.execCommand(Command.UNLINK, false);
+            break;
+          }
+
+        default:
+          {
+            document.execCommand(command, false, arg);
+            break;
+          }
+      }
     }
+  }]);
 
-}
+  return RangeHandler;
+}();
 
 var template$a = "<div class=\"vue-html5-editor\" :class=\"{'full-screen':fullScreen}\" :style=\"{'z-index':zIndex}\"> <div class=\"toolbar\" :style=\"{'z-index':zIndex+1}\" ref=\"toolbar\"> <ul> <template v-for=\"module in modules\"> <li :title=\"locale[module.i18n]\" @click=\"activeModule(module)\"> <span class=\"icon\" :class=\"module.icon\"></span> <template v-if=\"showModuleName === undefined ? defaultShowModuleName : showModuleName\"> &nbsp;{{locale[module.i18n]}} </template> </li> </template> </ul> </div> <div class=\"dashboard\" v-show=\"dashboard\" ref=\"dashboard\"> <keep-alive> <div v-show=\"dashboard\" :is=\"dashboard\"></div> </keep-alive> </div> <div class=\"content\" ref=\"content\" :style=\"contentStyle\" contenteditable @click=\"toggleDashboard(dashboard)\"> </div> <div class=\"plugins\" :style=\"{'z-index':zIndex+1}\" ref=\"plugin\"> <plugin-draft v-if=\"showDraft\"></plugin-draft> </div> </div>";
 
-function onPaste(e){
-    e.preventDefault();
-    // 判断一下是否是粘贴截图图片
-    let clipboard;
-    let text = '';
-    let items;
+function onPaste(e) {
+  e.preventDefault(); // 判断一下是否是粘贴截图图片
 
+  var clipboard;
+  var text = '';
+  var items;
 
-    if (window.clipboardData && window.clipboardData.setData) {
-        // IE
-        clipboard = window.clipboardData;
-        // 有文件传输
-        if (clipboard.items){
-            items = clipboard.items;
-        } else {
-            // 文本粘贴
-            text = clipboard.getData('text');
-        }
+  if (window.clipboardData && window.clipboardData.setData) {
+    // IE
+    clipboard = window.clipboardData; // 有文件传输
+
+    if (clipboard.items) {
+      items = clipboard.items;
     } else {
-        clipboard = (e.oriinalEvent || e).clipboardData;
-        text = clipboard.getData('text/plain');
+      // 文本粘贴
+      text = clipboard.getData('text');
     }
-    // clipboard.
-    let textRange;
-    if (document.body.createTextRange) {
-        if (document.selection) {
-            textRange = document.selection.createRange();
-        } else if (window.getSelection) {
-            const sel = window.getSelection();
-            const range = sel.getRangeAt(0);
+  } else {
+    clipboard = (e.oriinalEvent || e).clipboardData;
+    text = clipboard.getData('text/plain');
+  } // clipboard.
 
-            // 创建临时元素，使得TextRange可以移动到正确的位置
-            const tempEl = document.createElement('span');
-            tempEl.innerHTML = '&#FEFF;';
-            range.deleteContents();
-            range.insertNode(tempEl);
-            textRange = document.body.createTextRange();
-            textRange.moveToElementText(tempEl);
-            tempEl.parentNode.removeChild(tempEl);
-        }
-        textRange.text = text;
-        textRange.collapse(false);
-        textRange.select();
-    } else {
-        // Chrome之类浏览器
-        document.execCommand('insertText', false, text);
+
+  var textRange;
+
+  if (document.body.createTextRange) {
+    if (document.selection) {
+      textRange = document.selection.createRange();
+    } else if (window.getSelection) {
+      var sel = window.getSelection();
+      var range = sel.getRangeAt(0); // 创建临时元素，使得TextRange可以移动到正确的位置
+
+      var tempEl = document.createElement('span');
+      tempEl.innerHTML = '&#FEFF;';
+      range.deleteContents();
+      range.insertNode(tempEl);
+      textRange = document.body.createTextRange();
+      textRange.moveToElementText(tempEl);
+      tempEl.parentNode.removeChild(tempEl);
     }
+
+    textRange.text = text;
+    textRange.collapse(false);
+    textRange.select();
+  } else {
+    // Chrome之类浏览器
+    document.execCommand('insertText', false, text);
+  }
 }
 
 function log(info) {
-    {
-        console.log(info);
-    }
+  {
+    console.log(info);
+  }
 }
 
-// 计数器指针
-let p;
-//
-let storeKey = 'vue_editor_draft';
+var p; //
+
+var storeKey = 'vue_editor_draft';
 var draftIndex = {
-    stop(){
-        localStorage.setItem(storeKey,'');
-        this.uninstall();
-    },
-    uninstall(){
-        if (p){
-            clearInterval(p);
-        }
-    },
-    install(editor){
-        if (editor.draft){
-            if (editor.draftStoreKey){
-                storeKey = `vue_editor_draft_${editor.draftStoreKey}`;
-            }
-            if (editor.draftTime < 100){
-                throw new Error('draft setInterval can not smaller than 100ms')
-            }
-            const draft = localStorage.getItem(storeKey);
-            if (draft && draft !== '<p><br></p>'){
-                editor.showDraft = true;
-            } else {
-                editor.showDraft = false;
-                p = setInterval(() => {
-                    localStorage.setItem(storeKey,editor.getContent());
-                },editor.draftTime);
-            }
-        }
+  stop: function stop() {
+    localStorage.setItem(storeKey, '');
+    this.uninstall();
+  },
+  uninstall: function uninstall() {
+    if (p) {
+      clearInterval(p);
     }
+  },
+  install: function install(editor) {
+    if (editor.draft) {
+      if (editor.draftStoreKey) {
+        storeKey = "vue_editor_draft_".concat(editor.draftStoreKey);
+      }
+
+      if (editor.draftTime < 100) {
+        throw new Error('draft setInterval can not smaller than 100ms');
+      }
+
+      var draft = localStorage.getItem(storeKey);
+
+      if (draft && draft !== '<p><br></p>') {
+        editor.showDraft = true;
+      } else {
+        editor.showDraft = false;
+        p = setInterval(function () {
+          localStorage.setItem(storeKey, editor.getContent());
+        }, editor.draftTime);
+      }
+    }
+  }
 };
 
-function upload(url,file,params,callback,failCallback,option){
-    const defaultOption = {
-        fileName: 'file'
-    };
+function upload(url, file, params, callback, failCallback, option) {
+  var defaultOption = {
+    fileName: 'file'
+  };
+  var opt = Object.assign({}, defaultOption, option);
+  var formData = new FormData();
+  formData.append(opt.fileName, file);
 
-    const opt = Object.assign({},defaultOption,option);
-    const formData = new FormData();
-    formData.append(opt.fileName, file);
-    if (params){
-        Object.keys(params).forEach((key,param) => {
-            formData.append('key', param);
-        });
-    }
+  if (params) {
+    Object.keys(params).forEach(function (key, param) {
+      formData.append('key', param);
+    });
+  } // 其他些参数，例如用户id
+  // ajax上传
 
-    // 其他些参数，例如用户id
 
-    // ajax上传
-    const xhr = new XMLHttpRequest();
-    // 上传结束
-    xhr.onload = function (event) {
+  var xhr = new XMLHttpRequest(); // 上传结束
 
-    };
-    xhr.onreadystatechange = function (){
-        if (xhr.readyState === 4){
-            if (xhr.status === 200){
-                const json = JSON.parse(xhr.responseText);
-                // ... 这里处理返回的json数据
-                if (typeof callback === 'function'){
-                    callback(json);
-                }
-            } else if (typeof failCallback === 'function'){
-                    failCallback(xhr);
-                }
+  xhr.onload = function (event) {};
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        var json = JSON.parse(xhr.responseText); // ... 这里处理返回的json数据
+
+        if (typeof callback === 'function') {
+          callback(json);
         }
-    };
+      } else if (typeof failCallback === 'function') {
+        failCallback(xhr);
+      }
+    }
+  };
 
-    xhr.open('POST', url, true);
-    xhr.send(formData);
+  xhr.open('POST', url, true);
+  xhr.send(formData);
 }
 
 function uuid() {
-   return (new Date()).getTime().toString() + Math.ceil(Math.random() * 1000)
+  return new Date().getTime().toString() + Math.ceil(Math.random() * 1000);
 }
 
-const loadingPath = 'data:image/gif;base64,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';
+var loadingPath = 'data:image/gif;base64,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';
 
 var pasteUpload = {
-    uninstall(){
-        document.removeEventListener('paste',this.pasteListener);
-    },
-    install(editor){
-        // 粘贴上传
-        this.pasteListener = function (event){
-            const items = event.clipboardData && event.clipboardData.items;
-            let file = null;
-            if (items && items.length) {
-                // 检索剪切板items
-                for (let i = 0; i < items.length; i++) {
-                    if (items[i].type.indexOf('image') !== -1) {
-                        file = items[i].getAsFile();
-                        break
-                    }
-                }
-            }
-            // 此时file就是剪切板中的图片文件
-            if (file){
-                // 禁用默认操作，
-                // 浏览器右键复制图片粘贴会出现乱码，禁用默认操作
-                event.preventDefault();
-                const uid = `temp_img_${uuid()}`;
-                editor.execCommand(Command.INSERT_HTML, `
-                    <p id="${uid}" style="text-align: center;border:1px solid #eee;padding:20px;">
-                    <img style="border: none;margin: 0 auto;width:40px;" src="${loadingPath}" alt="">
-</p>
-                `);
+  uninstall: function uninstall() {
+    // 移除适合
+    document.removeEventListener('paste', this.pasteListener);
+    document.removeEventListener('dragleave', this.dragleaveListener);
+    document.removeEventListener('drop', this.dropListener);
+    document.removeEventListener('dragenter', this.dragenterListener);
+    document.removeEventListener('dragover', this.dragoverListener);
+    document.removeEventListener('paste', this.pasteListener);
+  },
+  insertHolder: function insertHolder() {
+    var uid = "temp_img_".concat(uuid());
+    this.editor.execCommand(Command.INSERT_HTML, "\n                    <p id=\"".concat(uid, "\" class=\"img-holder contenteditable=\"false\"\"> \n                    <img style=\"border: none;margin: 0 auto;width:40px;\" src=\"").concat(loadingPath, "\" alt=\"\">\n</p>\n                "));
+    return uid;
+  },
+  insertError: function insertError(msg) {
+    var uid = "temp_img_".concat(uuid());
+    this.editor.execCommand(Command.INSERT_HTML, "\n                    <p id=\"".concat(uid, "\" class=\"img-holder\"  contenteditable=\"false\">\n                    \u4E0A\u4F20\u5931\u8D25\uFF1A").concat(msg, ",<span id=\"").concat(uid, "_cancel\" class=\"img-btn-cancel\">\u53D6\u6D88</span>\n</p>\n                "));
 
-                upload(editor.uploadUrl,file,{},(json) => {
-                    document.getElementById(uid).remove();
-                    editor.execCommand(Command.INSERT_IMAGE, json.path);
-                });
-            }
-        };
+    document.getElementById("".concat(uid, "_cancel")).onclick = function () {
+      document.getElementById(uid).remove();
+    };
 
-        this.dragleaveListener = function (e) {
-            e.preventDefault();
-        };
-        this.dropListener = function (e) {
-            e.preventDefault();
-        };
-        this.dragenterListener = function (e) {
-            e.preventDefault();
-        };
-        this.dragoverListener = function (e) {
-            e.preventDefault();
-        };
-        if (editor.uploadUrl){
-            document.addEventListener('paste', this.pasteListener);
-            document.addEventListener('dragleave',this.dragleaveListener);
-            document.addEventListener('drop',this.dropListener);
-            document.addEventListener('dragenter',this.dragenterListener);
-            document.addEventListener('dragover',this.dragoverListener);
-            debugger
+    return uid;
+  },
+  install: function install(editor) {
+    var me = this;
+    me.editor = editor; // 粘贴上传
+
+    this.pasteListener = function (event) {
+      var items = event.clipboardData && event.clipboardData.items;
+      var images = [];
+
+      if (items && items.length) {
+        // 检索剪切板items
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].type.indexOf('image') !== -1) {
+            images.push(items[i].getAsFile());
+            break;
+          }
         }
+      } // 如果是图片，禁用默认操作，否则执行默认操作
+
+
+      if (images.length > 0) {
+        // 浏览器右键复制图片粘贴会出现乱码，禁用默认操作
+        event.preventDefault();
+      } // 此时file就是剪切板中的图片文件
+
+
+      images.forEach(function (file) {
+        var uid = me.insertHolder();
+        upload(editor.uploadUrl, file, {}, function (json) {
+          document.getElementById(uid).remove();
+          editor.execCommand(Command.INSERT_IMAGE, json.path);
+        });
+      });
+    };
+
+    this.dragleaveListener = function (e) {
+      e.preventDefault();
+    };
+
+    this.dropListener = function (e) {
+      e.preventDefault();
+    };
+
+    this.dragenterListener = function (e) {
+      e.preventDefault();
+    };
+
+    this.dragoverListener = function (e) {
+      e.preventDefault();
+    };
+
+    this.editorDropListener = function (e) {
+      e.preventDefault(); // 取消默认浏览器拖拽效果
+
+      var fileList = e.dataTransfer.files; // 获取文件对象
+      // 检测是否是拖拽文件到页面的操作
+
+      if (fileList.length === 0) {
+        return;
+      }
+
+      var images = [];
+
+      for (var i = 0; i < fileList.length; i++) {
+        var file = fileList.item(i);
+
+        if (file.type.indexOf('image') !== -1) {
+          images.push(file);
+        }
+      }
+
+      images.forEach(function (file) {
+        var uid = me.insertHolder();
+        upload(editor.uploadUrl, file, {}, function (json) {
+          document.getElementById(uid).remove();
+
+          if (json.success) {
+            editor.execCommand(Command.INSERT_IMAGE, json.path);
+          } else {
+            me.insertError(json.errMsg);
+          }
+        }, function (xhr) {
+          document.getElementById(uid).remove();
+          me.insertError(xhr.responseText);
+        });
+      });
+    };
+
+    if (editor.uploadUrl) {
+      document.addEventListener('paste', this.pasteListener);
+      document.addEventListener('dragleave', this.dragleaveListener);
+      document.addEventListener('drop', this.dropListener);
+      document.addEventListener('dragenter', this.dragenterListener);
+      document.addEventListener('dragover', this.dragoverListener);
+      editor.$el.addEventListener('drop', this.editorDropListener);
     }
+  }
 };
 
 var plugins = {
-    draft: draftIndex,
-    pasteUpload
+  draft: draftIndex,
+  pasteUpload: pasteUpload
 };
 
-const {draft , pasteUpload: pasteUpload$1} = plugins;
+var draft = plugins.draft,
+    pasteUpload$1 = plugins.pasteUpload;
 /**
  * Created by peak on 2017/2/9.
  */
+
 var editor = {
-    template: template$a,
-    components: {
-        'draft-panel': {
-            template: ''
-        }
-    },
-    props: {
-        plainTextPaste: {
-            type: Boolean,
-            default: false
-        },
-        content: {
-            type: String,
-            required: true,
-            default: ''
-        },
-        height: {
-            type: Number,
-            default: 300,
-            validator(val) {
-                return val >= 100
-            }
-        },
-        zIndex: {
-            type: Number,
-            default: 1000
-        },
-        autoHeight: {
-            type: Boolean,
-            default: true
-        },
-        showModuleName: {
-            type: Boolean,
-            default: false
-        },
-        toolbars: {
-            type: Array,
-            default() {
-                return []
-            }
-        },
-        draft: {
-            type: Boolean,
-            default: false
-        },
-        draftTime: {
-            type: Number,
-            default: 2000
-        },
-        // 草稿箱自定义字段，可以让多个编辑器同时使用不同的草稿
-        draftStoreKey: {
-            type: String,
-            default: ''
-        },
-        uploadUrl: {
-            type: String,
-            default: ''
-        }
-    },
-    data() {
-        return {
-            // defaultShowModuleName:false
-            // locale: {},
-            // modules:{},
-            fullScreen: false,
-            dashboard: null,
-            showDraft: false
-        }
-    },
-    watch: {
-        /**
-         * 监听外部改变了content
-         * @param {string} val
-         */
-        content(val) {
-            this.setContent(val);
-        },
-        fullScreen(val) {
-            const component = this;
-            if (val) {
-                component.parentEl = component.$el.parentNode;
-                component.nextEl = component.$el.nextSibling;
-                document.body.appendChild(component.$el);
-                return
-            }
-            if (component.nextEl) {
-                component.parentEl.insertBefore(component.$el, component.nextEl);
-                return
-            }
-            component.parentEl.appendChild(component.$el);
-        }
-    },
-    computed: {
-        contentStyle() {
-            const style = {};
-            if (this.fullScreen) {
-                style.height = `${window.innerHeight - this.$refs.toolbar.clientHeight - 1}px`;
-                return style
-            }
-            if (!this.autoHeight) {
-                style.height = `${this.height}px`;
-                return style
-            }
-            style['min-height'] = `${this.height}px`;
-            return style
-        }
-    },
-    methods: {
-        // updateContent(val) {
-        //     const content = this.$refs.content.innerHTML
-        //     const convertVal = this.convertToInnerHtml(val)
-        //     if (convertVal !== content) {
-        //         this.$refs.content.innerHTML = convertVal
-        //     }
-        // },
-        stopDraft(){
-            draft.stop();
-        },
-        toggleFullScreen() {
-            this.fullScreen = !this.fullScreen;
-        },
-        enableFullScreen() {
-            this.fullScreen = true;
-        },
-        exitFullScreen() {
-            this.fullScreen = false;
-        },
-        focus() {
-            this.$refs.content.focus();
-        },
-        toggleDashboard(dashboard) {
-            this.dashboard = this.dashboard === dashboard ? null : dashboard;
-        },
-        execCommand(command, ...arg) {
-            this.restoreSelection();
-            if (this.range) {
-                const handler = new RangeHandler(this.range, this);
-                handler.execCommand(command, ...arg);
-            }
-            this.toggleDashboard();
-            const newConent = this.convertToContent(this.$refs.content.innerHTML);
-            this.$emit('change', newConent);
-        },
-        getCurrentRange() {
-            return this.range
-        },
-        /**
-         * 获取当前的光标对象并赋值给this.range
-         */
-        saveCurrentRange() {
-            const selection = getSelection();
-            if (!selection.rangeCount) {
-                return
-            }
-            const content = this.$refs.content;
-            for (let i = 0; i < selection.rangeCount; i++) {
-                const range = selection.getRangeAt(0);
-                let start = range.startContainer;
-                let end = range.endContainer;
-                // for IE11 : node.contains(textNode) always return false
-                start = start.nodeType === Node.TEXT_NODE ? start.parentNode : start;
-                end = end.nodeType === Node.TEXT_NODE ? end.parentNode : end;
-                if (content.contains(start) && content.contains(end)) {
-                    this.range = range;
-                    break
-                }
-            }
-        },
-        getContent(){
-            const newContent = this.convertToContent(this.$refs.content.innerHTML);
-            return newContent
-        },
-        setContent(val){
-            const content = this.$refs.content.innerHTML;
-            const convertVal = this.convertToInnerHtml(val);
-            if (convertVal !== content) {
-                this.$refs.content.innerHTML = convertVal;
-            }
-        },
-        restoreSelection() {
-            const selection = getSelection();
-            selection.removeAllRanges();
-            if (this.range) {
-                selection.addRange(this.range);
-            } else {
-                const content = this.$refs.content;
-                const div = document.createElement('p');
-                const range = document.createRange();
-                content.appendChild(div);
-                range.setStart(div, 0);
-                range.setEnd(div, 0);
-                selection.removeAllRanges();
-                selection.addRange(range);
-                this.range = range;
-            }
-        },
-        activeModule(module) {
-            if (typeof module.handler === 'function') {
-                module.handler(this);
-                return
-            }
-            if (module.hasDashboard) {
-                this.toggleDashboard(`dashboard-${module.name}`);
-            }
-        },
-        convertToInnerHtml(content) {
-            // 为空返回一个br保证所有的文字都在div中
-            if (content === '') {
-                return '<p><br/></p>'
-            }
-            // 当是纯文本的时候包括在div中
-            if (content.indexOf('<') === -1) {
-                return `<p>${content}</p>`
-            }
-            const str = content.replace(/<video .*?poster="(.*?)".*?src="(.*?)".*?>.*?<\/video>/ig, ($0, $1, $2) => `<img data-url="${$2}" class="video-poster" src="${$1}">`);
-            return str
-        },
-        convertToContent(html) {
-            const ar = html.match(/<img .*?>/ig);
-            const videoPreviewArray = [];
-            if (ar) {
-                ar.forEach((item) => {
-                    if (item.indexOf('class="video-poster"') >= 0) {
-                        const str = item.replace(/<img .*?data-url="(.*?)".*?class="video-poster".*?src="(.*?)">/ig, ($0, $1, $2) =>
-                            `<video poster="${$2}" src="${$1}" controls></video>`);
-                        videoPreviewArray.push({
-                            replaceStr: item,
-                            newStr: str
-                        });
-                    }
-                });
-                let returnStr = '';
-                videoPreviewArray.forEach((item) => {
-                    if (returnStr) {
-                        returnStr = returnStr.replace(item.replaceStr, item.newStr);
-                    } else {
-                        returnStr = html.replace(item.replaceStr, item.newStr);
-                    }
-                });
-                if (returnStr){
-                    html = returnStr;
-                }
-            }
-            return html
-        }
-    },
-    created() {
-        const newModules = [];
-        const toolbars = this.toolbars;
-        const editor = this;
-        const editorDom = editor.$refs.content;
-        if (toolbars.length > 0) {
-            this.modules.forEach((item) => {
-                const index = toolbars.indexOf(item.name);
-                if (index > -1) {
-                    newModules[index] = item;
-                }
-            });
-            this.modules = newModules;
-        }
-
-        this.modules.forEach((module) => {
-            if (typeof module.init === 'function') {
-                module.init(this);
-            }
-        });
-    },
-    mounted() {
-        const editor = this;
-        const content = this.$refs.content;
-        content.innerHTML = this.convertToInnerHtml(this.content);
-        content.addEventListener('mouseup', () => {
-            editor.saveCurrentRange();
-        }, false);
-        content.addEventListener('keyup', (e) => {
-            const key = e.which;
-            editor.$emit('change', this.convertToContent(content.innerHTML));
-            // 需要在前面执行
-            editor.saveCurrentRange();
-            const startContainer = this.range.startContainer;
-            const endContainer = this.range.endContainer;
-            const pNode = getParentBlockNode(startContainer);
-            if (key === 9) {
-                log('tab');
-                e.preventDefault();
-            }
-            // 删除键
-            if (key === 8) {
-                if (content.innerHTML === '' || content.innerHTML === '<br>') {
-                    content.innerHTML = '<p><br></p>';
-                }
-            }
-        },false);
-        content.addEventListener('mouseout', (e) => {
-            if (e.target === content) {
-                this.saveCurrentRange();
-            }
-        }, false);
-        content.addEventListener('paste', (...args) => {
-            // const e = args[0]
-            // 注册paste方法，粘贴的都是纯文本
-            // 代码来自http://www.zhangxinxu.com/wordpress/2016/01/contenteditable-plaintext-only/
-            if (editor.plainTextPaste) {
-                onPaste.apply(this, args);
-            }
-            // } else {
-            //      // 阻止默认的粘贴行为
-            //     e.preventDefault()
-            //     // 过滤script等安全问题代码
-            //     let text = ''
-            //     if (window.clipboardData && window.clipboardData.setData) {
-            //         // IE
-            //         text = window.clipboardData.getData('text/html')
-            //     } else {
-            //         text = (e.originalEvent || e).clipboardData.getData('text/html')
-            //     }
-
-            //     editor.execCommand(Command.INSERT_HTML,false,editor.safeHtml(text))
-            // }
-        });
-
-
-        // 执行插件安装
-        draft.install(editor);
-        pasteUpload$1.install(editor);
-    },
-    // /**
-    // * 将不安全的标签去除
-    //  * @param text
-    //  * @returns {*}
-    //  */
-    // safeHtml(text){
-    // 	// 还不是很完整，待续
-    // 	if (text){
-    // 		return	text.replace(/<script.*>.*<\/script>/ig,'')
-    // 			.replace(/<style.*>.*<\/style>/ig,'')
-    // 	}
-    //         return text
-    // },
-    updated() {
-        // update dashboard style
-        if (this.$refs.dashboard) {
-            this.$refs.dashboard.style.maxHeight = `${this.$refs.content.clientHeight}px`;
-        }
-    },
-    beforeDestroy() {
-        this.modules.forEach((module) => {
-            if (typeof module.destroyed === 'function') {
-                module.destroyed(this);
-            }
-        });
-        // 卸载插件
-        draft.uninstall(this);
-        pasteUpload$1.uninstall(this);
+  template: template$a,
+  components: {
+    'draft-panel': {
+      template: ''
     }
+  },
+  props: {
+    plainTextPaste: {
+      type: Boolean,
+      "default": false
+    },
+    content: {
+      type: String,
+      required: true,
+      "default": ''
+    },
+    height: {
+      type: Number,
+      "default": 300,
+      validator: function validator(val) {
+        return val >= 100;
+      }
+    },
+    zIndex: {
+      type: Number,
+      "default": 1000
+    },
+    autoHeight: {
+      type: Boolean,
+      "default": true
+    },
+    showModuleName: {
+      type: Boolean,
+      "default": false
+    },
+    toolbars: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    },
+    draft: {
+      type: Boolean,
+      "default": false
+    },
+    draftTime: {
+      type: Number,
+      "default": 2000
+    },
+    // 草稿箱自定义字段，可以让多个编辑器同时使用不同的草稿
+    draftStoreKey: {
+      type: String,
+      "default": ''
+    },
+    uploadUrl: {
+      type: String,
+      "default": ''
+    }
+  },
+  data: function data() {
+    return {
+      // defaultShowModuleName:false
+      // locale: {},
+      // modules:{},
+      fullScreen: false,
+      dashboard: null,
+      showDraft: false
+    };
+  },
+  watch: {
+    /**
+     * 监听外部改变了content
+     * @param {string} val
+     */
+    content: function content(val) {
+      this.setContent(val);
+    },
+    fullScreen: function fullScreen(val) {
+      var component = this;
+
+      if (val) {
+        component.parentEl = component.$el.parentNode;
+        component.nextEl = component.$el.nextSibling;
+        document.body.appendChild(component.$el);
+        return;
+      }
+
+      if (component.nextEl) {
+        component.parentEl.insertBefore(component.$el, component.nextEl);
+        return;
+      }
+
+      component.parentEl.appendChild(component.$el);
+    }
+  },
+  computed: {
+    contentStyle: function contentStyle() {
+      var style = {};
+
+      if (this.fullScreen) {
+        style.height = "".concat(window.innerHeight - this.$refs.toolbar.clientHeight - 1, "px");
+        return style;
+      }
+
+      if (!this.autoHeight) {
+        style.height = "".concat(this.height, "px");
+        return style;
+      }
+
+      style['min-height'] = "".concat(this.height, "px");
+      return style;
+    }
+  },
+  methods: {
+    // updateContent(val) {
+    //     const content = this.$refs.content.innerHTML
+    //     const convertVal = this.convertToInnerHtml(val)
+    //     if (convertVal !== content) {
+    //         this.$refs.content.innerHTML = convertVal
+    //     }
+    // },
+    stopDraft: function stopDraft() {
+      draft.stop();
+    },
+    toggleFullScreen: function toggleFullScreen() {
+      this.fullScreen = !this.fullScreen;
+    },
+    enableFullScreen: function enableFullScreen() {
+      this.fullScreen = true;
+    },
+    exitFullScreen: function exitFullScreen() {
+      this.fullScreen = false;
+    },
+    focus: function focus() {
+      this.$refs.content.focus();
+    },
+    toggleDashboard: function toggleDashboard(dashboard) {
+      this.dashboard = this.dashboard === dashboard ? null : dashboard;
+    },
+    execCommand: function execCommand(command) {
+      this.restoreSelection();
+
+      if (this.range) {
+        var handler = new RangeHandler(this.range, this);
+
+        for (var _len = arguments.length, arg = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+          arg[_key - 1] = arguments[_key];
+        }
+
+        handler.execCommand.apply(handler, [command].concat(arg));
+      }
+
+      this.toggleDashboard();
+      var newConent = this.convertToContent(this.$refs.content.innerHTML);
+      this.$emit('change', newConent);
+    },
+    getCurrentRange: function getCurrentRange() {
+      return this.range;
+    },
+
+    /**
+     * 获取当前的光标对象并赋值给this.range
+     */
+    saveCurrentRange: function saveCurrentRange() {
+      var selection = getSelection();
+
+      if (!selection.rangeCount) {
+        return;
+      }
+
+      var content = this.$refs.content;
+
+      for (var i = 0; i < selection.rangeCount; i++) {
+        var range = selection.getRangeAt(0);
+        var start = range.startContainer;
+        var end = range.endContainer; // for IE11 : node.contains(textNode) always return false
+
+        start = start.nodeType === Node.TEXT_NODE ? start.parentNode : start;
+        end = end.nodeType === Node.TEXT_NODE ? end.parentNode : end;
+
+        if (content.contains(start) && content.contains(end)) {
+          this.range = range;
+          break;
+        }
+      }
+    },
+    getContent: function getContent() {
+      var newContent = this.convertToContent(this.$refs.content.innerHTML);
+      return newContent;
+    },
+    setContent: function setContent(val) {
+      var content = this.$refs.content.innerHTML;
+      var convertVal = this.convertToInnerHtml(val);
+
+      if (convertVal !== content) {
+        this.$refs.content.innerHTML = convertVal;
+      }
+    },
+    restoreSelection: function restoreSelection() {
+      var selection = getSelection();
+      selection.removeAllRanges();
+
+      if (this.range) {
+        selection.addRange(this.range);
+      } else {
+        var content = this.$refs.content;
+        var div = document.createElement('p');
+        var range = document.createRange();
+        content.appendChild(div);
+        range.setStart(div, 0);
+        range.setEnd(div, 0);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        this.range = range;
+      }
+    },
+    activeModule: function activeModule(module) {
+      if (typeof module.handler === 'function') {
+        module.handler(this);
+        return;
+      }
+
+      if (module.hasDashboard) {
+        this.toggleDashboard("dashboard-".concat(module.name));
+      }
+    },
+    convertToInnerHtml: function convertToInnerHtml(content) {
+      // 为空返回一个br保证所有的文字都在div中
+      if (content === '') {
+        return '<p><br/></p>';
+      } // 当是纯文本的时候包括在div中
+
+
+      if (content.indexOf('<') === -1) {
+        return "<p>".concat(content, "</p>");
+      }
+
+      var str = content.replace(/<video .*?poster="(.*?)".*?src="(.*?)".*?>.*?<\/video>/ig, function ($0, $1, $2) {
+        return "<img data-url=\"".concat($2, "\" class=\"video-poster\" src=\"").concat($1, "\">");
+      });
+      return str;
+    },
+    convertToContent: function convertToContent(html) {
+      var ar = html.match(/<img .*?>/ig);
+      var videoPreviewArray = [];
+
+      if (ar) {
+        ar.forEach(function (item) {
+          if (item.indexOf('class="video-poster"') >= 0) {
+            var str = item.replace(/<img .*?data-url="(.*?)".*?class="video-poster".*?src="(.*?)">/ig, function ($0, $1, $2) {
+              return "<video poster=\"".concat($2, "\" src=\"").concat($1, "\" controls></video>");
+            });
+            videoPreviewArray.push({
+              replaceStr: item,
+              newStr: str
+            });
+          }
+        });
+        var returnStr = '';
+        videoPreviewArray.forEach(function (item) {
+          if (returnStr) {
+            returnStr = returnStr.replace(item.replaceStr, item.newStr);
+          } else {
+            returnStr = html.replace(item.replaceStr, item.newStr);
+          }
+        });
+
+        if (returnStr) {
+          html = returnStr;
+        }
+      }
+
+      return html;
+    }
+  },
+  created: function created() {
+    var _this = this;
+
+    var newModules = [];
+    var toolbars = this.toolbars;
+    var editor = this;
+    var editorDom = editor.$refs.content;
+
+    if (toolbars.length > 0) {
+      this.modules.forEach(function (item) {
+        var index = toolbars.indexOf(item.name);
+
+        if (index > -1) {
+          newModules[index] = item;
+        }
+      });
+      this.modules = newModules;
+    }
+
+    this.modules.forEach(function (module) {
+      if (typeof module.init === 'function') {
+        module.init(_this);
+      }
+    });
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    var editor = this;
+    var content = this.$refs.content;
+    content.innerHTML = this.convertToInnerHtml(this.content);
+    content.addEventListener('mouseup', function () {
+      editor.saveCurrentRange();
+    }, false);
+    content.addEventListener('keyup', function (e) {
+      var key = e.which;
+      editor.$emit('change', _this2.convertToContent(content.innerHTML)); // 需要在前面执行
+
+      editor.saveCurrentRange();
+      var startContainer = _this2.range.startContainer;
+      var endContainer = _this2.range.endContainer;
+      var pNode = getParentBlockNode(startContainer);
+
+      if (key === 9) {
+        log('tab');
+        e.preventDefault();
+      } // 回车
+      // editor.execCommand('insertHTML','<p></p>')
+      // e.preventDefault()
+      // 删除键
+
+
+      if (key === 8) {
+        if (content.innerHTML === '' || content.innerHTML === '<br>') {
+          content.innerHTML = '<p><br></p>';
+        }
+      }
+    }, false);
+    content.addEventListener('mouseout', function (e) {
+      if (e.target === content) {
+        _this2.saveCurrentRange();
+      }
+    }, false);
+    content.addEventListener('paste', function () {
+      // const e = args[0]
+      // 注册paste方法，粘贴的都是纯文本
+      // 代码来自http://www.zhangxinxu.com/wordpress/2016/01/contenteditable-plaintext-only/
+      if (editor.plainTextPaste) {
+        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
+        }
+
+        onPaste.apply(_this2, args);
+      } // } else {
+      //      // 阻止默认的粘贴行为
+      //     e.preventDefault()
+      //     // 过滤script等安全问题代码
+      //     let text = ''
+      //     if (window.clipboardData && window.clipboardData.setData) {
+      //         // IE
+      //         text = window.clipboardData.getData('text/html')
+      //     } else {
+      //         text = (e.originalEvent || e).clipboardData.getData('text/html')
+      //     }
+      //     editor.execCommand(Command.INSERT_HTML,false,editor.safeHtml(text))
+      // }
+
+    }); // 执行插件安装
+
+    draft.install(editor);
+    pasteUpload$1.install(editor);
+  },
+  // /**
+  // * 将不安全的标签去除
+  //  * @param text
+  //  * @returns {*}
+  //  */
+  // safeHtml(text){
+  // 	// 还不是很完整，待续
+  // 	if (text){
+  // 		return	text.replace(/<script.*>.*<\/script>/ig,'')
+  // 			.replace(/<style.*>.*<\/style>/ig,'')
+  // 	}
+  //         return text
+  // },
+  updated: function updated() {
+    // update dashboard style
+    if (this.$refs.dashboard) {
+      this.$refs.dashboard.style.maxHeight = "".concat(this.$refs.content.clientHeight, "px");
+    }
+  },
+  beforeDestroy: function beforeDestroy() {
+    var _this3 = this;
+
+    this.modules.forEach(function (module) {
+      if (typeof module.destroyed === 'function') {
+        module.destroyed(_this3);
+      }
+    }); // 卸载插件
+
+    draft.uninstall(this);
+    pasteUpload$1.uninstall(this);
+  }
 };
 
 var i18nZhCn = {
-    align: '对齐方式',
-    image: '图片',
-    images: '图片',
-    indent: '缩进',
-    list: '列表',
-    link: '链接',
-    unlink: '去除链接',
-    table: '表格',
-    font: '文字',
-    'full screen': '全屏',
-    text: '排版',
-    eraser: '格式清除',
-    info: '关于',
-    color: '颜色',
-    'please enter a url': '请输入地址',
-    'create link': '创建链接',
-    bold: '加粗',
-    italic: '倾斜',
-    underline: '下划线',
-    'strike through': '删除线',
-    subscript: '上标',
-    superscript: '下标',
-    heading: '标题',
-    'font name': '字体',
-    'font size': '文字大小',
-    'left justify': '左对齐',
-    'center justify': '居中',
-    'right justify': '右对齐',
-    'ordered list': '有序列表',
-    'unordered list': '无序列表',
-    'fore color': '前景色',
-    'background color': '背景色',
-    'row count': '行数',
-    'column count': '列数',
-    save: '确定',
-    upload: '上传',
-    progress: '进度',
-    unknown: '未知',
-    'please wait': '请稍等',
-    error: '错误',
-    abort: '中断',
-    reset: '重置',
-    hr: '分隔线',
-    undo: '撤消',
-
-    'line height': '行高',
-    'exceed size limit': '超出大小限制'
+  align: '对齐方式',
+  image: '图片',
+  images: '图片',
+  indent: '缩进',
+  list: '列表',
+  link: '链接',
+  unlink: '去除链接',
+  table: '表格',
+  font: '文字',
+  'full screen': '全屏',
+  text: '排版',
+  eraser: '格式清除',
+  info: '关于',
+  color: '颜色',
+  'please enter a url': '请输入地址',
+  'create link': '创建链接',
+  bold: '加粗',
+  italic: '倾斜',
+  underline: '下划线',
+  'strike through': '删除线',
+  subscript: '上标',
+  superscript: '下标',
+  heading: '标题',
+  'font name': '字体',
+  'font size': '文字大小',
+  'left justify': '左对齐',
+  'center justify': '居中',
+  'right justify': '右对齐',
+  'ordered list': '有序列表',
+  'unordered list': '无序列表',
+  'fore color': '前景色',
+  'background color': '背景色',
+  'row count': '行数',
+  'column count': '列数',
+  save: '确定',
+  upload: '上传',
+  progress: '进度',
+  unknown: '未知',
+  'please wait': '请稍等',
+  error: '错误',
+  abort: '中断',
+  reset: '重置',
+  hr: '分隔线',
+  undo: '撤消',
+  'line height': '行高',
+  'exceed size limit': '超出大小限制'
 };
 
 var i18nEnUs = {
-    align: 'align',
-    image: 'image',
-    indent: 'indent',
-    list: 'list',
-    link: 'link',
-    unlink: 'unlink',
-    table: 'table',
-    font: 'font',
-    'full screen': 'full screen',
-    text: 'text',
-    eraser: 'remove format',
-    info: 'info',
-    color: 'color',
-    'please enter a url': 'please enter a url',
-    'create link': 'create link',
-    bold: 'bold',
-    italic: 'italic',
-    underline: 'underline',
-    'strike through': 'strike through',
-    subscript: 'subscript',
-    superscript: 'superscript',
-    heading: 'heading',
-    'font name': 'font name',
-    'font size': 'font size',
-    'left justify': 'left justify',
-    'center justify': 'center justify',
-    'right justify': 'right justify',
-    'ordered list': 'ordered list',
-    'unordered list': 'unordered list',
-    'fore color': 'fore color',
-    'background color': 'background color',
-    'row count': 'row count',
-    'column count': 'column count',
-    save: 'save',
-    upload: 'upload',
-    progress: 'progress',
-    unknown: 'unknown',
-    'please wait': 'please wait',
-    error: 'error',
-    abort: 'abort',
-    reset: 'reset',
-    hr: 'horizontal rule',
-    undo: 'undo',
-    'line height': 'line height',
-    'exceed size limit': 'exceed size limit'
+  align: 'align',
+  image: 'image',
+  indent: 'indent',
+  list: 'list',
+  link: 'link',
+  unlink: 'unlink',
+  table: 'table',
+  font: 'font',
+  'full screen': 'full screen',
+  text: 'text',
+  eraser: 'remove format',
+  info: 'info',
+  color: 'color',
+  'please enter a url': 'please enter a url',
+  'create link': 'create link',
+  bold: 'bold',
+  italic: 'italic',
+  underline: 'underline',
+  'strike through': 'strike through',
+  subscript: 'subscript',
+  superscript: 'superscript',
+  heading: 'heading',
+  'font name': 'font name',
+  'font size': 'font size',
+  'left justify': 'left justify',
+  'center justify': 'center justify',
+  'right justify': 'right justify',
+  'ordered list': 'ordered list',
+  'unordered list': 'unordered list',
+  'fore color': 'fore color',
+  'background color': 'background color',
+  'row count': 'row count',
+  'column count': 'column count',
+  save: 'save',
+  upload: 'upload',
+  progress: 'progress',
+  unknown: 'unknown',
+  'please wait': 'please wait',
+  error: 'error',
+  abort: 'abort',
+  reset: 'reset',
+  hr: 'horizontal rule',
+  undo: 'undo',
+  'line height': 'line height',
+  'exceed size limit': 'exceed size limit'
 };
 
 /**
  * Created by peak on 2017/2/24.
  */
+
 /**
  * shadow clone
  *
  * @param source    source object
  * @param ext       extended object
  */
-function mixin(source = {}, ext = {}) {
-    Object.keys(ext).forEach((k) => {
-        // for data function
-        if (k === 'data') {
-            const dataSrc = source[k];
-            const dataDesc = ext[k];
-            if (typeof dataDesc === 'function') {
-                if (typeof dataSrc !== 'function') {
-                    source[k] = dataDesc;
-                } else {
-                    source[k] = () => mixin(dataSrc(), dataDesc());
-                }
-            }
+function mixin() {
+  var source = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var ext = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  Object.keys(ext).forEach(function (k) {
+    // for data function
+    if (k === 'data') {
+      var dataSrc = source[k];
+      var dataDesc = ext[k];
+
+      if (typeof dataDesc === 'function') {
+        if (typeof dataSrc !== 'function') {
+          source[k] = dataDesc;
         } else {
-            source[k] = ext[k];
+          source[k] = function () {
+            return mixin(dataSrc(), dataDesc());
+          };
         }
-    });
-    return source
+      }
+    } else {
+      source[k] = ext[k];
+    }
+  });
+  return source;
 }
 
 var template$b = "<div class=\"draft__dialog\"> 草稿箱不为空，是否从草稿加载? <span class=\"draft_btn\" @click=\"onOk\">是</span><span class=\"draft_btn draft__no\" @click=\"onCancel\">否</span> </div>";
 
 var draft$1 = {
-    name: 'draft-name',
-    template: template$b,
-    methods: {
-        onOk() {
-            const editor = this.$parent;
-            editor.setContent(localStorage.getItem(storeKey));
-            this.run(editor);
-        },
-        onCancel() {
-            const editor = this.$parent;
-            this.run(editor);
-        },
-        run(editor) {
-            localStorage.setItem(storeKey,'');
-            draftIndex.install(editor);
-        }
+  name: 'draft-name',
+  template: template$b,
+  methods: {
+    onOk: function onOk() {
+      var editor = this.$parent;
+      editor.setContent(localStorage.getItem(storeKey));
+      this.run(editor);
+    },
+    onCancel: function onCancel() {
+      var editor = this.$parent;
+      this.run(editor);
+    },
+    run: function run(editor) {
+      localStorage.setItem(storeKey, '');
+      draftIndex.install(editor);
     }
+  }
 };
 
-// polyfill()
 /**
  * Vue html5 Editor
  * @param Vue   {Vue}
  * @param options {Object}
  */
-class VueHtml5Editor {
 
-    /**
-     * build an editor component
-     */
-    constructor(options = {}) {
-        let modules = [...buildInModules];
-        const components = {};
+var VueHtml5Editor =
+/*#__PURE__*/
+function () {
+  /**
+   * build an editor component
+   */
+  function VueHtml5Editor() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-        // extended modules
-        if (Array.isArray(options.modules)) {
-            options.modules.forEach((module) => {
-                if (module.name) {
-                    modules.push(module);
-                }
-            });
+    _classCallCheck(this, VueHtml5Editor);
+
+    var modules = _toConsumableArray(buildInModules);
+
+    var components = {}; // extended modules
+
+    if (Array.isArray(options.modules)) {
+      options.modules.forEach(function (module) {
+        if (module.name) {
+          modules.push(module);
         }
-        // hidden modules
-        if (Array.isArray(options.hiddenModules)) {
-            modules = (() => {
-                const arr = [];
-                modules.forEach((m) => {
-                    if (!options.hiddenModules.includes(m.name)) {
-                        arr.push(m);
-                    }
-                });
-                return arr
-            })();
-        }
-        // visible modules
-        if (Array.isArray(options.visibleModules)) {
-            modules = (() => {
-                const arr = [];
-                modules.forEach((module) => {
-                    if (options.visibleModules.includes(module.name)) {
-                        arr.push(module);
-                    }
-                });
-                return arr
-            })();
-        }
+      });
+    } // hidden modules
 
 
-        modules.forEach((module) => {
-            // specify the config for each module in options by name
-            const config = options[module.name];
-            module.config = mixin(module.config, config);
-
-            if (module.dashboard) {
-                // $options.module
-                module.dashboard.module = module;
-                components[`dashboard-${module.name}`] = module.dashboard;
-            }
-            if (options.icons && options.icons[module.name]) {
-                module.icon = options.icons[module.name];
-            }
-
-            module.hasDashboard = !!module.dashboard;
-            // prevent vue sync
-            module.dashboard = null;
+    if (Array.isArray(options.hiddenModules)) {
+      modules = function () {
+        var arr = [];
+        modules.forEach(function (m) {
+          if (!options.hiddenModules.includes(m.name)) {
+            arr.push(m);
+          }
         });
-        // 将插件注册到组件中
-        components['plugin-draft'] = draft$1;
-        // i18n
-        const i18n = {'zh-cn': i18nZhCn, 'en-us': i18nEnUs};
-        const customI18n = options.i18n || {};
-        Object.keys(customI18n).forEach((key) => {
-            i18n[key] = i18n[key] ? mixin(i18n[key], customI18n[key]) : customI18n[key];
-        });
-        const language = options.language || 'en-us';
-        const locale = i18n[language];
+        return arr;
+      }();
+    } // visible modules
 
-        // showModuleName
-        const defaultShowModuleName = !!options.showModuleName;
 
-        // ######################################
-        const compo = mixin(editor, {
-            data() {
-                return {modules, locale, defaultShowModuleName}
-            },
-            components
+    if (Array.isArray(options.visibleModules)) {
+      modules = function () {
+        var arr = [];
+        modules.forEach(function (module) {
+          if (options.visibleModules.includes(module.name)) {
+            arr.push(module);
+          }
         });
-        mixin(this, compo);
+        return arr;
+      }();
     }
 
-    /**
-     * global install
-     *
-     * @param Vue
-     * @param options
-     */
-    static install(Vue, options = {}) {
-        Vue.component(options.name || 'vue-html5-editor', new VueHtml5Editor(options));
+    modules.forEach(function (module) {
+      // specify the config for each module in options by name
+      var config = options[module.name];
+      module.config = mixin(module.config, config);
+
+      if (module.dashboard) {
+        // $options.module
+        module.dashboard.module = module;
+        components["dashboard-".concat(module.name)] = module.dashboard;
+      }
+
+      if (options.icons && options.icons[module.name]) {
+        module.icon = options.icons[module.name];
+      }
+
+      module.hasDashboard = !!module.dashboard; // prevent vue sync
+
+      module.dashboard = null;
+    }); // 将插件注册到组件中
+
+    components['plugin-draft'] = draft$1; // i18n
+
+    var i18n = {
+      'zh-cn': i18nZhCn,
+      'en-us': i18nEnUs
+    };
+    var customI18n = options.i18n || {};
+    Object.keys(customI18n).forEach(function (key) {
+      i18n[key] = i18n[key] ? mixin(i18n[key], customI18n[key]) : customI18n[key];
+    });
+    var language = options.language || 'en-us';
+    var locale = i18n[language]; // showModuleName
+
+    var defaultShowModuleName = !!options.showModuleName; // ######################################
+
+    var compo = mixin(editor, {
+      data: function data() {
+        return {
+          modules: modules,
+          locale: locale,
+          defaultShowModuleName: defaultShowModuleName
+        };
+      },
+      components: components
+    });
+    mixin(this, compo);
+  }
+  /**
+   * global install
+   *
+   * @param Vue
+   * @param options
+   */
+
+
+  _createClass(VueHtml5Editor, null, [{
+    key: "install",
+    value: function install(Vue) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      Vue.component(options.name || 'vue-html5-editor', new VueHtml5Editor(options));
     }
-}
+  }]);
+
+  return VueHtml5Editor;
+}();
 
 export default VueHtml5Editor;

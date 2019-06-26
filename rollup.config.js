@@ -9,7 +9,8 @@ import postcss from 'rollup-plugin-postcss'
 import precss from 'precss'
 import clean from 'postcss-clean'
 
-let postConfig = {
+// dev 和 es模式共用
+const postConfig = {
     // 导出为单独css文件
     extract: true,
     // 支持inline注释，需要安装当前语法为scss
@@ -17,8 +18,9 @@ let postConfig = {
     plugins: [
         precss()
     ],
-    extensions: ['.css']
+    extensions: ['.css','.pcss']
 }
+// 打包
 const postConfigBuild = {
     // 导出为单独css文件
     extract: true,
@@ -26,15 +28,18 @@ const postConfigBuild = {
     syntax: 'postcss-scss',
     plugins: [
         precss(),
-        clean()
+        clean(),
+        require('cssnano')({
+            preset: 'default'
+        })
     ],
-    extensions: ['.css']
+    extensions: ['.css','.pcss']
 }
 const config = {
     input: 'src/index.js',
     output: {
         name: 'VueHtml5Editor',
-        file: 'dist/vue-html5-editor.js',
+        file: 'dist/es6/vue-html5-editor.js',
         format: 'es'
     },
     plugins: [
@@ -49,27 +54,39 @@ const config = {
                 conservativeCollapse: true
             }
         }),
-        postcss(postConfig),
+
         resolve(),
         commonJs({
             include: 'node_modules/vue-image-uploader/dist/**'
         }),
-        // babel({
-        //     exclude: 'node_modules/**'
-        // })
+        babel({
+            exclude: 'node_modules/**'
+        })
     ]
 }
+// 打包为浏览器使用版本
 if (process.env.NODE_ENV === 'production'){
-    postConfig = postConfigBuild
     Object.assign(config,{
         output: {
             name: 'VueHtml5Editor',
-            file: 'dist/vue-html5-editor.js',
+            file: 'dist/vue-html5-editor.min.js',
             format: 'iife'
         }
     })
     // 压缩
     config.plugins.push(uglify())
-    console.log(config.plugins)
+    // postcss配置
+    config.plugins.push(postcss(postConfigBuild))
+} else {
+    config.plugins.push(postcss(postConfig))
+}
+if (process.env.NODE_ENV === 'dev'){
+    Object.assign(config,{
+        output: {
+            name: 'VueHtml5Editor',
+            file: 'example/vue-html5-editor.js',
+            format: 'umd'
+        }
+    })
 }
 export default config
