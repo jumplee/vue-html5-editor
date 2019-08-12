@@ -1,3 +1,14 @@
+.vue-html5-editor .color-card {
+  margin: 2px;
+  width: 30px;
+  height: 30px;
+  float: left;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.vue-html5-editor .colors-tabs{
+  margin-bottom: 5px;
+}
 /**
 .vue-html5-editor
     ├──.toolbar

@@ -1,5 +1,5 @@
 <div>
-    <div>
+    <div class="colors-tabs">
         <label>
             <input type="radio" value="foreColor" v-model="command">&nbsp;
             {{$parent.locale["fore color"]}}
@@ -9,10 +9,19 @@
             {{$parent.locale["background color"]}}
         </label>
     </div>
-    <div>
-        <div v-for="color in colors" :style="{'background-color':color}" class="color-card"
-             @click="changeColor(color)">
+    <div class="colors-tab-panels">
+        <div class="colors-tab-fore-color" v-if="command=='foreColor'">
+            <div v-for="color in foreColors" :style="{'background-color':color}" class="color-card"
+                 @click="changeColor(color)">
+            </div>
+            <div style="clear: both"></div>
         </div>
-        <div style="clear: both"></div>
+        <div class="colors-tab-background-color" v-if="command=='backColor'">
+            <div v-for="color in backColors" :style="{'background-color':color}" class="color-card"
+                 @click="changeColor(color)">
+            </div>
+            <div style="clear: both"></div>
+        </div>
+
     </div>
 </div>

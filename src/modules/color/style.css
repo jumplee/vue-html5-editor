@@ -4,4 +4,8 @@
   height: 30px;
   float: left;
   cursor: pointer;
+  border-radius: 3px;
+}
+.vue-html5-editor .colors-tabs{
+  margin-bottom: 5px;
 }

@@ -1,4 +1,5 @@
 import dashboard from './dashboard'
+
 /**
  * fore color and back color
  * Created by peak on 16/8/18.
