@@ -30,7 +30,7 @@
             <span style="white-space: nowrap">content length : {{content.length}}</span>
         </p>
 
-        <vue-html5-editor  :upload-url="uploadUrl" :content="content" :height="300" :show-module-name="showModuleName" @change="updateData"
+        <vue-html5-editor @key_save="onSaveByKey"  :upload-url="uploadUrl" :content="content" :height="300" :show-module-name="showModuleName" @change="updateData"
             ref="editor" :draft="true" draft-store-key="test"></vue-html5-editor>
     </div>
 
@@ -84,6 +84,9 @@
                 uploadUrl:"/file/uploading"
             },
             methods: {
+                onSaveByKey:function(){
+                  console.log('1111')
+                },
                 updateData: function (data) {
                     // sync content to component
                     this.content = data

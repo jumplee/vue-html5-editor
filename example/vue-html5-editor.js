@@ -94,7 +94,7 @@
         // foreColor,backColor
         command: 'foreColor',
         foreColors: ['#000000', '#000033', '#000066', '#000099', '#003300', '#003333', '#003366', '#003399', '#006600', '#006633', '#009900', '#330000', '#330033', '#330066', '#333300', '#333366', '#660000', '#660033', '#663300', '#666600', '#666633', '#666666', '#666699', '#990000', '#990033', '#9900CC', '#996600', '#FFCC00', '#FFCCCC', '#FFCC99', '#FFFF00', '#FF9900', '#CCFFCC', '#CCFFFF', '#CCFF99'],
-        backColors: ['#fafafa', '#FFCCCC', '#FFFF00', '#CCFF99', '#003300', '#003333', '#003366', '#003399', '#006600', '#006633', '#009900', '#330000', '#330033', '#330066', '#333300', '#333366', '#660000', '#660033', '#663300', '#666600', '#666633', '#666666', '#666699', '#990000', '#990033', '#9900CC', '#996600', '#FFCC00', '#FFCCCC', '#FFCC99', '#FFFF00', '#FF9900', '#CCFFCC', '#CCFFFF', '#CCFF99']
+        backColors: ['#ffffff', '#eeeeee', '#FFCCCC', '#FFFF00', '#CCFF99', '#ccffff', '#003399', '#006600', '#006633', '#009900', '#330000', '#330033', '#330066', '#333300', '#333366', '#660000', '#660033', '#663300', '#666600', '#666633', '#666666', '#666699', '#990000', '#990033', '#9900CC', '#996600', '#FFCC00', '#FFCCCC', '#FFCC99', '#FFFF00', '#FF9900', '#CCFFCC', '#CCFFFF', '#CCFF99']
       };
     },
     methods: {
@@ -159,7 +159,8 @@
     SUPERSCRIPT: 'superscript',
     UNDO: 'undo',
     UNLINK: 'unlink',
-    INDENT: 'indent'
+    INDENT: 'indent',
+    INSERT_SPACE: 'insertSpace'
   };
 
   /**
@@ -3363,6 +3364,19 @@
               break;
             }
 
+          case Command.INSERT_SPACE:
+            {
+              var _span6 = document.createElement('div');
+
+              _span6.style.display = 'inline-block';
+              _span6.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;';
+              this.range.deleteContents();
+              this.range.insertNode(_span6);
+              this.range.setStartAfter(_span6);
+              this.range.collapse();
+              break;
+            }
+
           case Command.BOLD:
             {
               document.execCommand(Command.BOLD, false, arg);
@@ -3475,10 +3489,52 @@
     }
   }
 
-  function log(info) {
-    {
-      console.log(info);
+  function onKeydown(editor, content, e) {
+    var key = e.which;
+
+    if (key === 9) {
+      e.preventDefault();
+      editor.execCommand(Command.INSERT_SPACE);
+      return true;
+    } // 回车
+    // editor.execCommand('insertHTML','<p></p>')
+    // e.preventDefault()
+    // 删除键
+
+
+    if (key === 8) {
+      if (content.innerHTML === '' || content.innerHTML === '<br>') {
+        content.innerHTML = '<p><br></p>';
+      }
+    } // ctrl + s 禁用默认事件，激发保存事件，
+
+
+    if (key === 83 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) {
+      e.preventDefault();
+      editor.$emit('key_save');
     }
+
+    return false;
+  }
+
+  function docOnKeydown(e) {
+    var key = e.which;
+
+    if (key === 9) {
+      e.preventDefault();
+    } // ctrl + s 禁用默认事件
+
+
+    if (key === 83 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) {
+      e.preventDefault();
+    }
+  }
+
+  function installKeyBind() {
+    document.addEventListener('keydown', docOnKeydown);
+  }
+  function uninstallKeyBind() {
+    document.removeEventListener('keyup', docOnKeydown);
   }
 
   var p; //
@@ -4006,29 +4062,17 @@
       content.addEventListener('mouseup', function () {
         editor.saveCurrentRange();
       }, false);
+      installKeyBind();
       content.addEventListener('keyup', function (e) {
-        var key = e.which;
         editor.$emit('change', _this2.convertToContent(content.innerHTML)); // 需要在前面执行
 
         editor.saveCurrentRange();
         var startContainer = _this2.range.startContainer;
         var endContainer = _this2.range.endContainer;
         var pNode = getParentBlockNode(startContainer);
-
-        if (key === 9) {
-          log('tab');
-          e.preventDefault();
-        } // 回车
-        // editor.execCommand('insertHTML','<p></p>')
-        // e.preventDefault()
-        // 删除键
-
-
-        if (key === 8) {
-          if (content.innerHTML === '' || content.innerHTML === '<br>') {
-            content.innerHTML = '<p><br></p>';
-          }
-        }
+      }, false);
+      content.addEventListener('keydown', function (e) {
+        onKeydown.apply(_this2, [editor, content, e]);
       }, false);
       content.addEventListener('mouseout', function (e) {
         if (e.target === content) {
@@ -4090,7 +4134,8 @@
         if (typeof module.destroyed === 'function') {
           module.destroyed(_this3);
         }
-      }); // 卸载插件
+      });
+      uninstallKeyBind(); // 卸载插件
 
       draft.uninstall(this);
       pasteUpload$1.uninstall(this);

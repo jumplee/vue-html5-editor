@@ -2,11 +2,12 @@ import RangeHandler from './range/handler'
 import './style.pcss'
 import template from './editor.html'
 import onPaste from './event/onPaste'
+import {onKeydown,uninstallKeyBind,installKeyBind} from './event/onKeydown'
 import Command from './range/command'
 import {
     getSelection, getParentBlockNode
 } from './range/util'
-import {log} from './util/log'
+
 import plugins from './plugins/index'
 
 const {draft , pasteUpload} = plugins
@@ -288,36 +289,19 @@ export default {
         content.addEventListener('mouseup', () => {
             editor.saveCurrentRange()
         }, false)
+        installKeyBind()
         content.addEventListener('keyup', (e) => {
-            const key = e.which
             editor.$emit('change', this.convertToContent(content.innerHTML))
             // 需要在前面执行
             editor.saveCurrentRange()
             const startContainer = this.range.startContainer
             const endContainer = this.range.endContainer
             const pNode = getParentBlockNode(startContainer)
-            if (key === 9) {
-                log('tab')
-                e.preventDefault()
-            }
-            // 回车
-            if (key === 13) {
-                // console.log('enter')
-                // editor.execCommand('insertHTML','<p></p>')
-                // e.preventDefault()
-            }
-            // 删除键
-            if (key === 8) {
-                if (content.innerHTML === '' || content.innerHTML === '<br>') {
-                    content.innerHTML = '<p><br></p>'
-                } else {
-                    // if(startContainer==endContainer && startContainer.length===0){
-
-                    //     pNode.parentNode.removeChild(pNode)
-                    // }
-                }
-            }
         },false)
+        content.addEventListener('keydown', (e) => {
+            onKeydown.apply(this,[editor,content,e])
+        },false)
+
         content.addEventListener('mouseout', (e) => {
             if (e.target === content) {
                 this.saveCurrentRange()
@@ -376,6 +360,7 @@ export default {
                 module.destroyed(this)
             }
         })
+        uninstallKeyBind()
         // 卸载插件
         draft.uninstall(this)
         pasteUpload.uninstall(this)

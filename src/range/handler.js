@@ -348,6 +348,16 @@ export default class RangeHandler {
                 this.range.collapse()
                 break
             }
+            case Command.INSERT_SPACE:{
+                const span = document.createElement('div')
+                span.style.display = 'inline-block'
+                span.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;'
+                this.range.deleteContents()
+                this.range.insertNode(span)
+                this.range.setStartAfter(span)
+                this.range.collapse()
+                break
+            }
             case Command.BOLD: {
                 document.execCommand(Command.BOLD, false, arg)
                 break

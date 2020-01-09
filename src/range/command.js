@@ -26,5 +26,6 @@ export default {
     SUPERSCRIPT: 'superscript',
     UNDO: 'undo',
     UNLINK: 'unlink',
-    INDENT: 'indent'
+    INDENT: 'indent',
+    INSERT_SPACE: 'insertSpace'
 }
